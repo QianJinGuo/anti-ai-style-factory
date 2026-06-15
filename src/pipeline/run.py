@@ -9,6 +9,7 @@ Usage:
   python3 -m src.pipeline.run                    # Generate all pending seeds
   python3 -m src.pipeline.run --seed bauhaus-1919  # Generate one seed
   python3 -m src.pipeline.run --tier 1            # Generate all Tier 1 seeds
+  python3 -m src.pipeline.run --batch 3           # Generate next 3 pending seeds
   python3 -m src.pipeline.run --dry-run           # Show what would be generated
   python3 -m src.pipeline.run --status            # Show generation status
 """
@@ -32,42 +33,40 @@ from src.generator.llm_generator import generate_style, save_result, get_client
 
 
 def parse_seeds(catalog_path: Path) -> list:
-    """Parse seed definitions from catalog/SEEDS.md."""
+    """Parse seed definitions from catalog/SEEDS.md.
+    Tier is inferred from the markdown heading above each table.
+    """
     if not catalog_path.exists():
         return []
     text = catalog_path.read_text()
     seeds = []
-    for match in re.finditer(
-        r"\|\s*`(\S+)`\s*\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|",
-        text,
-    ):
-        seed_id = match.group(1).strip()
-        if seed_id.startswith("--") or seed_id.upper().startswith("ID"):
+    current_tier = 1
+
+    for line in text.splitlines():
+        # Detect tier from heading: "## Tier N: ..."
+        m = re.match(r"^##\s+Tier\s+(\d+)", line)
+        if m:
+            current_tier = int(m.group(1))
             continue
-        seeds.append({
-            "id": seed_id,
-            "name": match.group(2).strip(),
-            "era": match.group(3).strip(),
-            "region": match.group(4).strip(),
-            "principle": match.group(5).strip(),
-            "anti_ai_signal": match.group(6).strip(),
-        })
+        # Parse table rows
+        m = re.match(
+            r"\|\s*`(\S+)`\s*\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|",
+            line,
+        )
+        if m:
+            seed_id = m.group(1).strip()
+            if seed_id.startswith("--") or seed_id.upper().startswith("ID"):
+                continue
+            seeds.append({
+                "id": seed_id,
+                "name": m.group(2).strip(),
+                "era": m.group(3).strip(),
+                "region": m.group(4).strip(),
+                "principle": m.group(5).strip(),
+                "anti_ai_signal": m.group(6).strip(),
+                "tier": current_tier,
+            })
     return seeds
-
-
-def seed_tier(seed_id: str) -> int:
-    """Determine tier from catalog ordering."""
-    tier_map = {
-        "bauhaus-1919": 1, "swiss-1950": 1, "brutalist-web": 1,
-        "art-deco-1925": 1, "de-stijl-1917": 1,
-        "ukiyo-e-1831": 2, "memphis-1981": 2, "constructivist": 2,
-        "terminal-green": 2, "editorial-1960": 2,
-        "japanese-minimal": 3, "cyberpunk-neon": 3, "vernacular-sign": 3,
-        "data-ink-tufte": 3, "dutch-golden": 3,
-        "letterpress": 4, "zine-punk": 4, "chinese-stone": 4,
-        "arabic-geometric": 4, "african-wax": 4,
-    }
-    return tier_map.get(seed_id, 4)
 
 
 def get_style_status(styles_dir: Path, seed_id: str) -> str:
@@ -85,7 +84,7 @@ def cmd_status(config: dict, seeds: list):
     validated = scaffolded = pending = 0
     for s in seeds:
         status = get_style_status(styles_dir, s["id"])
-        tier = seed_tier(s["id"])
+        tier = s.get("tier", "?")
         icon = {"validated": "✅", "scaffold": "🔧", "failed": "❌", "pending": "⬜"}.get(status, "❓")
         print(f"  {icon} T{tier} {s['id']:25s} {s['name']:20s} [{status}]")
         if status == "validated":
@@ -112,7 +111,7 @@ def cmd_run(config: dict, seeds: list, args):
             print(f"ERROR: seed '{args.seed}' not found. Available: {', '.join(s['id'] for s in seeds)}")
             return
     elif args.tier:
-        target_seeds = [s for s in seeds if seed_tier(s["id"]) == args.tier]
+        target_seeds = [s for s in seeds if s.get("tier") == args.tier]
 
     # Skip already validated
     if not args.force:
@@ -123,6 +122,10 @@ def cmd_run(config: dict, seeds: list, args):
     if not pending:
         print("All target seeds already validated. Use --force to regenerate.")
         return
+
+    # Batch limit
+    if args.batch and args.batch > 0:
+        pending = pending[:args.batch]
 
     print(f"Pipeline: {len(pending)} seeds to generate ({len(target_seeds) - len(pending)} already done)")
     if args.dry_run:
@@ -136,7 +139,7 @@ def cmd_run(config: dict, seeds: list, args):
     # Run pipeline
     run_log = {
         "started": datetime.now().isoformat(),
-        "config": config,
+        "config": {k: v for k, v in config.items() if k != "llm"},  # don't log secrets
         "results": [],
     }
 
@@ -155,11 +158,9 @@ def cmd_run(config: dict, seeds: list, args):
 
         if result["status"] == "validated":
             style_dir = save_result(result, styles_dir)
-            # Also copy catalog SEEDS.md to styles dir
             print(f"  Saved to: {style_dir}")
             passed += 1
         else:
-            # Save failed result too (for debugging)
             save_result(result, styles_dir)
             failed += 1
 
@@ -196,7 +197,8 @@ def load_config() -> dict:
 def main():
     parser = argparse.ArgumentParser(description="Anti-AI Style Factory Pipeline")
     parser.add_argument("--seed", help="Generate a specific seed")
-    parser.add_argument("--tier", type=int, help="Generate all seeds in a tier (1-4)")
+    parser.add_argument("--tier", type=int, help="Generate all seeds in a tier (1-6)")
+    parser.add_argument("--batch", type=int, default=0, help="Generate next N pending seeds")
     parser.add_argument("--force", action="store_true", help="Regenerate even if already validated")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be generated")
     parser.add_argument("--status", action="store_true", help="Show generation status")
