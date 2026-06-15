@@ -1,0 +1,490 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Stijl System Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700&family=Helvetica+Neue&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * DESIGN SYSTEM: DE STIJL (NEOPLASTICISM)
+         * Principle: Reduction to vertical/horizontal lines and primary colors.
+         * No curves, no shadows, no gradients.
+         */
+
+        :root {
+            /* Colors */
+            --color-primary: #E3000F;   /* Pure Red */
+            --color-secondary: #0055A4; /* Pure Blue */
+            --color-tertiary: #FFD500;  /* Pure Yellow */
+            --color-neutral: #FFFFFF;   /* White */
+            --color-muted: #000000;     /* Black */
+            --color-bg: #F5F5F5;        /* Off-white */
+            --color-surface: #FFFFFF;
+
+            /* Typography */
+            --font-head: 'Futura', 'Century Gothic', sans-serif;
+            --font-body: 'Helvetica Neue', 'Arial', sans-serif;
+
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+
+            /* Structure */
+            --border-width: 2px;
+            --border-color: var(--color-muted);
+            --radius: 0px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-muted);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Utilities */
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-muted);
+            line-height: 1.1;
+        }
+
+        h1 { font-size: 48px; letter-spacing: -0.02em; margin-bottom: var(--space-md); }
+        h2 { font-size: 32px; letter-spacing: -0.01em; margin-bottom: var(--space-sm); }
+        h3 { font-size: 24px; font-weight: 700; margin-bottom: var(--space-sm); }
+        
+        .caption {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-muted);
+        }
+
+        /* Layout Grid */
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-left: var(--border-width) solid var(--color-muted);
+            border-right: var(--border-width) solid var(--color-muted);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        /* Components */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-muted);
+            color: var(--color-neutral);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 12px 24px;
+            border: var(--border-width) solid var(--color-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-muted);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+            color: var(--color-neutral);
+        }
+
+        .card {
+            background-color: var(--color-surface);
+            border: var(--border-width) solid var(--color-muted);
+            padding: var(--space-md);
+            position: relative;
+        }
+
+        .card-accent-red {
+            border-top: 8px solid var(--color-primary);
+        }
+
+        .card-accent-blue {
+            border-top: 8px solid var(--color-secondary);
+        }
+
+        .card-accent-yellow {
+            border-top: 8px solid var(--color-tertiary);
+        }
+
+        /* Form Elements */
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: var(--border-width) solid var(--color-muted);
+            background-color: var(--color-neutral);
+            font-family: var(--font-body);
+            font-size: 16px;
+            margin-bottom: var(--space-md);
+            border-radius: 0;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background-color: #fff;
+            border-color: var(--color-primary);
+            box-shadow: inset 0 0 0 1px var(--color-primary);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--color-muted);
+        }
+
+        th {
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff;
+        }
+        
+        tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        /* Specific Section Styles */
+        
+        /* 1. Nav */
+        nav {
+            grid-column: span 12;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) var(--space-lg);
+            background-color: var(--color-neutral);
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-block {
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-primary);
+        }
+
+        /* 2. Hero */
+        .hero {
+            grid-column: span 12;
+            background-color: var(--color-neutral);
+            padding: var(--space-xl) var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-bottom: var(--border-width) solid var(--color-muted);
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background-color: var(--color-secondary);
+            border-left: var(--border-width) solid var(--color-muted);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 60%;
+        }
+
+        /* 3. Dashboard */
+        .dashboard {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        .metric-card {
+            grid-column: span 4;
+            border-right: var(--border-width) solid var(--color-muted);
+            padding: var(--space-lg);
+            background-color: var(--color-neutral);
+        }
+
+        .metric-card:last-child {
+            border-right: none;
+        }
+
+        .metric-value {
+            font-family: var(--font-head);
+            font-size: 48px;
+            color: var(--color-primary);
+            margin: var(--space-sm) 0;
+            line-height: 1;
+        }
+
+        .data-table-wrapper {
+            grid-column: span 12;
+            background-color: var(--color-neutral);
+            border-top: var(--border-width) solid var(--color-muted);
+        }
+
+        /* 4. Palette */
+        .palette-section {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        .swatch {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-md);
+            border-right: 1px solid var(--color-muted);
+        }
+
+        .swatch:last-child {
+            border-right: none;
+        }
+
+        .swatch-name {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .swatch-code {
+            font-family: var(--font-body);
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* 5. Components */
+        .components-section {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        .component-demo {
+            padding: var(--space-xl);
+            border-right: var(--border-width) solid var(--color-muted);
+            background-color: var(--color-bg);
+        }
+
+        .component-demo:last-child {
+            border-right: none;
+        }
+
+        /* 6. Form */
+        .form-section {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            background-color: var(--color-tertiary); /* Yellow block for contrast */
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        .form-info {
+            padding: var(--space-xl);
+            border-right: var(--border-width) solid var(--color-muted);
+            background-color: var(--color-muted);
+            color: var(--color-neutral);
+        }
+
+        .form-info h2 {
+            color: var(--color-neutral);
+        }
+
+        .form-info .caption {
+            color: var(--color-tertiary);
+        }
+
+        .form-fields {
+            padding: var(--space-xl);
+            background-color: var(--color-neutral);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+        
+        <!-- 1. NAV -->
+        <nav class="grid-row">
+            <div class="logo">
+                <div class="logo-block"></div>
+                NEOPLASTICISM
+            </div>
+            <div>
+                <a href="#" class="btn btn-secondary">SYSTEM DOCS</a>
+            </div>
+        </nav>
+
+        <!-- 2. HERO -->
+        <header class="hero grid-row">
+            <div class="hero-content">
+                <div class="caption" style="margin-bottom: var(--space-sm);">Production Line A</div>
+                <h1>Structural<br>Harmony</h1>
+                <p style="margin-bottom: var(--space-lg); max-width: 500px;">
+                    Reducing visual noise to absolute essentials. Vertical and horizontal lines establish the grid; primary colors define the hierarchy.
+                </p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#components" class="btn">Initialize System</a>
+                    <a href="#data" class="btn btn-secondary">View Metrics</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 3. DASHBOARD -->
+        <section id="data" class="dashboard">
+            <div class="metric-card">
+                <div class="caption">Total Output</div>
+                <div class="metric-value">8,402</div>
+                <p>Units produced this cycle.</p>
+            </div>
+            <div class="metric-card" style="background-color: var(--color-bg);">
+                <div class="caption">Efficiency Rate</div>
+                <div class="metric-value" style="color: var(--color-secondary);">94.2%</div>
+                <p>System operational capacity.</p>
+            </div>
+            <div class="metric-card">
+                <div class="caption">Defect Ratio</div>
+                <div class="metric-value" style="color: var(--color-muted);">0.04%</div>
+                <p>Deviation from grid standard.</p>
+            </div>
+
+            <div class="data-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Batch ID</th>
+                            <th style="width: 30%;">Material Composition</th>
+                            <th style="width: 20%;">Status</th>
+                            <th style="width: 30%; text-align: right;">Volume (m³)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>B-1917-RED</td>
+                            <td>Industrial Pigment / Oil</td>
+                            <td>Processing</td>
+                            <td style="text-align: right;">4,200.00</td>
+                        </tr>
+                        <tr>
+                            <td>B-1918-BLU</td>
+                            <td>Synthetic Resin / Cobalt</td>
+                            <td>Complete</td>
+                            <td style="text-align: right;">3,150.50</td>
+                        </tr>
+                        <tr>
+                            <td>B-1920-YEL</td>
+                            <td>Lead Chromate / Binder</td>
+                            <td>Pending</td>
+                            <td style="text-align: right;">1,050.25</td>
+                        </tr>
+                        <tr>
+                            <td>B-1921-GRY</td>
+                            <td>Carbon Black / Wax</td>
+                            <td>Complete</td>
+                            <td style="text-align: right;">890.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section class="palette-section">
+            <div class="swatch" style="background-color: #E3000F;">
+                <div class="swatch-name" style="color: #fff;">Primary</div>
+                <div class="swatch-code" style="color: #fff;">#E3000F</div>
+            </div>
+            <div class="swatch" style="background-color: #0055A4;">
+                <div class="swatch-name" style="color: #fff;">Secondary</div>
+                <div class="swatch-code" style="color: #fff;">#0055A4</div>
+            </div>
+            <div class="swatch" style="background-color: #FFD500;">
+                <div class="swatch-name">Tertiary</div>
+                <div class="swatch-code">#FFD500</div>
+            </div>
+            <div class="swatch" style="background-color: #000000;">
+                <div class="swatch-name" style="color: #fff;">Muted</div>
+                <div class="swatch-code" style="

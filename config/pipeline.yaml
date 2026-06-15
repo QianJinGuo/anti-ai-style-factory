@@ -1,0 +1,34 @@
+# Anti-AI Style Factory — Configuration
+# =======================================
+
+# LLM Provider (iFlytek MaaS)
+llm:
+  base_url: "https://maas-api.cn-huabei-1.xf-yun.com/v2"
+  model: "xopqwen36v35b"
+  api_key_env: "CHATXUNFEI"    # from ~/.zshenv
+  max_tokens: 4096
+  temperature: 0.7
+
+# Scoring thresholds
+scoring:
+  eight_dim_max: 4      # 8-dim rubric must be ≤ this to pass
+  max_iterations: 3      # max LLM retries per style before giving up
+
+# Style generation targets
+pipeline:
+  # Which tiers to generate (in order)
+  tier_order: [1, 2, 3, 4]
+  # Scenarios to generate per style (each becomes a section in reference.html)
+  scenarios:
+    - dashboard
+    - landing
+    - article
+    - slide
+  # Parallel LLM calls
+  concurrency: 1         # sequential by default; bump if rate limit allows
+  # Output
+  output_dir: "./styles"
+  log_dir: "./logs"
+
+# Style seeds (auto-loaded from catalog/SEEDS.md, but can override here)
+seeds_override: {}
