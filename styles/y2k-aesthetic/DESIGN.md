@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: 千禧虫美学 (Y2K Bug Aesthetic)
 description: A digital optimistic, silver-future style characterized by transparent plastics, monospaced code aesthetics, and bubbling organic forms, reflecting the raw, unpolished optimism of the late 90s web.

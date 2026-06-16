@@ -1,4 +1,3 @@
-```yaml
 ---
 version: 1.0.0
 name: Bauhaus Dessau

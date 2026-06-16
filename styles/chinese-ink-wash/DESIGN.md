@@ -1,4 +1,3 @@
-```yaml
 ---
 version: 1.0.0
 name: 水墨 (Shui-Mo / Ink Wash)

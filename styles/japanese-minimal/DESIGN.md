@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: 日式极简 (Wabi-Sabi Minimalism)
 description: A design philosophy rooted in the acceptance of transience and imperfection, utilizing negative space as an active element and muted earth tones to foster calm and focus.

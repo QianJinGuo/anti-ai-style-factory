@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Skeuomorphism
 description: A design philosophy where digital interfaces mimic physical objects through realistic textures, lighting, and depth to reduce cognitive load and provide intuitive affordances.

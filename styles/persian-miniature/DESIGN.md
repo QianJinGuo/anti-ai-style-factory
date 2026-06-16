@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Persian Miniature
 description: A design system rooted in the meticulous, flat-plane aesthetics of 14th–16th century Iranian manuscript illumination, prioritizing decorative density, intricate geometric borders, and narrative clarity over Western perspective.

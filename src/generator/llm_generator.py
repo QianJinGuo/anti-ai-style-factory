@@ -148,15 +148,27 @@ def call_llm(client: OpenAI, config: dict, system: str, prompt: str) -> Optional
 
 
 def extract_code_block(text: str) -> str:
-    """Extract content from markdown code blocks if present."""
-    # Try ```html ... ``` first
-    m = re.search(r"```(?:html|markdown|md)?\s*\n(.*?)```", text, re.DOTALL)
+    """Extract content from markdown code blocks if present.
+    Strips ```html, ```yaml, ```markdown etc. fences from LLM output.
+    """
+    stripped = text.strip()
+    # Pattern: opening fence ```lang, content, closing fence ```
+    m = re.search(r"^```(?:\w+)?\s*\n(.*?)```\s*$", stripped, re.DOTALL)
     if m:
         return m.group(1).strip()
-    # Try --- front matter (DESIGN.md)
-    if text.strip().startswith("---"):
-        return text.strip()
-    return text.strip()
+    # If starts with ``` but no clean match, strip manually
+    if stripped.startswith("```"):
+        # Remove opening fence line
+        first_newline = stripped.index("\n") if "\n" in stripped else len(stripped)
+        content = stripped[first_newline + 1:]
+        # Remove trailing ```
+        if content.rstrip().endswith("```"):
+            content = content.rstrip()[:-3].rstrip()
+        return content.strip()
+    # Try --- front matter (DESIGN.md with YAML)
+    if stripped.startswith("---"):
+        return stripped
+    return stripped
 
 
 def generate_style(client: OpenAI, config: dict, seed: dict) -> dict:

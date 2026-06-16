@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Terrazzo
 description: A design system rooted in the 16th-century Venetian tradition of repurposing marble waste into durable, speckled surfaces, emphasizing organic randomness and polished materiality.

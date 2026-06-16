@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Art Nouveau
 description: "A design system rooted in the late 19th-century rejection of industrial uniformity, prioritizing organic asymmetry, hand-crafted elegance, and the rhythmic flow of natural forms."

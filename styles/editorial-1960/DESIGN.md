@@ -1,4 +1,3 @@
-```yaml
 ---
 version: 1.0.0
 name: editorial-classic
@@ -166,4 +165,3 @@ Tables are grid-based and clean.
 *   **Never** use emoji as icons.
 *   **Never** hide content behind complex interactions; show it directly.
 *   **Never** use marketing buzzwords in labels. Use clear, descriptive text.
-```

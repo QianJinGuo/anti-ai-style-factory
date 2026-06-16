@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: 像素艺术 (Pixel Art)
 description: A rigid, grid-bound aesthetic that celebrates the technical limitations of early CRT displays through exact integer-based positioning and a constrained, historically accurate color palette.

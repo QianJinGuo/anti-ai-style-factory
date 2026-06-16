@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Tufte Data-Ink Ratio
 description: A minimalist data visualization style that strips all non-essential graphical elements to maximize the density of information per unit of ink, prioritizing clarity, precision, and intellectual honesty over decoration.

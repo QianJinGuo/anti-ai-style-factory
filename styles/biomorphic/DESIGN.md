@@ -1,4 +1,3 @@
-```yaml
 version: 1.0.0
 name: Biomorphic
 description: Organic, curvilinear design language derived from mid-century organic modernism, prioritizing natural forms and fluid geometry over industrial rigidity.
