@@ -5,14 +5,15 @@
 ## 架构
 
 ```
-catalog/seeds.json       ← 风格种子定义
-config/settings.json     ← LLM 配置、评分阈值
+catalog/SEEDS.md         ← 风格种子定义（55+ 设计运动）
+config/pipeline.yaml     ← LLM 配置、评分阈值
 src/
   generator/             ← LLM 调用层（生成 DESIGN.md + HTML）
-  scorer/                ← 8-dim 评分器 + LLM judge
+  scorer/                ← 8-dim 评分器
   pipeline/              ← 主 harness 循环（generate → score → accept/reject → iterate）
 styles/{seed-id}/        ← 输出：每个风格的完整产出物
-output/                  ← 运行报告、统计
+state/                   ← 批量运行状态
+demos/                   ← 演示 HTML
 logs/                    ← 运行日志
 ```
 
