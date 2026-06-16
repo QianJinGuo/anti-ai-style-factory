@@ -1,0 +1,518 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Modern Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --color-primary: #4A5D46;
+            --color-secondary: #7A8B8C;
+            --color-tertiary: #C4A484;
+            --color-neutral: #F5F5F0;
+            --color-muted: #333333;
+            --color-error: #8B3A3A;
+            --color-warning: #D4A017;
+            
+            /* Derived Colors */
+            --color-white: #FFFFFF;
+            --color-border: #E8E8E3;
+            --color-hover-row: #FAFAF7;
+
+            /* Typography */
+            --font-stack: "'Helvetica Neue', 'Arial', sans-serif";
+            
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-xxl: 64px;
+
+            /* Shapes */
+            --radius-md: 4px;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--color-neutral);
+            color: var(--color-muted);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Utilities */
+        h1 {
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--color-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: var(--color-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.4;
+            letter-spacing: 0em;
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .text-caption {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
+            color: var(--color-secondary);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        section {
+            padding: var(--space-xxl) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--color-white);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-weight: 500;
+            color: var(--color-primary);
+            font-size: 18px;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-secondary);
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 400;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+            border: none;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary:hover {
+            background-color: #3A4A36;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        /* Dashboard / Data */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .metric-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--color-muted);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .metric-label {
+            color: var(--color-secondary);
+            font-size: 14px;
+        }
+
+        /* Table */
+        .data-table-container {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--color-neutral);
+            color: var(--color-muted);
+            font-weight: 500;
+            font-size: 14px;
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--color-border);
+            font-size: 14px;
+            color: var(--color-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: var(--color-hover-row);
+        }
+
+        /* Palette */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .swatch {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--color-white);
+        }
+
+        .swatch-color {
+            height: 120px;
+            width: 100%;
+        }
+
+        .swatch-info {
+            padding: var(--space-md);
+        }
+
+        .swatch-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .swatch-hex {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--color-secondary);
+        }
+
+        /* Components */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .component-demo {
+            padding: var(--space-xl);
+            border: 1px solid var(--color-border);
+            background-color: var(--color-white);
+            border-radius: var(--radius-md);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: var(--space-lg);
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            font-family: var(--font-stack);
+            color: var(--color-muted);
+            background-color: var(--color-white);
+            border: 1px solid var(--color-secondary);
+            border-radius: var(--radius-md);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--color-primary);
+        }
+
+        .form-actions {
+            margin-top: var(--space-xl);
+        }
+
+        /* Utility */
+        .text-primary { color: var(--color-primary); }
+        .text-error { color: var(--color-error); }
+        .text-warning { color: var(--color-warning); }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="brand">Nordic Modern</a>
+            <div class="nav-links">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#palette">Palette</a>
+                <a href="#components">Components</a>
+                <a href="#form">Settings</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Democratic Design for Production Data</h1>
+                <p>
+                    A system rooted in functional clarity and understated elegance. 
+                    This interface prioritizes natural reading rhythms and data integrity 
+                    over decorative effects.
+                </p>
+                <div style="margin-top: var(--space-lg);">
+                    <a href="#dashboard" class="btn btn-primary">View Production Data</a>
+                    <a href="#palette" class="btn btn-secondary" style="margin-left: var(--space-md);">View Palette</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="dashboard">
+        <div class="container">
+            <h2>Production Metrics</h2>
+            <p class="text-caption" style="margin-bottom: var(--space-lg);">Weekly aggregate data from the Oslo manufacturing unit.</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-value">1,240</span>
+                    <span class="metric-label">Units Assembled</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">98.2%</span>
+                    <span class="metric-label">Quality Yield</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value text-error">3</span>
+                    <span class="metric-label">Critical Defects</span>
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batch ID</th>
+                            <th>Material</th>
+                            <th>Status</th>
+                            <th>Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>B-2023-001</td>
+                            <td>Oak / Pine Composite</td>
+                            <td>Completed</td>
+                            <td>100%</td>
+                        </tr>
+                        <tr>
+                            <td>B-2023-002</td>
+                            <td>Recycled Steel</td>
+                            <td>In Progress</td>
+                            <td>75%</td>
+                        </tr>
+                        <tr>
+                            <td>B-2023-003</td>
+                            <td>Linen Blend</td>
+                            <td>Quality Check</td>
+                            <td>90%</td>
+                        </tr>
+                        <tr>
+                            <td>B-2023-004</td>
+                            <td>Raw Wool</td>
+                            <td>Pending</td>
+                            <td>0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section id="palette">
+        <div class="container">
+            <h2>Color System</h2>
+            <p class="text-caption">Derived from the natural environment of Scandinavia.</p>
+            <br>
+            <div class="palette-grid">
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-primary);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Nordic Pine</span>
+                        <span class="swatch-hex">#4A5D46</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-secondary);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Fjord Mist</span>
+                        <span class="swatch-hex">#7A8B8C</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-tertiary);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Clay Tile</span>
+                        <span class="swatch-hex">#C4A484</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-neutral); border-bottom: 1px solid var(--color-border);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Raw Linen</span>
+                        <span class="swatch-hex">#F5F5F0</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-muted);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Charcoal Ash</span>
+                        <span class="swatch-hex">#333333</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-error);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Dried Berry</span>
+                        <span class="swatch-hex">#8B3A3A</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: var(--color-warning);"></div>
+                    <div class="swatch-info">
+                        <span class="swatch-name">Mustard Ochre</span>
+                        <span class="swatch-hex">#D4A017</span>

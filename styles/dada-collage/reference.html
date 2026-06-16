@@ -1,0 +1,504 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DADA // MANIFESTO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * DADA COLLAGE DESIGN SYSTEM 
+         * Anti-Aesthetic Implementation
+         */
+
+        :root {
+            /* Palette */
+            --c-ink: #1a1a1a;
+            --c-paper: #f4f1ea;
+            --c-blue: #002e5d;
+            --c-cardboard: #8c7b6b;
+            --c-chlorine: #d3d9c8;
+            
+            /* Spacing - Arbitrary & Harsh */
+            --s-tight: 4px;
+            --s-med: 8px;
+            --s-wide: 16px;
+            --s-gut: 32px;
+            
+            /* Shadows - Hard Offset Only */
+            --sh-hard: 6px 6px 0px var(--c-ink);
+            --sh-offset: 4px 4px 0px var(--c-cardboard);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--c-paper);
+            color: var(--c-ink);
+            margin: 0;
+            padding: 0;
+            font-family: 'Libre Baskerville', 'Times New Roman', serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            background-image: radial-gradient(var(--c-chlorine) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 
+         * TYPOGRAPHY VIOLENCE 
+         */
+        h1, h2, h3 {
+            text-transform: uppercase;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        h1 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 5rem;
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            color: var(--c-ink);
+            margin-bottom: var(--s-wide);
+            text-shadow: 2px 2px 0px var(--c-chlorine);
+        }
+
+        h2 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2rem;
+            line-height: 1;
+            background: var(--c-ink);
+            color: var(--c-paper);
+            padding: var(--s-med);
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+
+        h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: var(--s-med);
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: var(--s-wide);
+            max-width: 60ch;
+            text-align: left;
+        }
+
+        .caption {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--c-chlorine);
+            padding: 2px 4px;
+            display: inline-block;
+            margin-top: auto;
+        }
+
+        /* 
+         * LAYOUT CONTAINERS 
+         */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--s-gut);
+            position: relative;
+        }
+
+        /* 
+         * NAV 
+         */
+        nav {
+            border-bottom: 2px solid var(--c-ink);
+            padding: var(--s-wide);
+            background: var(--c-paper);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--s-wide);
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a {
+            color: var(--c-ink);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--c-ink);
+        }
+
+        /* 
+         * HERO 
+         */
+        .hero {
+            padding: var(--s-gut) 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--s-gut);
+            align-items: center;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 400px;
+            background: var(--c-cardboard);
+            border: 1px solid var(--c-ink);
+            overflow: hidden;
+            transform: rotate(2deg);
+        }
+
+        .hero-visual::after {
+            content: "NON-SENSE";
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 3rem;
+            color: var(--c-paper);
+            opacity: 0.5;
+            transform: rotate(-15deg);
+        }
+
+        /* 
+         * BUTTONS 
+         */
+        .btn {
+            display: inline-block;
+            background: var(--c-ink);
+            color: var(--c-paper);
+            font-family: 'Courier Prime', monospace;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--sh-hard);
+            transition: transform 0.1s;
+            text-decoration: none;
+            margin-right: var(--s-wide);
+        }
+
+        .btn:hover {
+            background: var(--c-blue);
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--c-ink);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--c-ink);
+            border: 2px solid var(--c-ink);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: var(--c-ink);
+            color: var(--c-paper);
+        }
+
+        /* 
+         * DASHBOARD (Metrics) 
+         */
+        .dashboard {
+            margin: var(--s-gut) 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--s-wide);
+        }
+
+        .metric-card {
+            border: 1px solid var(--c-ink);
+            padding: var(--s-wide);
+            background: var(--c-chlorine);
+            position: relative;
+        }
+
+        .metric-card::before {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: -4px;
+            bottom: -4px;
+            background: var(--c-ink);
+            z-index: -1;
+        }
+
+        .metric-val {
+            font-family: 'Courier Prime', monospace;
+            font-size: 3rem;
+            line-height: 1;
+            font-weight: 700;
+            display: block;
+            margin-bottom: var(--s-tight);
+        }
+
+        /* 
+         * TABLE 
+         */
+        .table-container {
+            margin: var(--s-gut) 0;
+            border: 2px solid var(--c-ink);
+            background: #fff;
+            box-shadow: var(--sh-offset);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        thead {
+            background: var(--c-ink);
+            color: var(--c-paper);
+            font-family: 'Courier Prime', monospace;
+            text-transform: uppercase;
+        }
+
+        th, td {
+            padding: var(--s-wide);
+            text-align: left;
+            border-bottom: 1px solid var(--c-ink);
+        }
+
+        td {
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 
+         * PALETTE 
+         */
+        .palette-section {
+            margin: var(--s-gut) 0;
+            padding: var(--s-wide);
+            border: 1px dashed var(--c-ink);
+        }
+
+        .swatch-grid {
+            display: flex;
+            gap: var(--s-wide);
+            margin-top: var(--s-wide);
+        }
+
+        .swatch {
+            width: 100px;
+            height: 100px;
+            border: 1px solid var(--c-ink);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 4px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.6rem;
+            text-align: center;
+        }
+
+        /* 
+         * COMPONENTS (Cards) 
+         */
+        .component-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--s-gut);
+            margin: var(--s-gut) 0;
+        }
+
+        .card {
+            background: var(--c-paper);
+            border: 1px dashed var(--c-ink);
+            padding: var(--s-wide);
+            box-shadow: var(--sh-hard);
+            position: relative;
+        }
+
+        .card::after {
+            content: "§";
+            position: absolute;
+            top: -15px;
+            right: 10px;
+            font-size: 2rem;
+            color: var(--c-ink);
+            background: var(--c-paper);
+            padding: 0 4px;
+        }
+
+        /* 
+         * FORM 
+         */
+        .form-block {
+            margin: var(--s-gut) 0;
+            background: var(--c-blue);
+            color: var(--c-paper);
+            padding: var(--s-gut);
+            transform: skew(-2deg);
+        }
+
+        .form-block h2 {
+            background: var(--c-paper);
+            color: var(--c-ink);
+            transform: rotate(0deg);
+            margin-bottom: var(--s-wide);
+        }
+
+        .form-group {
+            margin-bottom: var(--s-wide);
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            font-family: 'Courier Prime', monospace;
+            margin-bottom: var(--s-tight);
+            text-transform: uppercase;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: var(--c-paper);
+            border: 2px solid var(--c-paper);
+            font-family: 'Libre Baskerville', serif;
+            color: var(--c-ink);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background: #fff;
+            border-color: var(--c-ink);
+        }
+
+        /* 
+         * UTILITIES 
+         */
+        .tape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transform: rotate(-2deg);
+            z-index: 10;
+        }
+        .tape-top-left { width: 80px; height: 25px; top: -10px; left: 20px; transform: rotate(45deg); }
+        .tape-top-right { width: 80px; height: 25px; top: -10px; right: 20px; transform: rotate(-45deg); }
+
+        .stamp {
+            border: 3px double var(--c-blue);
+            color: var(--c-blue);
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            transform: rotate(-10deg);
+            display: inline-block;
+            margin-top: 10px;
+            mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzj//v37ywjjgzj/A5KpB1S8BAA7tBQz/54v7wAAAABJRU5ErkJggg=='); /* Grunge mask simulation */
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .hero { grid-template-columns: 1fr; }
+            .dashboard { grid-template-columns: 1fr; }
+            .component-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="nav-logo">DADA // 1916</div>
+        <div class="nav-links">
+            <a href="#">MANIFESTO</a>
+            <a href="#">GALLERY</a>
+            <a href="#">CONTACT</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- 2. HERO -->
+        <header class="hero">
+            <div class="hero-text">
+                <span class="caption">VOL. 01 // NO. 4</span>
+                <h1>ANTI-ART<br>MANIFESTO</h1>
+                <p>DADA is not art. DADA is the destruction of art. We cut and paste in our clippings a reality more compelling than the real one.</p>
+                <div style="margin-top: var(--s-wide);">
+                    <a href="#" class="btn">JOIN THE CHAOS</a>
+                    <a href="#" class="btn btn-secondary">READ MORE</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <!-- Abstract visual representation of collage -->
+                <div style="position:absolute; top:10%; left:10%; width:60%; height:40%; background:#1a1a1a; transform:rotate(5deg);"></div>
+                <div style="position:absolute; bottom:20%; right:10%; width:50%; height:30%; background:#002e5d; transform:rotate(-3deg);"></div>
+                <div style="position:absolute; top:50%; left:30%; width:40%; height:2px; background:#fff; transform:rotate(10deg);"></div>
+            </div>
+        </header>
+
+        <!-- 3. DASHBOARD -->
+        <section>
+            <h2>PRODUCTION METRICS</h2>
+            <div class="dashboard">
+                <div class="metric-card">
+                    <span class="metric-val">1,024</span>
+                    <span class="caption">TORN CLIPPINGS</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">03%</span>
+                    <span class="caption">RATIONAL THOUGHT</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-val">∞</span>
+                    <span class="caption">NOISE LEVELS</span>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ARTIFACT</th>
+                            <th>ORIGIN</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#001</td>
+                            <td>SCISSORS (DULL)</td>
+                            <td>ZURICH</td>
+                            <td>AVAILABLE

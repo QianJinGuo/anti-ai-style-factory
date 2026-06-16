@@ -1,0 +1,488 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORKSHOP_DASHBOARD // 涂鸦</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Design Tokens */
+            --color-primary: #00FF00; /* Neon Lime */
+            --color-secondary: #FF00FF; /* Magenta */
+            --color-tertiary: #00FFFF; /* Cyan */
+            --color-neutral: #1A1A1A; /* Asphalt */
+            --color-muted: #333333; /* Dry Wall */
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+
+            /* Typography */
+            --font-display: 'Permanent Marker', cursive;
+            --font-body: 'Comic Neue', 'Comic Sans MS', cursive;
+
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+
+            /* Borders */
+            --border-thick: 2px solid var(--color-black);
+            --border-thin: 1px solid var(--color-black);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-white);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+            /* Texture simulation */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+        }
+
+        /* --- UTILITIES --- */
+        .hard-shadow {
+            box-shadow: 6px 6px 0px var(--color-black);
+        }
+
+        .hard-shadow-hover:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-black);
+        }
+
+        .rotate-left { transform: rotate(-2deg); }
+        .rotate-right { transform: rotate(3deg); }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 0.9;
+            letter-spacing: -1px;
+        }
+
+        h1 { font-size: 64px; color: var(--color-primary); text-shadow: 4px 4px 0px var(--color-black); }
+        h2 { font-size: 32px; color: var(--color-secondary); margin-bottom: var(--space-md); }
+        h3 { font-size: 24px; color: var(--color-white); }
+
+        p {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+
+        .caption {
+            font-family: var(--font-body);
+            font-size: 12px;
+            color: var(--color-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- LAYOUT --- */
+        .wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        /* --- 1. NAV --- */
+        nav {
+            border-bottom: var(--border-thick);
+            padding-bottom: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 42px;
+            color: var(--color-white);
+            text-shadow: 3px 3px 0px var(--color-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .nav-link {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 20px;
+            border: 1px solid transparent;
+            padding: 4px 8px;
+        }
+        .nav-link:hover {
+            border: 1px dashed var(--color-primary);
+            background: var(--color-black);
+        }
+
+        /* --- 2. HERO --- */
+        .hero {
+            position: relative;
+            padding: var(--space-lg) 0;
+            border-left: 10px solid var(--color-primary);
+        }
+
+        .hero-sub {
+            font-size: 24px;
+            color: var(--color-tertiary);
+            margin-top: var(--space-sm);
+            font-style: italic;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--color-black);
+            font-family: var(--font-display);
+            font-size: 24px;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border: var(--border-thick);
+            text-decoration: none;
+            margin-top: var(--space-md);
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--color-black);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+
+        /* --- 3. DASHBOARD (Metrics + Table) --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-lg);
+            align-items: start;
+        }
+
+        .metrics-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .metric-card {
+            background: var(--color-muted);
+            border: var(--border-thick);
+            padding: var(--space-sm);
+            position: relative;
+        }
+        
+        .metric-val {
+            font-family: var(--font-display);
+            font-size: 36px;
+            color: var(--color-white);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Table Styling */
+        .table-container {
+            border: var(--border-thick);
+            background: var(--color-neutral);
+            position: relative;
+        }
+
+        .tag-sticker {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background: var(--color-secondary);
+            color: var(--color-black);
+            font-family: var(--font-display);
+            padding: 4px 8px;
+            border: var(--border-thick);
+            transform: rotate(12deg);
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-body);
+        }
+
+        th {
+            background: var(--color-secondary);
+            color: var(--color-black);
+            text-align: left;
+            padding: var(--space-sm);
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            border-bottom: var(--border-thick);
+            font-size: 18px;
+        }
+
+        td {
+            padding: var(--space-sm);
+            border-bottom: 1px solid var(--color-muted);
+            color: var(--color-white);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: var(--color-black);
+            color: var(--color-primary);
+        }
+
+        /* --- 4. PALETTE --- */
+        .palette-row {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            width: 100px;
+            height: 100px;
+            border: var(--border-thick);
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .swatch span {
+            background: var(--color-black);
+            color: var(--color-white);
+            font-size: 10px;
+            padding: 2px 4px;
+            font-family: monospace;
+            margin-bottom: 4px;
+            transform: rotate(-2deg);
+        }
+
+        .sw-1 { background: var(--color-primary); }
+        .sw-2 { background: var(--color-secondary); }
+        .sw-3 { background: var(--color-tertiary); }
+        .sw-4 { background: var(--color-neutral); border-color: var(--color-white); }
+        .sw-5 { background: var(--color-muted); }
+
+        /* --- 5. COMPONENTS --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .ui-card {
+            background: var(--color-neutral);
+            border: 2px solid var(--color-primary);
+            padding: var(--space-md);
+            position: relative;
+        }
+
+        .card-img-placeholder {
+            width: 100%;
+            height: 120px;
+            background: var(--color-muted);
+            border: var(--border-thick);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-muted);
+            font-family: var(--font-display);
+            font-size: 20px;
+        }
+
+        /* --- 6. FORM --- */
+        .form-block {
+            background: var(--color-black);
+            padding: var(--space-lg);
+            border: 4px double var(--color-secondary);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+            font-size: 18px;
+        }
+
+        input, select {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--color-muted);
+            border-bottom: 4px solid var(--color-primary);
+            color: var(--color-white);
+            font-family: var(--font-body);
+            font-size: 18px;
+            padding: 12px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--color-secondary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        button[type="submit"] {
+            background: var(--color-secondary);
+            color: var(--color-black);
+            font-family: var(--font-display);
+            font-size: 24px;
+            padding: 12px 40px;
+            border: var(--border-thick);
+            cursor: pointer;
+            width: 100%;
+            margin-top: var(--space-sm);
+        }
+        
+        button[type="submit"]:hover {
+            background: var(--color-white);
+            border-color: var(--color-black);
+        }
+
+        /* --- DECORATIONS --- */
+        .scribble {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .line-art {
+            stroke: var(--color-primary);
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- 1. NAV -->
+        <nav>
+            <div class="logo">SECTOR_7</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">DATA</a>
+                <a href="#" class="nav-link">GUESTBOOK</a>
+                <a href="#" class="nav-link">EXIT</a>
+            </div>
+        </nav>
+
+        <!-- 2. HERO -->
+        <section class="hero">
+            <h1>NO SIGNAL<br>NO SIGNAL</h1>
+            <p class="hero-sub">Unauthorized access detected in Sector 7. Secure the perimeter.</p>
+            <a href="#" class="cta-btn hard-shadow hard-shadow-hover">INITIATE_PROTOCOL</a>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section class="dashboard-grid">
+            <!-- Metrics -->
+            <div class="metrics-container">
+                <div class="metric-card hard-shadow">
+                    <span class="metric-val">98.4%</span>
+                    <span class="metric-label">System Integrity</span>
+                </div>
+                <div class="metric-card hard-shadow" style="border-color: var(--color-secondary);">
+                    <span class="metric-val">04:21:09</span>
+                    <span class="metric-label" style="color: var(--color-secondary);">Uptime</span>
+                </div>
+                <div class="metric-card hard-shadow" style="border-color: var(--color-tertiary);">
+                    <span class="metric-val">12</span>
+                    <span class="metric-label" style="color: var(--color-tertiary);">Active Nodes</span>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-container hard-shadow">
+                <div class="tag-sticker">v.0.9.2</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>UNIT_ID</th>
+                            <th>STATUS</th>
+                            <th>LOAD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UNIT-ALPHA</td>
+                            <td>CRITICAL</td>
+                            <td>99%</td>
+                        </tr>
+                        <tr>
+                            <td>UNIT-BETA</td>
+                            <td>STABLE</td>
+                            <td>45%</td>
+                        </tr>
+                        <tr>
+                            <td>UNIT-GAMMA</td>
+                            <td>OFFLINE</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>UNIT-DELTA</td>
+                            <td>WARNING</td>
+                            <td>88%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section>
+            <h2>INK_SOURCES</h2>
+            <div class="palette-row">
+                <div class="swatch sw-1"><span>#00FF00</span></div>
+                <div class="swatch sw-2"><span>#FF00FF</span></div>
+                <div class="swatch sw-3"><span>#00FFFF</span></div>
+                <div class="swatch sw-4"><span>#1A1A1A</span></div>
+                <div class="swatch sw-5"><span>#333333</span></div>
+            </div>
+        </section>
+
+        <!-- 5. COMPONENTS -->
+        <section>
+            <h2 class="rotate-left">WALL_PASTE</h2>
+            <div class="card-grid">
+                <div class="ui-card hard-shadow">
+                    <div class="card-img-placeholder">IMG_01</div>
+                    <h3>PROJECT_X</h3>
+                    <p style="font-size: 14px; color: var(--color-muted);">
+                        Construction halted pending chemical supply. Do not touch the wet paint.
+                    </p>
+                </div>
+                <div class="ui-card hard-shadow" style="border-color: var(--color-secondary);">
+                    <div class="card-img-placeholder" style="background: var(--color-black

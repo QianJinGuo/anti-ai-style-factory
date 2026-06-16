@@ -1,0 +1,472 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朋克志 // ZINE_SYSTEM_V1</title>
+    <style>
+        /* 
+           PUNK ZINE DESIGN SYSTEM 
+           Implementation v1.0.0
+        */
+
+        :root {
+            /* Colors */
+            --color-primary: #FF0000; /* Danger/Alarm */
+            --color-secondary: #000000; /* Ink */
+            --color-tertiary: #FFFFFF; /* Paper */
+            --color-neutral: #333333; /* Faded Ink */
+            --color-muted: #888888; /* Noise */
+            
+            /* Spacing */
+            --space-sm: 4px;
+            --space-md: 8px;
+            --space-lg: 16px;
+            --space-xl: 32px;
+
+            /* Typography */
+            --font-stack: 'Courier New', Courier, monospace;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-tertiary);
+            color: var(--color-secondary);
+            font-family: var(--font-stack);
+            font-size: 14px;
+            line-height: 1.4;
+            overflow-x: hidden;
+            /* Subtle noise texture to simulate paper grain */
+            background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+            background-size: 4px 4px;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4, p, span, a, button, td, th {
+            font-family: var(--font-stack);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: var(--space-md);
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -1px;
+            margin-bottom: var(--space-lg);
+            border-bottom: 3px solid var(--color-secondary);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .caption {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-neutral);
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+            position: relative;
+            border-left: 1px solid var(--color-muted);
+            border-right: 1px solid var(--color-muted);
+            background: var(--color-tertiary);
+            min-height: 100vh;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+        }
+
+        /* NAV */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 4px solid var(--color-secondary);
+            padding-bottom: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: var(--color-secondary);
+            color: var(--color-tertiary);
+            padding: 4px 8px;
+            transform: rotate(-2deg);
+        }
+
+        .nav-links a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: var(--space-lg);
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            background: var(--color-primary);
+            color: var(--color-tertiary);
+            text-decoration: line-through;
+        }
+
+        /* HERO */
+        .hero {
+            margin-bottom: var(--space-xl);
+            position: relative;
+            border: 3px solid var(--color-secondary);
+            padding: var(--space-lg);
+        }
+
+        .hero::after {
+            /* Tape effect */
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            max-width: 600px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--color-secondary);
+            color: var(--color-tertiary);
+            border: 2px solid var(--color-secondary);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: none;
+            box-shadow: 4px 4px 0px var(--color-primary);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            box-shadow: 2px 2px 0px var(--color-secondary);
+            transform: translate(2px, 2px);
+        }
+
+        .btn-secondary {
+            background: var(--color-tertiary);
+            color: var(--color-secondary);
+            box-shadow: 4px 4px 0px var(--color-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary);
+            color: var(--color-tertiary);
+        }
+
+        /* DASHBOARD & TABLE */
+        .data-card {
+            background: var(--color-tertiary);
+            border: 3px solid var(--color-secondary);
+            padding: var(--space-md);
+            position: relative;
+        }
+
+        .data-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--color-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: var(--space-md);
+        }
+
+        th {
+            background: var(--color-secondary);
+            color: var(--color-tertiary);
+            text-align: left;
+            padding: var(--space-sm);
+            text-transform: uppercase;
+        }
+
+        td {
+            border: 1px solid var(--color-secondary);
+            padding: var(--space-sm);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f0f0;
+        }
+
+        /* PALETTE */
+        .palette-grid {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .swatch {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--color-secondary);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 4px;
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        /* COMPONENTS */
+        .zine-card {
+            background: var(--color-tertiary);
+            border: 3px solid var(--color-secondary);
+            padding: var(--space-lg);
+            box-shadow: 8px 8px 0px var(--color-secondary);
+            transform: rotate(1deg);
+        }
+
+        .zine-card:nth-child(2) {
+            transform: rotate(-1.5deg);
+            margin-top: var(--space-lg);
+            z-index: 2;
+        }
+
+        .zine-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid var(--color-secondary);
+            margin-bottom: var(--space-sm);
+            filter: grayscale(100%) contrast(150%) brightness(90%);
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: var(--space-sm);
+            font-size: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--color-secondary);
+            background: var(--color-tertiary);
+            font-family: var(--font-stack);
+            font-size: 14px;
+            color: var(--color-secondary);
+            border-radius: 0; /* Explicit zero */
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background-color: #ffffcc; /* Highlighter yellow */
+            border-color: var(--color-primary);
+        }
+
+        /* UTILITY / GLITCH */
+        .glitch-text {
+            position: relative;
+        }
+        
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-tertiary);
+        }
+        
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #000;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            100% { clip: rect(5px, 9999px, 40px, 0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="nav-logo">ZINE_SYS // V1</div>
+        <div class="nav-links">
+            <a href="#manifesto">Manifesto</a>
+            <a href="#metrics">Metrics</a>
+            <a href="#components">Components</a>
+            <a href="#join">Join</a>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section id="manifesto" class="hero">
+        <h1 class="glitch-text" data-text="UNREGISTERED">UNREGISTERED<br>PRODUCTION</h1>
+        <p class="hero-subtitle">
+            SYSTEM_FAILURE: The interface rejects corporate polish. We utilize the raw mechanics of the photocopier and the typewriter to build a digital infrastructure that bleeds.
+        </p>
+        <div style="margin-top: var(--space-lg);">
+            <button class="btn">Initiate Protocol</button>
+            <button class="btn btn-secondary">View Manifesto</button>
+        </div>
+        <p class="caption" style="margin-top: var(--space-md);">> STATUS: UNSTABLE // > DATE: 2023-10-27</p>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="metrics">
+        <h2>// PRODUCTION_METRICS</h2>
+        
+        <div class="grid-3">
+            <div class="data-card">
+                <p class="caption">UNITS_PRINTED</p>
+                <div class="data-value">8,402</div>
+                <p style="font-size: 10px; margin-top: 4px;">> +12% INCREASE</p>
+            </div>
+            <div class="data-card">
+                <p class="caption">INK_LEVEL</p>
+                <div class="data-value" style="color: var(--color-primary);">CRIT</div>
+                <p style="font-size: 10px; margin-top: 4px;">> REPLENISH REQUIRED</p>
+            </div>
+            <div class="data-card">
+                <p class="caption">ERROR_RATE</p>
+                <div class="data-value">0.04%</div>
+                <p style="font-size: 10px; margin-top: 4px;">> OPTIMAL</p>
+            </div>
+        </div>
+
+        <div style="margin-top: var(--space-xl);">
+            <h3 style="text-transform: uppercase;">> LOG_ENTRY_042</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>OPERATION</th>
+                        <th>STATUS</th>
+                        <th>TIME</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>PRINT_CYCLE_ALPHA</td>
+                        <td>COMPLETE</td>
+                        <td>08:42:11</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>CUT_AND_PASTE</td>
+                        <td>IN_PROGRESS</td>
+                        <td>09:15:00</td>
+                    </tr>
+                    <tr>
+                        <td>003</td>
+                        <td>GLUE_APPLICATION</td>
+                        <td>PENDING</td>
+                        <td>09:30:00</td>
+                    </tr>
+                    <tr>
+                        <td>004</td>
+                        <td>DISTRIBUTION</td>
+                        <td>FAILED</td>
+                        <td>--:--:--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section style="margin-top: var(--space-xl); border-top: 1px dashed var(--color-secondary); padding-top: var(--space-lg);">
+        <h2>// COLOR_SPEC</h2>
+        <div class="palette-grid">
+            <div class="swatch" style="background-color: #FF0000; color: white;">PRIMARY</div>
+            <div class="swatch" style="background-color: #000000; color: white;">SECONDARY</div>
+            <div class="swatch" style="background-color: #FFFFFF; color: black; border: 1px solid #ccc;">TERTIARY</div>
+            <div class="swatch" style="background-color: #333333;">NEUTRAL</div>
+            <div class="swatch" style="background-color: #888888;">MUTED</div>
+        </div>
+        <p class="caption">NO GRADIENTS ALLOWED. HIGH CONTRAST ONLY.</p>
+    </section>
+
+    <!-- 5. COMPONENTS -->
+    <section id="components" style="margin-top: var(--space-xl);">
+        <h2>// ARCHITECTURE</h2>
+        <div class="grid-2">
+            <div class="zine-card">
+                <img src="https://images.unsplash.com/photo-1528696892704-5e1122852276?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Grunge texture">
+                <h3>TYPEFACE</h3>
+                <p>The Courier New font mimics the mechanical imperfections of a typewriter ribbon. It is the standard of the

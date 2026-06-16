@@ -1,0 +1,476 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrazzo Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@500&family=Liberation+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * TERRAZZO DESIGN SYSTEM SPECIFICATION
+         * Root: Venetian Materiality
+         */
+
+        :root {
+            /* Colors */
+            --color-base: #F5F2EB;
+            --color-secondary: #8C7B6C;
+            --color-tertiary: #4A4036;
+            --color-neutral: #E8E4DB;
+            --color-muted: #D1C7B7;
+            
+            /* Typography */
+            --font-head: 'Playfair Display', serif;
+            --font-display: 'DM Serif Display', serif;
+            --font-body: 'Liberation Serif', serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 40px;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-base);
+            color: var(--color-tertiary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            border-top: 1px solid var(--color-tertiary); /* Structural anchor */
+        }
+
+        /* Typography Utilities */
+        h1 {
+            font-family: var(--font-head);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--color-tertiary);
+        }
+
+        h2 {
+            font-family: var(--font-head);
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--color-tertiary);
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+            color: var(--color-tertiary);
+        }
+
+        .mono-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            max-width: 65ch;
+        }
+
+        /* Layout Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        /* Components */
+        .btn-primary {
+            display: inline-block;
+            background: var(--color-tertiary);
+            color: var(--color-base);
+            border: 1px solid var(--color-tertiary);
+            border-radius: 2px;
+            padding: 12px 24px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-base);
+            color: var(--color-tertiary);
+        }
+
+        .btn-primary:focus {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .card {
+            background: var(--color-base);
+            border: 1px solid var(--color-neutral);
+            border-radius: 4px;
+            padding: var(--space-lg);
+            height: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            padding: var(--space-lg) 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+        
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--color-tertiary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--color-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-tertiary);
+            text-decoration: underline;
+        }
+
+        /* Hero */
+        .hero {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--color-neutral);
+        }
+
+        .hero-content {
+            grid-column: span 12;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-content { grid-column: span 8; }
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+
+        .metric-card {
+            grid-column: span 4;
+        }
+
+        .metric-value {
+            font-family: var(--font-head);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--color-tertiary);
+            display: block;
+            margin-top: var(--space-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-md);
+        }
+
+        th {
+            background: var(--color-neutral);
+            color: var(--color-tertiary);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 500;
+            text-align: left;
+            padding: var(--space-md);
+            border: 1px solid var(--color-muted);
+        }
+
+        td {
+            padding: var(--space-md);
+            border: 1px solid var(--color-muted);
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #F0ECE3; /* Slight row shift */
+        }
+
+        tr:hover td {
+            background-color: var(--color-neutral);
+        }
+
+        /* Palette */
+        .palette {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+
+        .swatch {
+            border: 1px solid var(--color-tertiary);
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            padding: var(--space-sm);
+            position: relative;
+        }
+
+        .swatch-info {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            background: var(--color-base);
+            padding: 2px 4px;
+            border: 1px solid var(--color-muted);
+        }
+
+        /* Components Showcase */
+        .components {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--color-muted);
+        }
+
+        .comp-grid {
+            grid-column: span 12;
+        }
+
+        @media (min-width: 768px) {
+            .comp-grid { grid-column: span 12; }
+        }
+
+        /* Form */
+        .form-section {
+            padding: var(--space-xl) 0 80px;
+        }
+
+        .form-grid {
+            grid-column: span 12;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid { grid-column: span 6; }
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--color-muted);
+            padding: var(--space-sm) 0;
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-tertiary);
+            border-radius: 0; /* Strict zero rounding */
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-bottom: 1px solid var(--color-tertiary);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none; /* Remove default arrow to maintain material look */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234A4036' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0 center;
+            background-size: 16px;
+        }
+
+        /* Utility for grid spans */
+        .span-4 { grid-column: span 4; }
+        .span-12 { grid-column: span 12; }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">TERRAZZO</div>
+            <div class="nav-links">
+                <a href="#dashboard">Production</a>
+                <a href="#palette">Materials</a>
+                <a href="#components">Specs</a>
+                <a href="#form">Order</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container grid-12">
+            <div class="hero-content">
+                <span class="mono-label">Est. 1550 · Venice</span>
+                <h1>Marble Waste<br>Polished to<br>Perfection.</h1>
+                <p style="margin-top: var(--space-md); font-size: 18px; color: var(--color-secondary);">
+                    A digital interface rooted in the tradition of repurposing stone. 
+                    Rejecting sterile minimalism for organic randomness and material honesty.
+                </p>
+                <div style="margin-top: var(--space-lg);">
+                    <a href="#form" class="btn-primary">Request Slab Sample</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="grid-12">
+                <div class="span-12">
+                    <span class="mono-label">Production Metrics · Q3 2023</span>
+                    <h2>Aggregate Output</h2>
+                </div>
+            </div>
+            
+            <div class="grid-12" style="margin-top: var(--space-lg);">
+                <div class="metric-card card">
+                    <span class="mono-label">Quarry Yield</span>
+                    <span class="metric-value">94.2%</span>
+                    <p style="font-size: 14px; color: var(--color-secondary); margin-top: 8px;">
+                        Raw block recovery rate from Carrara extraction.
+                    </p>
+                </div>
+                <div class="metric-card card">
+                    <span class="mono-label">Polish Depth</span>
+                    <span class="metric-value">0.04mm</span>
+                    <p style="font-size: 14px; color: var(--color-secondary); margin-top: 8px;">
+                        Average abrasive removal per cycle.
+                    </p>
+                </div>
+                <div class="metric-card card">
+                    <span class="mono-label">Aggregate Count</span>
+                    <span class="metric-value">12,400</span>
+                    <p style="font-size: 14px; color: var(--color-secondary); margin-top: 8px;">
+                        Chips embedded per square meter of slab.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid-12" style="margin-top: var(--space-lg);">
+                <div class="span-12">
+                    <div class="card" style="padding: 0; border: none; background: transparent;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Slab ID</th>
+                                    <th style="width: 20%;">Composition</th>
+                                    <th style="width: 20%;">Finish</th>
+                                    <th style="width: 20%;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>T-8821-ALPHA</td>
+                                    <td>Calacatta Gold / Epoxy</td>
+                                    <td>Honed</td>
+                                    <td>Ready for Shipping</td>
+                                </tr>
+                                <tr>
+                                    <td>T-9932-BETA</td>
+                                    <td>Emperador Dark / Cement</td>
+                                    <td>Polished</td>
+                                    <td>Curing (Day 14/28)</td>
+                                </tr>
+                                <tr>
+                                    <td>T-1023-GAMMA</td>
+                                    <td>Mixed Chips / Resin</td>
+                                    <td>Leathered</td>
+                                    <td>Quality Control</td>
+                                </tr>
+                                <tr>
+                                    <td>T-1144-DELTA</td>
+                                    <td>Verde Guatemala / Cement</td>
+                                    <td>Polished</td>
+                                    <td>Reserved</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section id="palette" class="palette">
+        <div class="container">
+            <div class="grid-12">
+                <div class="span-12">
+                    <span class="mono-label">Material Composition</span>
+                    <h2>Chemical Analysis</h2>
+                </div>
+            </div>
+            
+            <div class="grid-12" style="margin-top: var(--space-lg);">
+                <div class="span-4">
+                    <div class="swatch" style="background-color: #F5F2EB;">
+                        <div class="swatch-info">BASE #F5F2EB</div>
+                    </div>
+                </div>
+                <div class="span-4">
+                    <div class="swatch" style="background-color: #8C7B6C;">
+                        <div class="swatch-info" style="color: #fff; background: #8C7B6C;">AGGREGATES #8C7B6C</div>
+                    </div>
+                </div>
+                <div class="span-4">
+                    <div class="swatch" style="background-color: #4A4036;">

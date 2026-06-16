@@ -1,0 +1,502 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONSTRUCTIVISM // SYSTEM_REFERENCE</title>
+    
+    <!-- 
+      NOTE: Google Fonts does not host 'Akzidenz-Grotesk' due to licensing.
+      The following is the closest available alternative: 'Inter'.
+      In a production environment, Akzidenz-Grotesk would be self-hosted.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* DESIGN TOKENS */
+            --color-primary: #D91E18;
+            --color-secondary: #111111;
+            --color-tertiary: #F2F0E6;
+            --color-neutral: #E5E5E5;
+            --color-muted: #999999;
+            --color-white: #FFFFFF;
+
+            --font-head: 'Inter', 'Akzidenz-Grotesk', 'Helvetica', sans-serif;
+            --font-body: 'JetBrains Mono', 'Courier New', monospace;
+
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 32px;
+            --spacing-xl: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-tertiary);
+            color: var(--color-secondary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: none; /* Keep text raw */
+        }
+
+        /* TYPOGRAPHY SYSTEM */
+        h1, h2, h3 {
+            font-family: var(--font-head);
+            font-weight: 900;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+
+        h1 {
+            font-size: 64px;
+            letter-spacing: -2px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        h2 {
+            font-size: 48px;
+            letter-spacing: -1px;
+            margin-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        h3 {
+            font-size: 32px;
+            letter-spacing: 0px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .caption {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-secondary);
+        }
+
+        /* STRUCTURAL UTILITIES */
+        .border-box {
+            border: 2px solid var(--color-secondary);
+            background: var(--color-white);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-top: 2px solid var(--color-secondary);
+            border-bottom: 2px solid var(--color-secondary);
+        }
+
+        .full-width {
+            grid-column: span 12;
+        }
+
+        .half-width {
+            grid-column: span 6;
+        }
+
+        .third-width {
+            grid-column: span 4;
+        }
+
+        .hard-shadow {
+            box-shadow: 6px 6px 0px var(--color-secondary);
+        }
+
+        .red-accent {
+            color: var(--color-primary);
+        }
+
+        /* 1. NAVIGATION */
+        nav {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            padding: var(--spacing-md) 0;
+            border-left: 12px solid var(--color-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: var(--spacing-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: var(--font-head);
+            font-weight: 900;
+            font-size: 24px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+
+        .nav-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom: 2px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            padding: var(--spacing-xl) var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            /* Decorative diagonal line */
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 20%;
+            width: 2px;
+            height: 100%;
+            background: var(--color-secondary);
+            transform: skewX(-20deg);
+            opacity: 0.2;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            max-width: 600px;
+            background: var(--color-white);
+            padding: var(--spacing-sm);
+            border: 2px solid var(--color-secondary);
+            box-shadow: 4px 4px 0px var(--color-secondary);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: 2px solid var(--color-secondary);
+            border-radius: 0px;
+            padding: 16px 32px;
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 6px 6px 0px var(--color-secondary);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.1s;
+        }
+
+        .btn-primary:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px var(--color-secondary);
+        }
+
+        /* 3. DASHBOARD */
+        .metric-card {
+            border: 2px solid var(--color-secondary);
+            background: var(--color-white);
+            padding: var(--spacing-md);
+            position: relative;
+        }
+
+        .metric-value {
+            font-family: var(--font-head);
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--color-secondary);
+            line-height: 1;
+            margin-top: var(--spacing-sm);
+        }
+
+        .metric-label {
+            margin-top: var(--spacing-sm);
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid var(--color-secondary);
+            font-family: var(--font-body);
+        }
+
+        th, td {
+            text-align: left;
+            padding: var(--spacing-sm);
+            border-right: 2px solid var(--color-secondary);
+        }
+
+        th {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--color-neutral);
+        }
+
+        /* 4. PALETTE */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+        }
+
+        .swatch {
+            height: 150px;
+            border: 2px solid var(--color-secondary);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-sm);
+            position: relative;
+        }
+
+        .swatch span {
+            background: var(--color-white);
+            border: 1px solid var(--color-secondary);
+            padding: 2px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* 5. COMPONENTS */
+        .card {
+            background: var(--color-white);
+            border: 2px solid var(--color-secondary);
+            border-radius: 0px;
+            box-shadow: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: var(--spacing-md);
+        }
+
+        /* 6. FORM */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--color-secondary);
+            background: var(--color-tertiary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            border-radius: 0px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            background: var(--color-white);
+            box-shadow: 4px 4px 0px var(--color-primary);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            padding: var(--spacing-lg);
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="nav-logo">PRODUCTION // 01</div>
+        <div class="nav-links">
+            <a href="#">Manifesto</a>
+            <a href="#">Data</a>
+            <a href="#">Units</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 2. HERO -->
+        <section class="hero">
+            <span class="caption" style="background: var(--color-primary); color: white; display: inline-block; padding: 4px 8px; margin-bottom: 16px;">System Version 1.0</span>
+            <h1>FUNCTION<br>OVER<br>FORM</h1>
+            <div class="hero-subtitle">
+                UTILITARIAN DESIGN FOR INDUSTRIAL PRODUCTION. NO DECORATION. NO BLUR. ONLY RAW STRUCTURE AND DATA.
+            </div>
+            <a href="#" class="btn-primary">Initiate Sequence</a>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section style="padding: 0 var(--spacing-md);">
+            <h2>Production Metrics</h2>
+            <div class="grid-container">
+                <!-- Metric 1 -->
+                <div class="metric-card hard-shadow">
+                    <span class="caption metric-label">Output / Hour</span>
+                    <div class="metric-value">1,402</div>
+                    <div class="caption red-accent" style="margin-top: 8px;">▲ 12% vs last shift</div>
+                </div>
+                
+                <!-- Metric 2 -->
+                <div class="metric-card hard-shadow">
+                    <span class="caption metric-label">Energy Load</span>
+                    <div class="metric-value">84%</div>
+                    <div class="caption" style="margin-top: 8px; color: var(--color-secondary);">STABLE</div>
+                </div>
+
+                <!-- Metric 3 -->
+                <div class="metric-card hard-shadow">
+                    <span class="caption metric-label">Defect Rate</span>
+                    <div class="metric-value">0.04%</div>
+                    <div class="caption" style="margin-top: 8px;">WITHIN TOLERANCE</div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="full-width" style="grid-column: span 12;">
+                    <h3 style="margin-top: var(--spacing-lg);">Unit Inventory</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Unit ID</th>
+                                <th>Material</th>
+                                <th>Weight (kg)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AX-992</td>
+                                <td>Steel Alloy</td>
+                                <td>45.2</td>
+                                <td>ACTIVE</td>
+                            </tr>
+                            <tr>
+                                <td>BX-104</td>
+                                <td>Reinforced Concrete</td>
+                                <td>120.0</td>
+                                <td>QUEUED</td>
+                            </tr>
+                            <tr>
+                                <td>CY-001</td>
+                                <td>Aluminum</td>
+                                <td>12.5</td>
+                                <td>ACTIVE</td>
+                            </tr>
+                            <tr>
+                                <td>DZ-555</td>
+                                <td>Timber (Treated)</td>
+                                <td>8.0</td>
+                                <td>MAINTENANCE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section style="margin-top: var(--spacing-xl); border-top: 4px solid var(--color-secondary);">
+            <div style="padding: var(--spacing-lg);">
+                <h2>Chromatic Specification</h2>
+                <div class="palette-grid">
+                    <div class="swatch" style="background-color: var(--color-primary);">
+                        <span>Rev. Red<br>#D91E18</span>
+                    </div>
+                    <div class="swatch" style="background-color: var(--color-secondary);">
+                        <span style="color: white; border-color: white;">Ind. Black<br>#111111</span>
+                    </div>
+                    <div class="swatch" style="background-color: var(--color-tertiary);">
+                        <span>Newsprint<br>#F2F0E6</span>
+                    </div>
+                    <div class="swatch" style="background-color: var(--color-neutral);">
+                        <span>Steel Gray<br>#E5E5E5</span>
+                    </div>
+                    <div class="swatch" style="background-color: var(--color-muted);">
+                        <span>Concrete<br>#999999</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. COMPONENTS -->
+        <section style="margin-top: var(--spacing-xl);">
+            <div class="grid-container">
+                <div class="card hard-shadow">
+                    <div class="card-header">
+                        <span>Component A</span>
+                        <span>01</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Raw Data</h3>
+                        <p>This card demonstrates the hard border and lack of depth. Content is contained strictly within the structural grid.</p>
+                        <a

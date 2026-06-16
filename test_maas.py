@@ -21,7 +21,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key=api_key,
-    base_url="http://maas-api.cn-huabei-1.xf-yun.com/v1"
+    base_url="http://maas-api.cn-huabei-1.xf-yun.com/v2"
 )
 
 try:

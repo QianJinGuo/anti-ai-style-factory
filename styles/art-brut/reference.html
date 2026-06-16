@@ -1,0 +1,477 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Brut Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --color-primary: #E25822;
+            --color-secondary: #2B2B2B;
+            --color-tertiary: #D9C5A7;
+            --color-neutral: #F4F1EA;
+            --color-muted: #8C8C8C;
+
+            /* Typography */
+            --font-stack: "Special Elite", "Courier Prime", monospace;
+            
+            /* Spacing */
+            --space-sm: 4px;
+            --space-md: 8px;
+            --space-lg: 16px;
+            --space-xl: 32px;
+
+            /* Borders */
+            --border-width: 2px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-secondary);
+            font-family: var(--font-stack);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, p, span, label, input, select, button, td, th {
+            font-family: var(--font-stack);
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin: 0 0 var(--space-lg) 0;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 0 0 var(--space-md) 0;
+            border-bottom: var(--border-width) solid var(--color-secondary);
+            padding-bottom: var(--space-sm);
+        }
+
+        h3 {
+            font-size: 24px;
+            line-height: 1.3;
+            letter-spacing: 0em;
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        .caption {
+            font-size: 12px;
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            color: var(--color-muted);
+            text-transform: uppercase;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+            position: relative;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .flex-row {
+            display: flex;
+            gap: var(--space-md);
+            align-items: flex-end;
+        }
+
+        /* Component: Button */
+        .btn {
+            background: var(--color-secondary);
+            color: var(--color-neutral);
+            border: var(--border-width) solid var(--color-secondary);
+            border-radius: 0px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.1s, color 0.1s, border-color 0.1s;
+        }
+
+        .btn:hover {
+            background: var(--color-primary);
+            border: var(--border-width) solid var(--color-primary);
+            color: var(--color-neutral);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--color-secondary);
+            color: var(--color-neutral);
+            border-color: var(--color-secondary);
+        }
+
+        /* Component: Card */
+        .card {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-secondary);
+            border-radius: 0px;
+            padding: 24px;
+            box-shadow: 4px 4px 0px var(--color-secondary);
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            border-bottom: var(--border-width) solid var(--color-secondary);
+            padding: var(--space-lg) var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            margin-left: var(--space-xl);
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+            color: var(--color-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: var(--space-xl) 0;
+            margin-bottom: var(--space-xl);
+            border-bottom: var(--border-width) solid var(--color-secondary);
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--color-secondary);
+            margin-bottom: var(--space-xl);
+            max-width: 600px;
+        }
+
+        /* Dashboard */
+        .metric-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--color-primary);
+            line-height: 1;
+            margin: var(--space-md) 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-lg);
+            background: var(--color-neutral);
+            border: 1px solid var(--color-secondary);
+            border-radius: 0px;
+        }
+
+        th {
+            background: var(--color-secondary);
+            color: var(--color-neutral);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-secondary);
+            font-size: 16px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Palette */
+        .swatch {
+            height: 120px;
+            border: 1px solid var(--color-secondary);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: var(--space-md);
+            position: relative;
+        }
+
+        .swatch-label {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-secondary);
+            padding: 4px 8px;
+            font-size: 12px;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--color-secondary);
+            border-radius: 0px;
+            padding: 12px;
+            font-family: var(--font-stack);
+            font-size: 16px;
+            color: var(--color-secondary);
+            box-shadow: 2px 2px 0px var(--color-secondary);
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            background: var(--color-neutral);
+            border-color: var(--color-primary);
+            box-shadow: 4px 4px 0px var(--color-primary);
+        }
+
+        /* Sketchy Icons (SVG) */
+        .icon-sketch {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Specific Overrides for Brutalism feel */
+        .raw-text {
+            color: var(--color-secondary);
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        .bg-tertiary {
+            background-color: var(--color-tertiary);
+        }
+
+        .bg-primary {
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+        }
+
+        .border-left-heavy {
+            border-left: 4px solid var(--color-primary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">
+            <svg class="icon-sketch" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 8px;">
+                <path d="M12 2L2 22h20L12 2z" stroke-linejoin="miter" stroke-miterlimit="10"/>
+                <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
+            ART_BRUT_V1
+        </div>
+        <div class="nav-links">
+            <a href="#dashboard">DATA</a>
+            <a href="#palette">MATERIALS</a>
+            <a href="#components">PROTOTYPE</a>
+            <a href="#form">SUBMIT</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Raw Art<br>Implementation</h1>
+                <p class="hero-subtitle">
+                    A rejection of digital polish. We build with charcoal, dust, and unbleached linen. 
+                    The interface is a canvas for unrefined expression. No gradients. No blur. Just raw data.
+                </p>
+                <div class="flex-row">
+                    <button class="btn">INITIATE PROTOCOL</button>
+                    <button class="btn btn-outline">VIEW MANIFESTO</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" style="margin-bottom: var(--space-xl);">
+            <h2>Production Metrics</h2>
+            <div class="grid-3">
+                <!-- Metric 1 -->
+                <div class="card">
+                    <span class="caption">Total Pigment</span>
+                    <div class="metric-value">842 L</div>
+                    <p class="raw-text">Raw ochre reserves for Q3 batch processing. Storage level critical.</p>
+                </div>
+                <!-- Metric 2 -->
+                <div class="card">
+                    <span class="caption">Sketches Processed</span>
+                    <div class="metric-value">14,092</div>
+                    <p class="raw-text">Unfiltered sketches uploaded from the peripheral workshops.</p>
+                </div>
+                <!-- Metric 3 -->
+                <div class="card">
+                    <span class="caption">Surface Area</span>
+                    <div class="metric-value">45 m²</div>
+                    <p class="raw-text">Available linen canvas allocated for the next installation.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: var(--space-xl); padding: 0; overflow: hidden;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>MATERIAL</th>
+                            <th>ORIGIN</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Graphite Block</td>
+                            <td>Industrial Waste Site</td>
+                            <td>ACQUIRED</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Unbleached Linen</td>
+                            <td>Textile Mill B</td>
+                            <td>PROCESSING</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Rust Oxide</td>
+                            <td>Decay Zone 4</td>
+                            <td>EXTRACTED</td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>Charcoal Dust</td>
+                            <td>Burnt Remnants</td>
+                            <td>STORED</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PALETTE -->
+        <section id="palette" style="margin-bottom: var(--space-xl);">
+            <h2>Material Palette</h2>
+            <p class="caption" style="margin-bottom: var(--space-lg);">Derived from natural pigments and industrial waste.</p>
+            <div class="grid-3">
+                <div class="swatch" style="background-color: #E25822;">
+                    <div class="swatch-label">RAW OCHRE</div>
+                </div>
+                <div class="swatch" style="background-color: #2B2B2B;">
+                    <div class="swatch-label" style="color: #F4F1EA;">CHARCOAL</div>
+                </div>
+                <div class="swatch" style="background-color: #D9C5A7;">
+                    <div class="swatch-label">RAW UMBER</div>
+                </div>
+                <div class="swatch" style="background-color: #F4F1EA; border: 1px solid #2B2B2B;">
+                    <div class="swatch-label">UNBLEACHED LINEN</div>
+                </div>
+                <div class="swatch" style="background-color: #8C8C8C;">
+                    <div class="swatch-label">DUST</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS -->
+        <section id="components" style="margin-bottom: var(--space-xl);">
+            <h2>Component Assembly</h2>
+            <div class="grid-3">
+                <div class="card border-left-heavy">
+                    <h3>The Collage</h3>
+                    <p style="margin-bottom: var(--space-md);">
+                        Elements overlap with solid shadows. No blur. No mystery. Just physical layering.
+                    </p>
+                    <div style="background: #D9C5A7; padding: 8px; border: 1px solid #2B2B2B; width: 50%; margin-top: 16px; box-shadow: 2px 2px 0 #2B2B2B;">
+                        <span class="caption">Pinned Element</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>The Stamp</h3>
+                    <p style="margin-bottom: var(--space-md);">
+                        Typography is treated as texture. Monospaced fonts simulate the mechanical rhythm of the typewriter.
+                    </p>
+                    <div style="border: 2px solid #E25822; padding: 12px; text-align: center; color: #E25822; font-weight: 700; letter-spacing: 0.1em;">
+                        APPROVED
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>The Error</h3>
+                    <p style="margin-bottom: var(--space-md);">
+                        Imperfection is the goal. Rough edges suggest human touch.
+                    </p>
+                    <div style="font-size: 48px; color: #2B2B2B;">
+                        ?
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM -->
+        <section id="form" style="margin-bottom: var(--

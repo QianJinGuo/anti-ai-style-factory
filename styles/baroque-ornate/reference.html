@@ -1,0 +1,473 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baroque Design System Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Definition */
+            --c-primary: #8B0000;   /* Deep Crimson */
+            --c-secondary: #D4AF37; /* Metallic Gold */
+            --c-tertiary: #2F4F4F;  /* Dark Slate Green */
+            --c-neutral: #F5F5DC;   /* Parchment */
+            --c-muted: #4A4A4A;     /* Charcoal */
+            --c-black: #1a1a1a;
+            
+            /* Typography */
+            --font-display: 'Bodoni Moda', serif;
+            --font-body: 'EB Garamond', serif;
+            
+            /* Spacing & Layout */
+            --spacing-unit: 2rem;
+            --border-thick: 3px solid var(--c-secondary);
+            --border-double: 4px double var(--c-secondary);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-neutral);
+            color: var(--c-muted);
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            color: var(--c-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 { font-size: 4rem; line-height: 0.9; margin-bottom: 1rem; }
+        h2 { font-size: 2.5rem; border-bottom: 2px solid var(--c-secondary); padding-bottom: 0.5rem; margin-bottom: 2rem; }
+        h3 { font-size: 1.5rem; color: var(--c-tertiary); margin-bottom: 1rem; }
+        
+        .subtitle {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--c-tertiary);
+            font-style: italic;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--c-secondary);
+            padding-left: 1rem;
+        }
+
+        .label {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--c-secondary);
+            font-weight: 700;
+        }
+
+        /* --- Layout Utilities --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        /* --- 1. Navigation --- */
+        nav {
+            background-color: var(--c-tertiary);
+            border-bottom: var(--border-thick);
+            padding: 1.5rem 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            color: var(--c-secondary);
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--c-neutral);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--c-secondary);
+        }
+
+        /* --- 2. Hero --- */
+        .hero {
+            background-color: var(--c-neutral);
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding-right: 4rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        /* --- 3. Dashboard (Metrics & Table) --- */
+        .dashboard-section {
+            background-color: #EFEFD5; /* Slightly darker parchment */
+            border-top: var(--border-double);
+            border-bottom: var(--border-double);
+        }
+
+        .metric-card {
+            border: 1px solid var(--c-secondary);
+            padding: 2rem;
+            position: relative;
+            background: var(--c-neutral);
+            /* Hard shadow as per Baroque depth principle */
+            box-shadow: 6px 6px 0px var(--c-tertiary); 
+        }
+
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--c-primary);
+            font-weight: 700;
+            display: block;
+            margin: 1rem 0;
+        }
+
+        .data-table-wrapper {
+            margin-top: 4rem;
+            border: 1px solid var(--c-secondary);
+            background: var(--c-neutral);
+            box-shadow: 4px 4px 0px var(--c-muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+        }
+
+        th {
+            background-color: var(--c-tertiary);
+            color: var(--c-secondary);
+            text-align: left;
+            padding: 1rem;
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 2px solid var(--c-secondary);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #dcdcc0;
+            color: var(--c-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* --- 4. Palette --- */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .swatch {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1rem;
+            border: 1px solid var(--c-muted);
+        }
+
+        .swatch span {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: var(--c-neutral);
+            padding: 0.25rem 0.5rem;
+            width: fit-content;
+        }
+
+        /* --- 5. Components --- */
+        .component-card {
+            border: 2px solid var(--c-secondary);
+            padding: 2rem;
+            background: #fffef8;
+            position: relative;
+        }
+
+        /* Corner Ornaments simulation */
+        .component-card::before, .component-card::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--c-primary);
+            transition: all 0.3s;
+        }
+
+        .component-card::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+        .component-card::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
+
+        /* --- 6. Form --- */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-display);
+            color: var(--c-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            background-color: transparent;
+            border: 2px solid var(--c-muted);
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--c-primary);
+            outline: none;
+            transition: border-color 0.3s;
+            border-radius: 0; /* Enforcing zero radius */
+        }
+
+        input:focus, select:focus {
+            border-color: var(--c-secondary);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .btn-primary {
+            background-color: var(--c-primary);
+            color: var(--c-secondary);
+            border: 2px solid var(--c-secondary);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #600000;
+            border-color: #FCEEA7;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--c-tertiary);
+            border: 2px solid var(--c-tertiary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--c-tertiary);
+            color: var(--c-neutral);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">ARCHITECTURA</div>
+            <div class="nav-links">
+                <a href="#metrics">Ledger</a>
+                <a href="#palette">Pigments</a>
+                <a href="#components">Elements</a>
+                <a href="#contact">Correspondence</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="label">Est. MMXXIV</span>
+                <h1>The Weight of Gold</h1>
+                <div class="subtitle">
+                    A rejection of digital neutrality. We construct interfaces that demand attention through heavy contrast, historical typography, and architectural precision.
+                </div>
+                <div class="cta-group">
+                    <a href="#components" class="btn btn-primary">View Elements</a>
+                    <a href="#contact" class="btn btn-secondary">Commission Work</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="metrics" class="section-padding dashboard-section">
+        <div class="container">
+            <h2>Production Ledger</h2>
+            
+            <div class="grid-3">
+                <div class="metric-card">
+                    <span class="label">Total Yield</span>
+                    <span class="metric-value">842</span>
+                    <p>Units refined in the Western Workshop this quarter.</p>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Gold Reserve</span>
+                    <span class="metric-value">12kg</span>
+                    <p>Available for leafing and gilding operations.</p>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Active Commissions</span>
+                    <span class="metric-value">14</span>
+                    <p>Projects currently in the drafting phase.</p>
+                </div>
+            </div>
+
+            <div class="data-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Client</th>
+                            <th>Specification</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#8821-A</td>
+                            <td>House of Medici</td>
+                            <td>Gilded Paneling (Olive Hall)</td>
+                            <td>Complete</td>
+                        </tr>
+                        <tr>
+                            <td>#8822-C</td>
+                            <td>Duke of Bourbon</td>
+                            <td>Velvet Drape (Crimson)</td>
+                            <td>Processing</td>
+                        </tr>
+                        <tr>
+                            <td>#8824-F</td>
+                            <td>Cardinal Richelieu</td>
+                            <td>Marble Fountain (Black)</td>
+                            <td>On Hold</td>
+                        </tr>
+                        <tr>
+                            <td>#8829-B</td>
+                            <td>Empress Maria</td>
+                            <td>Crystal Chandelier</td>
+                            <td>Shipping</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section id="palette" class="section-padding">
+        <div class="container">
+            <h2>Pigment & Material</h2>
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: #8B0000;">
+                    <span style="color: #8B0000;">#8B0000</span>
+                </div>
+                <div class="swatch" style="background-color: #D4AF37;">
+                    <span style="color: #D4AF37;">#D4AF37</span>
+                </div>
+                <div class="swatch" style="background-color: #2F4F4F;">
+                    <span style="color: #2F4F4F;">#2F4F4F</span>
+                </div>
+                <div class="swatch" style="background-color: #F5F5DC;">
+                    <span style="color: #F5F5DC;">#F5F5DC</span>
+                </div>
+                <div class="swatch" style="background-color: #4A4A4A;">
+                    <span style="color: #4A4A4A;">#4A4A4A</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COMPONENTS -->
+    <section id="components" class="section-padding" style="background-color: #EFEFD5; border-top: 1px solid var(--c-muted);">
+        <div class="container">
+            <h2>Elementary Forms</h2>
+            <div class="grid-2">
+                <div class="component-card">
+                    <h3>The Ornamental Card</h3>
+                    <p>Standard content blocks are framed with double borders and hard shadows to simulate physical weight. Corners are sharp, reflecting the rectilinear base of the style.</p>
+                    <br>
+                    <div style="border: 1px solid var(--c-secondary); padding: 10px; display: inline-block;">
+                        Inner Frame Detail
+                    </div>
+                </div>
+                <

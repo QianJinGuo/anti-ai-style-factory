@@ -5,11 +5,14 @@ Anti-AI Style Factory — Pipeline Runner
 Main entry point. Reads seeds from catalog, generates styles via LLM,
 scores with 8-dim rubric, iterates until passing, saves output.
 
+Supports concurrent generation with --workers (XFYUN: 100路/300 QPS).
+
 Usage:
   python3 -m src.pipeline.run                    # Generate all pending seeds
   python3 -m src.pipeline.run --seed bauhaus-1919  # Generate one seed
   python3 -m src.pipeline.run --tier 1            # Generate all Tier 1 seeds
-  python3 -m src.pipeline.run --batch 3           # Generate next 3 pending seeds
+  python3 -m src.pipeline.run --batch 5           # Generate next 5 pending seeds
+  python3 -m src.pipeline.run --workers 5         # 5 concurrent workers
   python3 -m src.pipeline.run --dry-run           # Show what would be generated
   python3 -m src.pipeline.run --status            # Show generation status
 """
@@ -19,6 +22,7 @@ import json
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 
@@ -43,12 +47,10 @@ def parse_seeds(catalog_path: Path) -> list:
     current_tier = 1
 
     for line in text.splitlines():
-        # Detect tier from heading: "## Tier N: ..."
         m = re.match(r"^##\s+Tier\s+(\d+)", line)
         if m:
             current_tier = int(m.group(1))
             continue
-        # Parse table rows
         m = re.match(
             r"\|\s*`(\S+)`\s*\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|\s*([^|]*)\|",
             line,
@@ -96,8 +98,30 @@ def cmd_status(config: dict, seeds: list):
     print(f"\n  Total: {len(seeds)} | ✅ {validated} validated | 🔧 {scaffolded} attempted | ⬜ {pending} pending")
 
 
+def _generate_one(client, config, seed, styles_dir, index, total):
+    """Generate a single style, for use in thread pool."""
+    print(f"\n{'='*60}")
+    print(f"[{index}/{total}] {seed['id']} — {seed['name']} (worker starting)")
+    print(f"{'='*60}")
+
+    start = time.time()
+    result = generate_style(client, config, seed)
+    elapsed = time.time() - start
+    result["elapsed_seconds"] = round(elapsed, 1)
+
+    if result["status"] == "validated":
+        style_dir = save_result(result, styles_dir)
+        print(f"  ✅ [{seed['id']}] PASSED {result['scores']['total']}/16 — saved to {style_dir}")
+    else:
+        save_result(result, styles_dir)
+        print(f"  ❌ [{seed['id']}] FAILED after {result['iterations']} attempts")
+
+    print(f"  ⏱  {elapsed:.1f}s")
+    return result
+
+
 def cmd_run(config: dict, seeds: list, args):
-    """Run the generation pipeline."""
+    """Run the generation pipeline (concurrent)."""
     styles_dir = PROJECT_ROOT / config["pipeline"]["output_dir"]
     log_dir = PROJECT_ROOT / config["pipeline"]["log_dir"]
     styles_dir.mkdir(parents=True, exist_ok=True)
@@ -127,53 +151,78 @@ def cmd_run(config: dict, seeds: list, args):
     if args.batch and args.batch > 0:
         pending = pending[:args.batch]
 
-    print(f"Pipeline: {len(pending)} seeds to generate ({len(target_seeds) - len(pending)} already done)")
+    workers = args.workers or 1
+    total = len(pending)
+
+    print(f"Pipeline: {total} seeds to generate | {workers} worker(s)")
     if args.dry_run:
         for s in pending:
             print(f"  Would generate: {s['id']} ({s['name']})")
         return
 
-    # Create LLM client
+    # Create LLM client (thread-safe: OpenAI client uses connection pool)
     client = get_client(config)
 
     # Run pipeline
     run_log = {
         "started": datetime.now().isoformat(),
-        "config": {k: v for k, v in config.items() if k != "llm"},  # don't log secrets
+        "config": {k: v for k, v in config.items() if k != "llm"},
         "results": [],
     }
 
     passed = failed = 0
-    for i, seed in enumerate(pending, 1):
-        print(f"\n{'='*60}")
-        print(f"[{i}/{len(pending)}] {seed['id']} — {seed['name']}")
-        print(f"{'='*60}")
 
-        start = time.time()
-        result = generate_style(client, config, seed)
-        elapsed = time.time() - start
+    if workers <= 1:
+        # Sequential mode
+        for i, seed in enumerate(pending, 1):
+            result = _generate_one(client, config, seed, styles_dir, i, total)
+            run_log["results"].append(result)
+            if result["status"] == "validated":
+                passed += 1
+            else:
+                failed += 1
+    else:
+        # Concurrent mode — each worker gets its own OpenAI client
+        # (connection pooling works better per-thread)
+        print(f"Launching {workers} concurrent workers...")
 
-        result["elapsed_seconds"] = round(elapsed, 1)
-        run_log["results"].append(result)
+        def _thread_job(seed_info):
+            idx, seed = seed_info
+            thread_client = get_client(config)
+            result = _generate_one(thread_client, config, seed, styles_dir, idx, total)
+            return result
 
-        if result["status"] == "validated":
-            style_dir = save_result(result, styles_dir)
-            print(f"  Saved to: {style_dir}")
-            passed += 1
-        else:
-            save_result(result, styles_dir)
-            failed += 1
-
-        print(f"  Time: {elapsed:.1f}s | Status: {result['status']}")
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(_thread_job, (i, s)): s
+                for i, s in enumerate(pending, 1)
+            }
+            for future in as_completed(futures):
+                seed = futures[future]
+                try:
+                    result = future.result()
+                    run_log["results"].append(result)
+                    if result["status"] == "validated":
+                        passed += 1
+                    else:
+                        failed += 1
+                except Exception as e:
+                    print(f"  💥 [{seed['id']}] Worker crashed: {e}")
+                    run_log["results"].append({
+                        "seed_id": seed["id"],
+                        "status": "crashed",
+                        "error": str(e),
+                    })
+                    failed += 1
 
     # Save run log
     run_log["completed"] = datetime.now().isoformat()
-    run_log["summary"] = {"passed": passed, "failed": failed, "total": len(pending)}
+    run_log["summary"] = {"passed": passed, "failed": failed, "total": total, "workers": workers}
     log_path = log_dir / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     log_path.write_text(json.dumps(run_log, indent=2, ensure_ascii=False))
 
     print(f"\n{'='*60}")
-    print(f"Pipeline complete: ✅ {passed} passed | ❌ {failed} failed | Log: {log_path}")
+    print(f"Pipeline complete: ✅ {passed} passed | ❌ {failed} failed | Workers: {workers} | Log: {log_path}")
 
 
 def load_config() -> dict:
@@ -199,6 +248,7 @@ def main():
     parser.add_argument("--seed", help="Generate a specific seed")
     parser.add_argument("--tier", type=int, help="Generate all seeds in a tier (1-6)")
     parser.add_argument("--batch", type=int, default=0, help="Generate next N pending seeds")
+    parser.add_argument("--workers", type=int, default=1, help="Concurrent workers (XFYUN: up to 10 recommended)")
     parser.add_argument("--force", action="store_true", help="Regenerate even if already validated")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be generated")
     parser.add_argument("--status", action="store_true", help="Show generation status")

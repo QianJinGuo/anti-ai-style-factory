@@ -1,0 +1,480 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mid-Century Modern Design Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clarendon:wght@700&family=Courier+Prime:wght@700&family=Georgia&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Colors */
+            --c-primary: #E3B448;   /* Mustard Yellow */
+            --c-secondary: #556B2F; /* Olive Green */
+            --c-tertiary: #CC5500;  /* Burnt Orange */
+            --c-neutral-bg: #FDFBF7; /* Warm White */
+            --c-neutral-text: #333333; /* Charcoal */
+            --c-muted: #B8A99A;     /* Taupe */
+            
+            /* Typography */
+            --f-head: 'Clarendon', 'Courier New', monospace;
+            --f-body: 'Georgia', 'Times New Roman', serif;
+            --f-meta: 'Courier New', monospace;
+            
+            /* Spacing */
+            --s-sm: 8px;
+            --s-md: 16px;
+            --s-lg: 24px;
+            --s-xl: 48px;
+            
+            /* Shapes */
+            --r-none: 0px;
+            --r-sm: 2px;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-neutral-bg);
+            color: var(--c-neutral-text);
+            font-family: var(--f-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Utilities */
+        h1, h2, h3 {
+            font-family: var(--f-head);
+            font-weight: 700;
+            color: var(--c-neutral-text);
+        }
+
+        h1 { font-size: 48px; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: var(--s-md); }
+        h2 { font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: var(--s-md); }
+        h3 { font-size: 24px; line-height: 1.3; letter-spacing: 0em; margin-bottom: var(--s-sm); }
+        
+        .meta-text {
+            font-family: var(--f-meta);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--c-muted);
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--s-lg);
+        }
+
+        .section {
+            padding: var(--s-xl) 0;
+            border-bottom: 1px solid var(--c-muted);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        /* Components: Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--c-primary);
+            color: var(--c-neutral-text);
+            border: 1px solid var(--c-neutral-text);
+            border-radius: var(--r-sm);
+            padding: 10px 20px;
+            font-family: var(--f-meta);
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #d4a539;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--c-neutral-text);
+            border: 1px solid var(--c-muted);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--c-neutral-text);
+        }
+
+        /* 1. NAV */
+        nav {
+            border-bottom: 2px solid var(--c-neutral-text);
+            padding: var(--s-md) 0;
+        }
+        
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--f-head);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links a {
+            font-family: var(--f-meta);
+            text-decoration: none;
+            color: var(--c-neutral-text);
+            margin-left: var(--s-lg);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        /* 2. HERO */
+        .hero-content {
+            max-width: 800px;
+            margin-bottom: var(--s-xl);
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            margin-bottom: var(--s-lg);
+            max-width: 600px;
+        }
+
+        /* 3. DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--s-lg);
+            margin-bottom: var(--s-xl);
+        }
+
+        .metric-card {
+            border: 1px solid var(--c-muted);
+            padding: var(--s-lg);
+        }
+
+        .metric-value {
+            font-family: var(--f-head);
+            font-size: 36px;
+            color: var(--c-secondary);
+            margin-top: var(--s-sm);
+        }
+
+        /* Table Styles */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--c-muted);
+        }
+
+        th {
+            background-color: #F2EFE9;
+            font-family: var(--f-meta);
+            font-size: 13px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--c-muted);
+            color: var(--c-neutral-text);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--c-muted);
+            font-family: var(--f-body);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 4. PALETTE */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--s-md);
+        }
+
+        .swatch {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-sm);
+        }
+
+        .swatch-color {
+            height: 80px;
+            border: 1px solid var(--c-muted);
+        }
+
+        .swatch-info {
+            font-family: var(--f-meta);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* 5. COMPONENTS */
+        .components-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--s-xl);
+        }
+
+        .card {
+            background: var(--c-neutral-bg);
+            border: 1px solid var(--c-muted);
+            padding: var(--s-lg);
+            height: 100%;
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--c-muted);
+            padding-bottom: var(--s-md);
+            margin-bottom: var(--s-md);
+        }
+
+        /* 6. FORM */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--s-lg);
+            max-width: 800px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-sm);
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-family: var(--f-meta);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid var(--c-muted);
+            border-radius: var(--r-sm);
+            font-family: var(--f-body);
+            font-size: 16px;
+            background: transparent;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--c-neutral-text);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="nav-logo">MCM ARCHIVE</div>
+            <div class="nav-links">
+                <a href="#">Production</a>
+                <a href="#">Materials</a>
+                <a href="#">Archive</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="section">
+        <div class="container">
+            <div class="hero-content">
+                <span class="meta-text">Est. 1958 — Production Log 004</span>
+                <h1>Functionalism in Post-War Design</h1>
+                <p class="hero-subtitle">
+                    A retrospective on the integration of organic geometry and industrial materials. 
+                    Documenting the shift from ornamental excess to utilitarian clarity.
+                </p>
+                <div style="margin-top: var(--s-lg);">
+                    <a href="#" class="btn">View Archives</a>
+                    <a href="#" class="btn btn-secondary">Download Manifesto</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section class="section">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--s-lg);">
+                <h2>Production Metrics</h2>
+                <span class="meta-text">Fiscal Quarter 3</span>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <span class="meta-text">Unit Output</span>
+                    <div class="metric-value">1,240</div>
+                </div>
+                <div class="metric-card">
+                    <span class="meta-text">Material Waste</span>
+                    <div class="metric-value">4.2%</div>
+                </div>
+                <div class="metric-card">
+                    <span class="meta-text">Labor Efficiency</span>
+                    <div class="metric-value">98.5%</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project ID</th>
+                            <th>Description</th>
+                            <th>Material</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#88-A</td>
+                            <td>Eames Molded Ply Chair</td>
+                            <td>Birch Wood / Veneer</td>
+                            <td>In Progress</td>
+                        </tr>
+                        <tr>
+                            <td>#92-B</td>
+                            <td>Womb Lounge Prototype</td>
+                            <td>Steel / Leather</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>#04-C</td>
+                            <td>Diamond Side Table</td>
+                            <td>Steel / Glass</td>
+                            <td>Shipped</td>
+                        </tr>
+                        <tr>
+                            <td>#11-D</td>
+                            <td>Hans Wegner Wishbone</td>
+                            <td>Oak / Paper Cord</td>
+                            <td>On Hold</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section class="section">
+        <div class="container">
+            <h2 style="margin-bottom: var(--s-lg);">Chromatic Specifications</h2>
+            <div class="palette-grid">
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #E3B448;"></div>
+                    <div class="swatch-info">Mustard<br>#E3B448</div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #556B2F;"></div>
+                    <div class="swatch-info">Olive<br>#556B2F</div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #CC5500;"></div>
+                    <div class="swatch-info">Burnt Orange<br>#CC5500</div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #FDFBF7;"></div>
+                    <div class="swatch-info">Warm White<br>#FDFBF7</div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #333333;"></div>
+                    <div class="swatch-info">Charcoal<br>#333333</div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #B8A99A;"></div>
+                    <div class="swatch-info">Taupe<br>#B8A99A</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COMPONENTS -->
+    <section class="section">
+        <div class="container">
+            <h2 style="margin-bottom: var(--s-lg);">Component Library</h2>
+            <div class="components-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Material Analysis</h3>
+                        <span class="meta-text">Section 01.04</span>
+                    </div>
+                    <p style="margin-bottom: var(--s-md);">
+                        The integration of teak wood with fiberglass molding represents the peak of 1960s manufacturing capabilities. The grain structure provides organic contrast to the synthetic shell.
+                    </p>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn">View Spec</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card" style="background-color: #F2EFE9;">
+                    <div class="card-header">
+                        <h3>Structural Integrity</h3>
+                        <span class="meta-text">Section 02.01</span>
+                    </div>
+                    <p style="margin-bottom: var(--s-md);">
+                        Load-bearing calculations for the cantilevered steel frame. The welding points must withstand a minimum of 400lbs of dynamic force without deformation.
+                    </p>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary">Read Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FORM -->
+    <section class="section">
+        <div class="container">
+            <h2 style="margin-bottom: var(--s-lg);">Commission Inquiry</h2>
+            <form class="form-grid">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="e.g. Charles Eames">
+                </div>
+                <div class="form-group">
+                    <label for="email">Correspondence Email</label>
+                    <input type="email" id="email" placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="project-type">

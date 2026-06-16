@@ -1,0 +1,476 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bauhaus Dessau System Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN TOKENS */
+        :root {
+            --color-primary: #D22B2B; /* Bauhaus Red */
+            --color-secondary: #0055A4; /* Industrial Blue */
+            --color-tertiary: #F4C430; /* Prismatic Yellow */
+            --color-neutral: #F5F5F0; /* Unbleached Canvas */
+            --color-muted: #8C8C8C; /* Concrete Grey */
+            --color-dark: #1A1A1A; /* Ink Black */
+            --color-white: #FFFFFF;
+
+            --font-family-sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 32px;
+            --spacing-xl: 64px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--color-neutral);
+            color: var(--color-dark);
+            line-height: 1.6;
+            font-weight: 300; /* Univers 45 Light equivalent */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* TYPOGRAPHY SYSTEM */
+        h1 {
+            font-family: var(--font-family-sans);
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-md);
+        }
+
+        h2 {
+            font-family: var(--font-family-sans);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h3 {
+            font-family: var(--font-family-sans);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: 0em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .caption {
+            font-family: var(--font-family-sans);
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-dark);
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--spacing-lg);
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid var(--color-dark);
+        }
+
+        .border-top {
+            border-top: 1px solid var(--color-dark);
+        }
+
+        /* COMPONENT: BUTTON */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+            border: 1px solid var(--color-dark);
+            border-radius: 0px;
+            padding: 12px 24px;
+            font-family: var(--font-family-sans);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0s, color 0s;
+        }
+
+        .btn:hover {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-white);
+            color: var(--color-dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+        }
+
+        /* COMPONENT: CARD */
+        .card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-dark);
+            border-radius: 0px;
+            box-shadow: none;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-family: var(--font-family-sans);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+        }
+
+        .card-body {
+            padding: var(--spacing-md);
+            flex-grow: 1;
+        }
+
+        /* SECTION 1: NAV */
+        nav {
+            background-color: var(--color-white);
+            border-bottom: 1px solid var(--color-dark);
+            padding: var(--spacing-md) 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 24px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .logo span { color: var(--color-primary); }
+
+        .nav-links a {
+            color: var(--color-dark);
+            text-decoration: none;
+            margin-left: var(--spacing-lg);
+            font-family: var(--font-family-sans);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* SECTION 2: HERO */
+        .hero {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--color-neutral);
+            border-bottom: 1px solid var(--color-dark);
+        }
+
+        .hero-content {
+            grid-column: span 8;
+        }
+
+        .hero-visual {
+            grid-column: span 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-dark);
+            background-color: var(--color-white);
+            height: 300px;
+        }
+
+        /* Geometric Abstract Visual */
+        .geo-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            border: 2px solid var(--color-dark);
+        }
+        .geo-rect {
+            width: 100px;
+            height: 200px;
+            background-color: var(--color-secondary);
+            border: 2px solid var(--color-dark);
+            margin-left: -40px;
+            z-index: 2;
+        }
+        .geo-tri {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid var(--color-tertiary);
+            border-top: 60px solid transparent;
+            margin-top: -180px;
+            margin-left: 180px;
+            z-index: 3;
+            filter: drop-shadow(4px 4px 0px var(--color-dark));
+        }
+
+        /* SECTION 3: DASHBOARD */
+        .dashboard {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--color-neutral);
+        }
+
+        .metric-card {
+            grid-column: span 4;
+        }
+
+        .metric-value {
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+            margin-top: var(--spacing-sm);
+            color: var(--color-dark);
+        }
+
+        .metric-value.red { color: var(--color-primary); }
+        .metric-value.blue { color: var(--color-secondary); }
+        .metric-value.yellow { color: var(--color-tertiary); }
+
+        .data-table-container {
+            grid-column: span 12;
+            margin-top: var(--spacing-lg);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--color-dark);
+            background-color: var(--color-white);
+        }
+
+        th {
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+            font-family: var(--font-family-sans);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            text-align: left;
+            border-right: 1px solid var(--color-dark);
+        }
+
+        th:last-child { border-right: none; }
+
+        td {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-bottom: 1px solid var(--color-dark);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td {
+            background-color: var(--color-neutral);
+        }
+
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+        /* SECTION 4: PALETTE */
+        .palette-section {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--color-white);
+            border-top: 1px solid var(--color-dark);
+        }
+
+        .color-swatch {
+            grid-column: span 2;
+            height: 200px;
+            border: 1px solid var(--color-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-md);
+            position: relative;
+        }
+
+        .swatch-label {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        .swatch-hex {
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 4px;
+            z-index: 2;
+        }
+
+        /* SECTION 5: COMPONENTS */
+        .components-section {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--color-neutral);
+        }
+
+        .comp-card {
+            grid-column: span 4;
+        }
+
+        .stat-list {
+            list-style: none;
+        }
+        .stat-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--color-muted);
+            font-size: 14px;
+        }
+        .stat-list li:last-child { border-bottom: none; }
+
+        /* SECTION 6: FORM */
+        .form-section {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--color-white);
+            border-top: 1px solid var(--color-dark);
+        }
+
+        .form-grid {
+            grid-column: span 6;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-family-sans);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            font-family: var(--font-family-sans);
+            font-size: 16px;
+            background-color: transparent;
+            border: 1px solid var(--color-muted);
+            border-radius: 0px;
+            color: var(--color-dark);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background-color: var(--color-white);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231A1A1A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--color-dark);
+            color: var(--color-neutral);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-muted);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">BAUHAUS <span>DESSAU</span></div>
+            <div class="nav-links">
+                <a href="#">Manifesto</a>
+                <a href="#">Workshops</a>
+                <a href="#">System</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container grid-12">
+            <div class="hero-content">
+                <h1>FORM FOLLOWS FUNCTION</h1>
+                <p class="caption">System Reference v1.0.0</p>
+                <p style="margin-top: var(--spacing-md); max-width: 600px;">
+                    A rigorous system of industrial geometry. We strip away ornament to reveal the truth of material and structure. This is not decoration; it is architecture for the screen.
+                </p>
+                <div style="margin-top: var(--spacing-lg);">
+                    <a href="#" class="btn">Initialize System</a>
+                    <a href="#" class="btn btn-secondary" style="margin-left: var(--spacing-sm);">View Documentation</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="geo-circle"></div>
+                <div class="geo-rect"></div>
+                <div class="

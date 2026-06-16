@@ -1,0 +1,495 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON SIGNAGE // SYSTEM REFERENCE</title>
+    
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        /* 
+         * NEON SIGNAGE DESIGN SYSTEM
+         * V 1.0.0
+         * Philosophy: Darkness as Canvas, Light as Ink
+         */
+
+        :root {
+            /* COLORS */
+            --color-primary: #FF00FF;    /* Magenta Tube */
+            --color-secondary: #00FFFF;  /* Cyan Tube */
+            --color-tertiary: #FFD700;   /* Amber Tube */
+            --color-neutral: #1A1A1A;    /* Dark Concrete */
+            --color-muted: #4A4A4A;      /* Dimmed Glass */
+            --color-text: #E0E0E0;       /* High contrast white/grey */
+
+            /* TYPOGRAPHY */
+            --font-display: 'Pacifico', 'Dancing Script', cursive;
+            --font-body: 'Courier Prime', 'IBM Plex Mono', monospace;
+
+            /* SPACING & SIZING */
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 48px;
+            
+            --rounded-sm: 2px;
+            --rounded-md: 4px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 100px;
+        }
+
+        /* TYPOGRAPHY UTILS */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--color-text);
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-md);
+        }
+
+        h2 {
+            font-size: 32px;
+            letter-spacing: -0.01em;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-secondary);
+        }
+
+        h3 {
+            font-size: 24px;
+            letter-spacing: 0;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .caption {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-tertiary);
+        }
+
+        /* NEON GLOW EFFECTS */
+        .neon-text-primary {
+            color: var(--color-primary);
+            text-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary);
+        }
+
+        .neon-text-secondary {
+            color: var(--color-secondary);
+            text-shadow: 0 0 5px var(--color-secondary), 0 0 10px var(--color-secondary);
+        }
+
+        .neon-text-tertiary {
+            color: var(--color-tertiary);
+            text-shadow: 0 0 5px var(--color-tertiary), 0 0 10px var(--color-tertiary);
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* 
+         * COMPONENT: BUTTON
+         * Transparent background, glowing border tube
+         */
+        .btn {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--rounded-sm);
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 8px var(--color-primary), inset 0 0 4px var(--color-primary);
+        }
+
+        .btn:hover {
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 15px var(--color-primary), inset 0 0 8px var(--color-primary);
+            text-shadow: 0 0 5px var(--color-primary);
+        }
+
+        .btn-secondary {
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+            box-shadow: 0 0 8px var(--color-secondary), inset 0 0 4px var(--color-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px var(--color-secondary), inset 0 0 8px var(--color-secondary);
+            text-shadow: 0 0 5px var(--color-secondary);
+        }
+
+        /* 
+         * COMPONENT: CARD
+         * Dark concrete block, muted borders
+         */
+        .card {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-muted);
+            border-radius: var(--rounded-md);
+            padding: var(--spacing-lg);
+            position: relative;
+        }
+
+        /* 
+         * SECTION: NAV 
+         */
+        nav {
+            border-bottom: 2px solid var(--color-muted);
+            padding: var(--spacing-md) 0;
+            margin-bottom: var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--color-primary);
+            text-shadow: 0 0 8px var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+
+        .nav-links a {
+            color: var(--color-muted);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-secondary);
+            text-shadow: 0 0 4px var(--color-secondary);
+        }
+
+        /* 
+         * SECTION: HERO 
+         */
+        .hero {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 1px dashed var(--color-muted);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--color-tertiary);
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 0 0 4px var(--color-tertiary);
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+        }
+
+        /* 
+         * SECTION: DASHBOARD 
+         */
+        .metric-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--color-secondary);
+            font-family: var(--font-display);
+            text-shadow: 0 0 10px var(--color-secondary);
+        }
+
+        .metric-label {
+            color: var(--color-muted);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--color-muted);
+            background: var(--color-neutral);
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-muted);
+            color: var(--color-muted);
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .data-table td {
+            padding: var(--spacing-sm);
+            border-bottom: 1px solid #2A2A2A;
+            color: var(--color-secondary);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-active {
+            color: var(--color-primary);
+            text-shadow: 0 0 3px var(--color-primary);
+        }
+
+        /* 
+         * SECTION: PALETTE 
+         */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .swatch {
+            height: 100px;
+            border: 1px solid var(--color-muted);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-sm);
+            position: relative;
+        }
+
+        .swatch-label {
+            font-size: 12px;
+            background: rgba(0,0,0,0.8);
+            padding: 2px 4px;
+            color: #fff;
+            z-index: 2;
+        }
+
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .bg-tertiary { background-color: var(--color-tertiary); }
+        .bg-neutral { background-color: var(--color-neutral); border: 1px solid var(--color-muted); }
+        .bg-muted { background-color: var(--color-muted); }
+
+        /* 
+         * SECTION: COMPONENTS 
+         */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .wireframe-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            margin-bottom: var(--spacing-sm);
+            display: inline-block;
+            box-shadow: 0 0 5px var(--color-primary);
+        }
+
+        /* 
+         * SECTION: FORM 
+         */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-tertiary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--color-muted);
+            border-radius: var(--rounded-sm);
+            color: var(--color-text);
+            padding: var(--spacing-sm);
+            font-family: var(--font-body);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary), inset 0 0 4px var(--color-primary);
+        }
+
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: var(--spacing-xl);
+            border-top: 1px solid var(--color-muted);
+            padding-top: var(--spacing-lg);
+            text-align: center;
+            color: var(--color-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- 1. NAV -->
+        <nav>
+            <div class="nav-logo">NEON.SYS</div>
+            <div class="nav-links">
+                <a href="#dashboard">Metrics</a>
+                <a href="#components">Components</a>
+                <a href="#palette">Palette</a>
+                <a href="#settings">Settings</a>
+            </div>
+        </nav>
+
+        <!-- 2. HERO -->
+        <header class="hero">
+            <div class="caption">System Reference v1.0.0</div>
+            <h1 class="neon-text-primary">Glowing Infrastructure</h1>
+            <p class="hero-subtitle">High-contrast visual system for low-light environments.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn">Initialize System</a>
+                <a href="#" class="btn btn-secondary">View Specs</a>
+            </div>
+        </header>
+
+        <!-- 3. DASHBOARD -->
+        <section id="dashboard">
+            <div class="grid-3">
+                <div class="card">
+                    <div class="metric-value">98.4%</div>
+                    <div class="metric-label">Tube Efficiency</div>
+                </div>
+                <div class="card">
+                    <div class="metric-value">24ms</div>
+                    <div class="metric-label">Response Time</div>
+                </div>
+                <div class="card">
+                    <div class="metric-value" style="color: var(--color-tertiary); text-shadow: 0 0 10px var(--color-tertiary);">12</div>
+                    <div class="metric-label">Active Nodes</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Production Output Log</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Unit ID</th>
+                            <th>Tube Color</th>
+                            <th>Status</th>
+                            <th>Draw (mA)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#A-101</td>
+                            <td>MAGENTA</td>
+                            <td class="status-active">ONLINE</td>
+                            <td>45</td>
+                        </tr>
+                        <tr>
+                            <td>#A-102</td>
+                            <td>AMBER</td>
+                            <td class="status-active">ONLINE</td>
+                            <td>38</td>
+                        </tr>
+                        <tr>
+                            <td>#B-204</td>
+                            <td>CYAN</td>
+                            <td>STANDBY</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>#B-205</td>
+                            <td>MAGENTA</td>
+                            <td>OFFLINE</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section id="palette" style="margin-top: 48px;">
+            <h2>Gas Emission Spectrum</h2>

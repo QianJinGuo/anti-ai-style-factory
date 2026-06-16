@@ -1,0 +1,523 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONSTRUCT: Industrial Production Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* DESIGN TOKENS */
+            --c-red: #D32F2F;
+            --c-black: #1A1A1A;
+            --c-paper: #F5F5F0;
+            --c-slate: #424242;
+            --c-muted: #9E9E9E;
+            --c-white: #FFFFFF;
+            
+            --font-display: 'Oswald', 'Impact', sans-serif;
+            --font-body: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+            
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+            
+            --radius-none: 0px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-paper);
+            color: var(--c-black);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            border-top: 10px solid var(--c-black);
+        }
+
+        /* TYPOGRAPHY SYSTEM */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            color: var(--c-black);
+        }
+
+        h1 {
+            font-size: 64px; /* Scaled up for hero impact */
+            line-height: 0.9;
+            letter-spacing: -2px;
+            margin-bottom: var(--space-md);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 36px;
+            line-height: 1.0;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--space-sm);
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            line-height: 1.1;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .caption {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--c-black);
+        }
+
+        .body-md {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--c-slate);
+            max-width: 60ch;
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .section-spacer {
+            padding: var(--space-xl) 0;
+            border-top: 1px solid var(--c-slate);
+        }
+
+        /* NAVIGATION */
+        nav {
+            background-color: var(--c-black);
+            color: var(--c-paper);
+            padding: var(--space-md) 0;
+            border-bottom: 4px solid var(--c-red);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links a {
+            color: var(--c-paper);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: var(--c-red);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: var(--space-xl) 0;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 100px;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background-color: var(--c-red);
+            z-index: 0;
+            transform: skewX(-10deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            background-color: var(--c-red);
+            color: var(--c-white);
+            display: inline-block;
+            padding: var(--space-sm) var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-actions {
+            margin-top: var(--space-lg);
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--c-red);
+            color: var(--c-black);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--c-black);
+            color: var(--c-red);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--c-black);
+            border: 2px solid var(--c-black);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--c-black);
+            color: var(--c-paper);
+        }
+
+        /* DASHBOARD METRICS */
+        .metric-card {
+            border: 1px solid var(--c-slate);
+            padding: var(--space-lg);
+            position: relative;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--c-red);
+        }
+
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            margin: var(--space-sm) 0;
+            color: var(--c-black);
+        }
+
+        /* TABLE */
+        .table-container {
+            margin-top: var(--space-lg);
+            border: 1px solid var(--c-black);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--c-white);
+        }
+
+        th {
+            background-color: var(--c-black);
+            color: var(--c-paper);
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: var(--space-md);
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--c-slate);
+            color: var(--c-slate);
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        /* PALETTE SECTION */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-md);
+        }
+
+        .swatch {
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+            border: 1px solid var(--c-slate);
+        }
+
+        .swatch span {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+            background-color: var(--c-paper);
+            padding: 4px;
+        }
+
+        /* COMPONENTS */
+        .card {
+            background-color: var(--c-white);
+            border-left: 4px solid var(--c-red);
+            padding: var(--space-lg);
+            height: 100%;
+        }
+
+        .card-img-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: var(--c-slate);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-paper);
+            font-family: var(--font-display);
+            font-size: 24px;
+            /* Geometric pattern simulation */
+            background-image: repeating-linear-gradient(
+                45deg,
+                var(--c-slate),
+                var(--c-slate) 10px,
+                #333 10px,
+                #333 20px
+            );
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: var(--space-sm);
+            font-size: 14px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--c-white);
+            border: 2px solid var(--c-black);
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--c-black);
+            border-radius: 0; /* Explicit 0 */
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--c-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="nav-logo">Proletkult // Data</div>
+            <div class="nav-links">
+                <a href="#">Manifesto</a>
+                <a href="#">Production</a>
+                <a href="#">Logistics</a>
+                <a href="#">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero container">
+        <div class="hero-content">
+            <div class="hero-eyebrow caption">System Status: Optimal</div>
+            <h1>INDUSTRIAL<br>OUTPUT<br>REPORT</h1>
+            <p class="body-md" style="margin-top: 24px;">
+                Visualizing the collective effort of the steel and textile sectors. 
+                Data serves the revolution. Form follows production.
+            </p>
+            <div class="hero-actions">
+                <a href="#" class="btn btn-primary">View Full Ledger</a>
+                <a href="#" class="btn btn-outline">Export Manifest</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section class="section-spacer">
+        <div class="container">
+            <div class="grid-3">
+                <!-- Metric 1 -->
+                <div class="metric-card">
+                    <div class="caption">Steel Yield</div>
+                    <div class="metric-value">84.2%</div>
+                    <div class="body-md">+4.2% vs previous cycle. Target met.</div>
+                </div>
+                <!-- Metric 2 -->
+                <div class="metric-card">
+                    <div class="caption">Textile Units</div>
+                    <div class="metric-value">12,400</div>
+                    <div class="body-md">Daily output exceeding projection by 15%.</div>
+                </div>
+                <!-- Metric 3 -->
+                <div class="metric-card">
+                    <div class="caption">Labor Hours</div>
+                    <div class="metric-value">3,200h</div>
+                    <div class="body-md">Efficiency rating: High. Fatigue: Low.</div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Sector</th>
+                            <th style="width: 20%;">Allocation</th>
+                            <th style="width: 20%;">Status</th>
+                            <th style="width: 20%;">Efficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Heavy Machinery</td>
+                            <td>400 Tons</td>
+                            <td style="color: var(--c-red); font-weight: bold;">CRITICAL</td>
+                            <td>98%</td>
+                        </tr>
+                        <tr>
+                            <td>Textile Weaving</td>
+                            <td>1200 Rolls</td>
+                            <td>STABLE</td>
+                            <td>94%</td>
+                        </tr>
+                        <tr>
+                            <td>Construction</td>
+                            <td>5000 Bricks</td>
+                            <td>STABLE</td>
+                            <td>88%</td>
+                        </tr>
+                        <tr>
+                            <td>Energy Grid</td>
+                            <td>80 MW</td>
+                            <td style="color: var(--c-red); font-weight: bold;">WARNING</td>
+                            <td>76%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PALETTE -->
+    <section class="section-spacer" style="background-color: var(--c-white);">
+        <div class="container">
+            <h2 style="margin-bottom: var(--space-lg);">VISUAL PROTOCOL</h2>
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: var(--c-red);">
+                    <span style="color: var(--c-white);">RED</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-black);">
+                    <span>BLACK</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-paper);">
+                    <span>PAPER</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-slate);">
+                    <span>SLATE</span>
+                </div>
+                <div class="swatch" style="background-color: var(--c-muted);">
+                    <span>INK</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPONENTS -->
+    <section class="section-spacer">
+        <div class="container">
+            <div class="grid-2">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-img-placeholder">
+                        PHOTO-MONTAGE
+                    </div>
+                    <h3>Production Line A</h3>
+                    <p class="body-md">
+                        Analysis of the new assembly mechanism shows a 20% increase in output velocity. The geometric efficiency of the new layout reduces worker movement by 40%.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-img-placeholder" style="background-image: repeating-linear-gradient(
+                        -45deg,
+                        var(--c-black),
+                        var(--c-black) 10px,
+                        #333 10px,
+                        #333 20px
+                    );">
+                        ARCHITECTURE
+                    </div>
+                    <h3>Urban

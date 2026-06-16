@@ -1,0 +1,496 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POP-ART SYSTEM // REFERENCE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Courier+Prime:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * POP-ART DESIGN SYSTEM IMPLEMENTATION
+         * Philosophy: Mass production, high contrast, Ben-Day dots, anti-minimalism.
+         */
+
+        :root {
+            /* Palette Definition */
+            --color-primary: #FF0000;
+            --color-secondary: #0055FF;
+            --color-tertiary: #FFD700;
+            --color-neutral: #FFFFFF;
+            --color-muted: #000000;
+            
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 48px;
+            
+            /* Borders */
+            --border-width: 3px;
+            --border-thin: 2px;
+            
+            /* Typography */
+            --font-head: 'Bangers', 'Impact', sans-serif;
+            --font-body: 'Permanent Marker', cursive; /* Using a Google Font that mimics the marker feel of Comic Sans/Chalkboard but is web-safe via CDN */
+            --font-mono: 'Courier Prime', 'Courier New', monospace;
+        }
+
+        /* 
+         * Ben-Day Dot Pattern Generation
+         * Simulating the offset printing technique of the 1960s.
+         */
+        .pattern-dots {
+            background-image: radial-gradient(var(--color-muted) 15%, transparent 16%);
+            background-size: 8px 8px;
+            background-position: 0 0;
+            opacity: 0.1; /* Subtle texture */
+            pointer-events: none;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-muted);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: var(--space-xl);
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-muted);
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: 64px; /* Scaled up for impact */
+            text-shadow: 3px 3px 0px var(--color-tertiary);
+            -webkit-text-stroke: 2px var(--color-muted);
+            paint-order: stroke fill;
+        }
+
+        h2 {
+            font-size: 48px;
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-size: 32px;
+            margin-bottom: var(--space-sm);
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: var(--space-md);
+            max-width: 65ch;
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-lg);
+        }
+
+        /* SHARED COMPONENT STYLES */
+        .pop-card {
+            background: var(--color-neutral);
+            border: var(--border-width) solid var(--color-muted);
+            box-shadow: 8px 8px 0px var(--color-muted);
+            padding: var(--space-lg);
+            position: relative;
+            transition: transform 0.1s;
+        }
+
+        .pop-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px var(--color-muted);
+        }
+
+        .pop-btn {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-neutral);
+            font-family: var(--font-head);
+            font-size: 24px;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border: var(--border-width) solid var(--color-muted);
+            box-shadow: 6px 6px 0px var(--color-muted);
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: var(--space-md);
+        }
+
+        .pop-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-muted);
+        }
+
+        .pop-btn.secondary {
+            background: var(--color-secondary);
+        }
+
+        .pop-btn.tertiary {
+            background: var(--color-tertiary);
+            color: var(--color-muted);
+        }
+
+        /* --- 1. NAVIGATION --- */
+        header {
+            border-bottom: var(--border-width) solid var(--color-muted);
+            background: var(--color-neutral);
+            padding: var(--space-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 42px;
+            color: var(--color-primary);
+            -webkit-text-stroke: 2px var(--color-muted);
+            text-shadow: 4px 4px 0px var(--color-muted);
+            paint-order: stroke fill;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        nav a {
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+            color: var(--color-muted);
+            border-bottom: 3px solid transparent;
+        }
+
+        nav a:hover {
+            border-bottom: 3px solid var(--color-primary);
+        }
+
+        /* --- 2. HERO SECTION --- */
+        .hero {
+            padding: var(--space-xl) 0;
+            background-color: var(--color-secondary);
+            border-bottom: var(--border-width) solid var(--color-muted);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Halftone overlay for hero */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(var(--color-neutral) 20%, transparent 21%);
+            background-size: 20px 20px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            color: var(--color-tertiary);
+            text-shadow: 5px 5px 0px var(--color-muted);
+            -webkit-text-stroke: 0;
+            margin-bottom: var(--space-md);
+        }
+
+        /* --- 3. DASHBOARD --- */
+        .dashboard {
+            padding: var(--space-xl) 0;
+        }
+
+        .metric-card {
+            grid-column: span 4;
+            background: var(--color-tertiary);
+        }
+        
+        .metric-value {
+            font-family: var(--font-head);
+            font-size: 64px;
+            line-height: 1;
+            margin: var(--space-sm) 0;
+            color: var(--color-muted);
+        }
+
+        .data-table-wrapper {
+            grid-column: span 12;
+            margin-top: var(--space-lg);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: var(--border-width) solid var(--color-muted);
+            background: var(--color-neutral);
+        }
+
+        thead {
+            background: var(--color-secondary);
+            color: var(--color-neutral);
+        }
+
+        th {
+            font-family: var(--font-head);
+            font-size: 24px;
+            text-transform: uppercase;
+            padding: var(--space-md);
+            border-right: var(--border-width) solid var(--color-muted);
+            text-align: left;
+        }
+
+        th:last-child { border-right: none; }
+
+        td {
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            border-right: var(--border-width) solid var(--color-muted);
+            border-bottom: var(--border-width) solid var(--color-muted);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        td:last-child { border-right: none; }
+
+        /* --- 4. PALETTE --- */
+        .palette-section {
+            padding: var(--space-xl) 0;
+            background: var(--color-neutral);
+            border-top: var(--border-width) solid var(--color-muted);
+        }
+
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .swatch {
+            height: 200px;
+            border: var(--border-width) solid var(--color-muted);
+            box-shadow: 6px 6px 0px var(--color-muted);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-md);
+            position: relative;
+        }
+        
+        .swatch-label {
+            background: var(--color-neutral);
+            border: 2px solid var(--color-muted);
+            padding: 4px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* --- 5. COMPONENTS --- */
+        .components-section {
+            padding: var(--space-xl) 0;
+        }
+
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .component-demo {
+            background: #f0f0f0;
+            border: 3px solid var(--color-muted);
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--color-tertiary);
+            border: 2px solid var(--color-muted);
+            padding: 4px 12px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+        }
+
+        /* --- 6. FORM --- */
+        .form-section {
+            padding: var(--space-xl) 0;
+            background: var(--color-primary);
+            border-top: var(--border-width) solid var(--color-muted);
+            position: relative;
+        }
+
+        .form-section::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(var(--color-muted) 15%, transparent 16%);
+            background-size: 12px 12px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .form-container {
+            position: relative;
+            z-index: 2;
+            background: var(--color-neutral);
+            border: var(--border-width) solid var(--color-muted);
+            box-shadow: 10px 10px 0px var(--color-muted);
+            padding: var(--space-xl);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-head);
+            font-size: 24px;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 18px;
+            border: var(--border-width) solid var(--color-muted);
+            background: var(--color-neutral);
+            outline: none;
+            box-shadow: inset 4px 4px 0px #cccccc;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            background: var(--color-tertiary);
+            box-shadow: inset 4px 4px 0px var(--color-muted);
+        }
+
+        .submit-area {
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .grid-12 { grid-template-columns: 1fr; }
+            .metric-card { grid-column: span 1; }
+            .data-table-wrapper { grid-column: span 1; }
+            .comp-grid { grid-template-columns: 1fr; }
+            .swatch-grid { grid-template-columns: 1fr 1fr; }
+            h1 { font-size: 48px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <header>
+        <div class="container nav-inner">
+            <div class="logo">POP-ART // SYS</div>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard">DATA</a></li>
+                    <li><a href="#components">KITS</a></li>
+                    <li><a href="#palette">INK</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="badge">ISSUE #1</span>
+            <h1>MASS MEDIA<br>MANIFESTO</h1>
+            <p style="font-size: 24px; color: var(--color-neutral); -webkit-text-stroke: 1px var(--color-muted); paint-order: stroke fill; text-shadow: 2px 2px 0 var(--color-muted);">
+                Reclaiming the digital space from minimalist tyranny. High contrast. Hard edges. Zero apology.
+            </p>
+            <div style="margin-top: var(--space-lg);">
+                <a href="#components" class="pop-btn">ACQUIRE</a>
+                <a href="#palette" class="pop-btn secondary">VIEW INK</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2>PRODUCTION METRICS</h2>
+            <div class="grid-12">
+                <!-- Metric 1 -->
+                <div class="pop-card metric-card">
+                    <span class="mono">TOTAL OUTPUT</span>
+                    <div class="metric-value">14,205</div>
+                    <span class="mono">UNITS PRINTED</span>
+                </div>
+                <!-- Metric 2 -->
+                <div class="pop-card metric-card" style="background: var(--color-primary); color: white;">
+                    <span class="mono" style="color: white;">ERROR RATE</span>
+                    <div class="metric-value" style="color: var(--color-neutral);">0.0%</div>
+                    <span class="mono" style="color: white;">PERFECT INKING</span>
+                </div>
+                <!-- Metric 3 -->
+                <div class="pop-card metric-card" style="background: var(--color-secondary); color: white;">
+                    <span class="mono" style="color: white;">PRESS SPEED</span>
+                    <div class="metric-value" style="color: var(--color-neutral);">850</div>
+                    <span class="mono" style="color: white;">SHEETS / HOUR</span>
+                </div>
+
+                <!-- Data Table -->
+                <div class="data-table-wrapper">

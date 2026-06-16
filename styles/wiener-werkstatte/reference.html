@@ -1,0 +1,518 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiener Werkstätte Design Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --color-primary: #C5A059;   /* Gold Leaf */
+            --color-secondary: #1A1A1A; /* Lacquer Black */
+            --color-tertiary: #F2F0E9;  /* Raw Linen */
+            --color-neutral: #8C8C8C;   /* Graphite */
+            --color-muted: #E6E4DB;     /* Parchment */
+            
+            /* Typography */
+            --font-heading: 'Bodoni Moda', serif;
+            --font-body: 'Libre Baskerville', serif;
+            
+            /* Spacing */
+            --space-sm: 4px;
+            --space-md: 8px;
+            --space-lg: 16px;
+            --space-xl: 32px;
+            --space-2xl: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-tertiary);
+            color: var(--color-secondary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Utilities */
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--color-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 24px;
+            line-height: 1.3;
+            letter-spacing: 0em;
+        }
+
+        p {
+            margin-bottom: var(--space-lg);
+            max-width: 65ch;
+        }
+
+        .caption {
+            font-family: var(--font-body);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-neutral);
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .grid-section {
+            padding: var(--space-2xl) 0;
+            border-top: 1px solid var(--color-muted);
+        }
+
+        .flex-row {
+            display: flex;
+            gap: var(--space-xl);
+            align-items: flex-start;
+        }
+
+        /* Navigation */
+        nav {
+            padding: var(--space-lg) 0;
+            border-bottom: 1px solid var(--color-secondary);
+            background-color: var(--color-tertiary);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            border-bottom: 1px solid var(--color-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--space-2xl) 0;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-2xl);
+            border-bottom: 1px solid var(--color-secondary);
+        }
+
+        .hero-content {
+            padding-right: var(--space-xl);
+            border-right: 1px solid var(--color-muted);
+        }
+
+        .hero-visual {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: var(--space-md);
+        }
+
+        .geometric-block {
+            width: 100%;
+            height: 200px;
+            background-color: var(--color-secondary);
+            position: relative;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .geometric-block::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--color-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            padding: 12px 24px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-body);
+        }
+
+        .btn:hover {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-tertiary);
+        }
+
+        /* Dashboard / Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .metric-card {
+            border: 1px solid var(--color-secondary);
+            padding: var(--space-lg);
+            background: var(--color-tertiary);
+        }
+
+        .metric-value {
+            font-family: var(--font-heading);
+            font-size: 40px;
+            line-height: 1;
+            margin-bottom: var(--space-sm);
+            color: var(--color-secondary);
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--color-neutral);
+        }
+
+        /* Data Table */
+        .table-container {
+            border: 1px solid var(--color-secondary);
+            width: 100%;
+            background: var(--color-tertiary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        th {
+            text-align: left;
+            padding: var(--space-md) var(--space-lg);
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            font-weight: 400;
+        }
+
+        td {
+            padding: var(--space-md) var(--space-lg);
+            border-bottom: 1px solid var(--color-muted);
+            color: var(--color-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Palette Section */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background-color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
+        }
+
+        .swatch {
+            background-color: var(--color);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-lg);
+        }
+
+        .swatch-label {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+        }
+
+        .swatch-hex {
+            font-family: var(--font-body);
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Components Section */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .card {
+            background-color: var(--color-tertiary);
+            border: 1px solid var(--color-muted);
+            padding: var(--space-xl);
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--color-primary);
+            margin: var(--space-lg) 0;
+        }
+
+        /* Form Section */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+            color: var(--color-secondary);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--color-muted);
+            padding: var(--space-sm) 0;
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-secondary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-bottom-color: var(--color-primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-secondary);
+            color: var(--color-tertiary);
+            padding: var(--space-xl) 0;
+            margin-top: var(--space-2xl);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        @media (max-width: 768px) {
+            .hero, .metrics-grid, .component-grid, .form-grid, .palette-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content {
+                border-right: none;
+                border-bottom: 1px solid var(--color-muted);
+                padding-bottom: var(--space-xl);
+                margin-bottom: var(--space-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">Wiener Werkstätte</div>
+            <div class="nav-links">
+                <a href="#dashboard">Production</a>
+                <a href="#palette">Materials</a>
+                <a href="#components">Components</a>
+                <a href="#form">Orders</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="container hero">
+        <div class="hero-content">
+            <span class="caption">Est. 1903 — Vienna</span>
+            <h1>Geometric Rationalism in Industrial Design</h1>
+            <p>
+                The rejection of organic curves in favor of the square principle. 
+                We eliminate the distinction between fine art and craft, creating 
+                objects of absolute functional dignity.
+            </p>
+            <div style="margin-top: var(--space-xl); display: flex; gap: var(--space-md);">
+                <a href="#components" class="btn">View Catalog</a>
+                <a href="#palette" class="btn btn-outline">Material Specs</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="geometric-block"></div>
+            <p style="font-size: 14px; color: var(--color-neutral);">
+                Figure 1.1: Moser's Square Principle applied to spatial architecture.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="dashboard" class="grid-section">
+        <div class="container">
+            <span class="caption">Workshop Metrics — Q3 1905</span>
+            <h2>Production Output</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">1,240</div>
+                    <div class="metric-label">Metalware Units</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">85%</div>
+                    <div class="metric-label">Raw Material Efficiency</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">42</div>
+                    <div class="metric-label">Active Artisans</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Item</th>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WW-001</td>
+                            <td>Desk Set</td>
+                            <td>Black Lacquer / Gold</td>
+                            <td>12</td>
+                            <td>Dispatched</td>
+                        </tr>
+                        <tr>
+                            <td>WW-002</td>
+                            <td>Tea Service</td>
+                            <td>Sterling Silver</td>
+                            <td>4</td>
+                            <td>Forging</td>
+                        </tr>
+                        <tr>
+                            <td>WW-003</td>
+                            <td>Wall Hanging</td>
+                            <td>Silk / Linen</td>
+                            <td>25</td>
+                            <td>Weaving</td>
+                        </tr>
+                        <tr>
+                            <td>WW-004</td>
+                            <td>Bookstand</td>
+                            <td>Mahogany / Brass</td>
+                            <td>8</td>
+                            <td>Assembly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PALETTE -->
+    <section id="palette" class="grid-section" style="background-color: var(--color-secondary);">
+        <div class="container">
+            <span class="caption" style="color: var(--color-primary);">Materiality</span>
+            <h2 style="color: var(--color-tertiary);">The Werkstätte Palette</h2>
+            <p style="color: var(--color-muted); margin-bottom: var(--space-xl);">
+                Colors derived from raw industrial materials: lacquer, gold leaf, and unbleached linen.
+            </p>
+            
+            <div class="palette-grid">
+                <div class="swatch" style="--color: #C5A059;">
+                    <div class="swatch-label" style="color: #1A1A1A;">Gold Leaf</div>
+                    <div class="swatch-hex" style="color: #1A1A1A;">#C5A059</div>
+                </div>
+                <div class="swatch"

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biomorphic Reference</title>
+    <style>
+        /* 
+         * BIOMORPHIC DESIGN SYSTEM
+         * Inspired by mid-century organic modernism.
+         * No gradients, no glassmorphism, no geometric sans-serifs.
+         */
+
+        :root {
+            /* Colors */
+            --color-primary: #4A5D23;      /* Verdant Moss */
+            --color-secondary: #C2654A;    /* Terracotta Clay */
+            --color-tertiary: #E6DCC8;     /* Sandstone */
+            --color-neutral: #F4F1EA;      /* Raw Linen */
+            --color-muted: #8C7B6B;        /* Driftwood */
+            --color-white: #FFFFFF;
+
+            /* Typography */
+            --font-family: "Caslon Antiqua", "Georgia", serif;
+            
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 40px;
+
+            /* Shapes - The defining characteristic: Non-uniform curves */
+            --radius-sm: 4px 12px 4px 12px;
+            --radius-md: 12px 24px 12px 24px;
+            --radius-lg: 24px 48px 24px 48px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-neutral);
+            color: var(--color-primary);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Utilities */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: 0;
+            margin: 0 0 var(--space-sm) 0;
+        }
+
+        p {
+            margin: 0 0 var(--space-md) 0;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+        }
+
+        /* 
+         * COMPONENT: BUTTON 
+         * Shape: 12px 24px 12px 24px (Pressed stone/leaf)
+         */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #3A4A1C; /* Darker Moss */
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #A8543D;
+        }
+
+        /* 
+         * COMPONENT: CARD 
+         * Shape: 24px 48px 24px 48px (Floating leaf)
+         * Elevation: Border only, no shadow.
+         */
+        .card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: var(--space-xl);
+        }
+
+        /* 1. NAVIGATION */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--color-tertiary);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--color-muted);
+            text-decoration: none;
+            margin-left: var(--space-lg);
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+            text-decoration-style: wavy; /* Organic touch */
+        }
+
+        /* 2. HERO */
+        .hero {
+            text-align: left;
+            padding: var(--space-xl) 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-muted);
+            max-width: 600px;
+            margin-bottom: var(--space-xl);
+        }
+
+        /* 3. DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .metric-card {
+            background-color: var(--color-tertiary);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            color: var(--color-primary);
+            display: block;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* TABLE STYLES */
+        .table-container {
+            border: 1px solid var(--color-tertiary);
+            border-radius: var(--radius-sm);
+            overflow: hidden; /* Clips the corners */
+            background-color: var(--color-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: var(--color-tertiary);
+            color: var(--color-primary);
+            text-align: left;
+            padding: var(--space-md);
+            font-weight: 400;
+        }
+
+        td {
+            padding: var(--space-md);
+            border-top: 1px solid var(--color-tertiary);
+            color: var(--color-primary);
+        }
+
+        tr:hover td {
+            background-color: var(--color-neutral);
+        }
+
+        /* 4. PALETTE */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .swatch {
+            height: 150px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: flex-end;
+            padding: var(--space-md);
+            font-size: 0.875rem;
+            color: var(--color-neutral); /* Default text color for swatches */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .swatch span {
+            background-color: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            backdrop-filter: none; /* Ensure no glassmorphism */
+        }
+
+        /* 5. COMPONENTS SHOWCASE */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+        }
+
+        /* 6. FORM */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            color: var(--color-primary);
+            font-weight: 400;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-muted);
+            border-radius: var(--radius-md);
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--color-primary);
+        }
+
+        input::placeholder {
+            color: var(--color-muted);
+            font-style: italic;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- 1. NAVIGATION -->
+        <nav>
+            <a href="#" class="logo">Moss & Stone</a>
+            <div class="nav-links">
+                <a href="#">Growth</a>
+                <a href="#">Harvest</a>
+                <a href="#">Soil Data</a>
+            </div>
+        </nav>
+
+        <!-- 2. HERO -->
+        <section class="hero">
+            <h1>Organic Yield Analysis</h1>
+            <p class="hero-subtitle">
+                Monitoring the natural progression of crop cycles using non-linear data tracking methods.
+            </p>
+            <div style="display: flex; gap: 16px;">
+                <a href="#" class="btn">View Current Cycle</a>
+                <a href="#" class="btn btn-secondary">Download Report</a>
+            </div>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section>
+            <h2>Production Metrics</h2>
+            
+            <div class="dashboard-grid">
+                <div class="card metric-card">
+                    <h3>Total Yield</h3>
+                    <span class="metric-value">4,250 kg</span>
+                    <p class="caption" style="color: var(--color-muted);">Harvested this season</p>
+                </div>
+                <div class="card metric-card">
+                    <h3>Soil Moisture</h3>
+                    <span class="metric-value">68%</span>
+                    <p class="caption" style="color: var(--color-muted);">Optimal range</p>
+                </div>
+                <div class="card metric-card">
+                    <h3>Active Plots</h3>
+                    <span class="metric-value">12</span>
+                    <p class="caption" style="color: var(--color-muted);">Currently cultivated</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plot ID</th>
+                            <th>Crop Variety</th>
+                            <th>Planting Date</th>
+                            <th>Estimated Yield</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A-04</td>
+                            <td>Heritage Wheat</td>
+                            <td>Oct 12, 2023</td>
+                            <td>1,200 kg</td>
+                        </tr>
+                        <tr>
+                            <td>B-02</td>
+                            <td>Red Winter Rye</td>
+                            <td>Oct 15, 2023</td>
+                            <td>850 kg</td>
+                        </tr>
+                        <tr>
+                            <td>C-09</td>
+                            <td>Organic Barley</td>
+                            <td>Nov 01, 2023</td>
+                            <td>920 kg</td>
+                        </tr>
+                        <tr>
+                            <td>D-11</td>
+                            <td>Wild Oats</td>
+                            <td>Nov 05, 2023</td>
+                            <td>600 kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section>
+            <h2>Material Palette</h2>
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: #4A5D23;">
+                    <span>Verdant Moss</span>
+                </div>
+                <div class="swatch" style="background-color: #C2654A;">
+                    <span>Terracotta Clay</span>
+                </div>
+                <div class="swatch" style="background-color: #E6DCC8; color: #4A5D23;">
+                    <span>Sandstone</span>
+                </div>
+                <div class="swatch" style="background-color: #F4F1EA; color: #4A5D23;">
+                    <span>Raw Linen</span>
+                </div>
+                <div class="swatch" style="background-color: #8C7B6B;">
+                    <span>Driftwood</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. COMPONENTS -->
+        <section>
+            <h2>Component Library</h2>
+            <div class="showcase-grid">
+                <div class="card">
+                    <h3>Organic Card</h3>
+                    <p style="color: var(--color-muted);">
+                        This card utilizes an asymmetrical border radius (24px 48px 24px 48px) to mimic the shape of a leaf or river stone. It sits on the Raw Linen background without a shadow, relying on the border for definition.
+                    </p>
+                    <button class="btn">Action</button>
+                </div>
+                <div class="card">
+                    <h3>Typography</h3>
+                    <p>
+                        "Caslon Antiqua" provides the necessary humanist texture. The letter spacing is set slightly loose (0.02em) to allow the serifs to breathe, mimicking traditional letterpress printing on paper.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FORM -->
+        <section>
+            <h2>Planting Request</h2>
+            <div class="card">
+                <form onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label for="crop-name">Crop Name</label>
+                        <input type="text" id="crop-name" placeholder="e.g. Spelt Wheat">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="plot-select">Select Plot</label>
+                        <select id="plot-select">
+                            <option>North Field (Loamy Soil)</option>
+                            <option>South Ridge (Sandy Soil)</option>
+                            <option>Valley Floor (Clay Soil)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn">Submit Request</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

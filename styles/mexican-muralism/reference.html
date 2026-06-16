@@ -1,0 +1,487 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mural — Production Data</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* DESIGN TOKENS */
+            --color-primary: #E4007C;
+            --color-secondary: #D97706;
+            --color-tertiary: #1E3A8A;
+            --color-neutral: #F5F5F0;
+            --color-muted: #8D5524;
+            --color-text: #111111;
+            --color-text-muted: #4B5563;
+            --color-black: #000000;
+
+            /* TYPOGRAPHY */
+            --font-head: 'Anton', sans-serif;
+            --font-body: 'Merriweather', serif;
+            --font-meta: 'Oswald', sans-serif;
+
+            /* SPACING */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-md);
+            color: var(--color-text);
+        }
+
+        h1 { font-size: 48px; line-height: 1.1; }
+        h2 { font-size: 36px; line-height: 1.2; }
+        h3 { font-size: 24px; line-height: 1.3; letter-spacing: 0.05em; font-family: var(--font-meta); text-transform: uppercase; }
+
+        p { margin-bottom: var(--space-md); }
+
+        /* UTILITY */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .border-top { border-top: 2px solid var(--color-text); }
+        .border-bottom { border-bottom: 2px solid var(--color-text); }
+        
+        .meta-tag {
+            font-family: var(--font-meta);
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-muted);
+            display: block;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* 1. NAV */
+        .nav-bar {
+            background: var(--color-primary);
+            border-bottom: 2px solid var(--color-text);
+            padding: var(--space-md) 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 24px;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            font-family: var(--font-meta);
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: var(--space-lg);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.05em;
+        }
+
+        /* 2. HERO */
+        .hero-section {
+            padding: var(--space-xxl) 0;
+            background: var(--color-neutral);
+            border-bottom: 1px solid var(--color-muted);
+        }
+
+        .hero-headline {
+            color: var(--color-tertiary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .hero-sub {
+            font-size: 20px;
+            max-width: 600px;
+            margin-bottom: var(--space-lg);
+            color: var(--color-text);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            background: var(--color-primary);
+            color: #fff;
+            font-family: var(--font-meta);
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 12px 24px;
+            border: 2px solid var(--color-text);
+            border-radius: 0px;
+            box-shadow: 4px 4px 0px var(--color-text);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            margin-right: var(--space-md);
+        }
+
+        .btn:hover {
+            background: #C2006A;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--color-text);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+        }
+
+        /* 3. DASHBOARD */
+        .dashboard-section {
+            padding: var(--space-xl) 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .metric-card {
+            background: #fff;
+            border: 2px solid var(--color-text);
+            padding: var(--space-md);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+
+        .metric-value {
+            font-family: var(--font-head);
+            font-size: 36px;
+            color: var(--color-tertiary);
+            line-height: 1;
+            margin-top: var(--space-sm);
+        }
+
+        /* TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border: 2px solid var(--color-text);
+        }
+
+        .data-table th {
+            background: var(--color-tertiary);
+            color: #fff;
+            font-family: var(--font-meta);
+            text-transform: uppercase;
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 2px solid var(--color-text);
+            font-size: 14px;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--color-muted);
+            font-size: 16px;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: var(--color-neutral);
+        }
+
+        /* 4. PALETTE */
+        .palette-section {
+            padding: var(--space-xl) 0;
+            background: #fff;
+            border-top: 2px solid var(--color-text);
+            border-bottom: 2px solid var(--color-text);
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .swatch {
+            border: 2px solid var(--color-text);
+            display: flex;
+            align-items: center;
+            padding: var(--space-md);
+        }
+
+        .swatch-color {
+            width: 60px;
+            height: 60px;
+            border-right: 2px solid var(--color-text);
+            margin-right: var(--space-md);
+        }
+
+        .swatch-info h4 {
+            margin: 0;
+            font-size: 18px;
+            font-family: var(--font-meta);
+            text-transform: uppercase;
+        }
+
+        .swatch-info span {
+            font-family: var(--font-meta);
+            color: var(--color-text-muted);
+            font-size: 12px;
+        }
+
+        /* 5. COMPONENTS */
+        .components-section {
+            padding: var(--space-xl) 0;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid var(--color-text);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            max-width: 600px;
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--color-muted);
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        /* 6. FORM */
+        .form-section {
+            padding: var(--space-xl) 0;
+            background: var(--color-neutral);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-meta);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: var(--space-sm);
+            letter-spacing: 0.05em;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #fff;
+            border: 2px solid var(--color-muted);
+            border-radius: 0px;
+            padding: 12px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-text);
+            box-shadow: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: none;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav class="nav-bar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Muralismo</a>
+            <div class="nav-links">
+                <a href="#">Production</a>
+                <a href="#">Logistics</a>
+                <a href="#">Union</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <header class="hero-section">
+        <div class="container">
+            <span class="meta-tag">Weekly Report: Week 42</span>
+            <h1 class="hero-headline">Production Output: The Concrete Sector</h1>
+            <p class="hero-sub">
+                Analysis of the reinforced concrete pour for the northern district expansion. 
+                Total volume exceeds estimates by 12%. Labor union compliance verified.
+            </p>
+            <div>
+                <a href="#" class="btn">View Full Ledger</a>
+                <a href="#" class="btn btn-secondary">Print Manifest</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. DASHBOARD -->
+    <main class="dashboard-section">
+        <div class="container">
+            
+            <!-- Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="meta-tag">Total Output</span>
+                    <div class="metric-value">1,240 m³</div>
+                </div>
+                <div class="metric-card">
+                    <span class="meta-tag">Labor Force</span>
+                    <div class="metric-value">482</div>
+                </div>
+                <div class="metric-card">
+                    <span class="meta-tag">Efficiency Index</span>
+                    <div class="metric-value">94%</div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <h3>Shift Data: North Sector</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Shift ID</th>
+                        <th>Foreman</th>
+                        <th>Material</th>
+                        <th>Volume (m³)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SH-4021</td>
+                        <td>R. Castillo</td>
+                        <td>Reinforced Concrete</td>
+                        <td>120.5</td>
+                        <td>Completed</td>
+                    </tr>
+                    <tr>
+                        <td>SH-4022</td>
+                        <td>M. Vargas</td>
+                        <td>Raw Aggregate</td>
+                        <td>450.0</td>
+                        <td>In Progress</td>
+                    </tr>
+                    <tr>
+                        <td>SH-4023</td>
+                        <td>J. Ruiz</td>
+                        <td>Structural Steel</td>
+                        <td>85.2</td>
+                        <td>Pending</td>
+                    </tr>
+                    <tr>
+                        <td>SH-4024</td>
+                        <td>E. Solis</td>
+                        <td>Prefab Panels</td>
+                        <td>210.0</td>
+                        <td>Delayed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </main>
+
+    <!-- 4. PALETTE -->
+    <section class="palette-section">
+        <div class="container">
+            <h2>Material Pigments</h2>
+            <div class="palette-grid">
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #E4007C;"></div>
+                    <div class="swatch-info">
+                        <h4>Rosa Mexicano</h4>
+                        <span>Primary Action</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #D97706;"></div>
+                    <div class="swatch-info">
+                        <h4>Ochre Earth</h4>
+                        <span>Secondary Accent</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #1E3A8A;"></div>
+                    <div class="swatch-info">
+                        <h4>Prussian Blue</h4>
+                        <span>Structural Depth</span>
+                    </div>
+                </div>
+                <div class="swatch">
+                    <div class="swatch-color" style="background-color: #8D5524;"></div>
+                    <div class="swatch-info">
+                        <h4>Dusty Terracotta</h4>
+                        <span>Subtle Borders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COMPONENTS -->
+    <section class="components-section">
+        <div class="container">
+            <h3>Structural Elements</h3>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Project Update</h3>
+                    <span class="meta-tag">ID: 9921-A</span>
+                </div>
+                <p>
