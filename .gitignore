@@ -3,3 +3,16 @@ __pycache__/
 *.pyc
 logs/
 output/
+state/
+styles/_quarantine/
+
+# IDE
+.idea/
+
+# Dev / personal scripts
+test_maas.py
+
+# Packaging artifacts
+*.egg-info/
+build/
+dist/
