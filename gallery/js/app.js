@@ -42,10 +42,17 @@ const App = (() => {
 
   // ── Scorer ──
   function scoreInput() {
-    const html = document.getElementById('html-input').value;
-    if (!html.trim()) return;
+    const textarea = document.getElementById('html-input');
+    const input = textarea.value.trim();
+    if (!input) return;
 
-    const scores = AntiAIScorer.scoreHtml(html);
+    // If input looks like a URL, fetch it first
+    if (/^https?:\/\/\S+$/.test(input)) {
+      fetchAndScore(input);
+      return;
+    }
+
+    const scores = AntiAIScorer.scoreHtml(input);
     renderScoreResult(scores);
   }
 
@@ -53,7 +60,10 @@ const App = (() => {
     const urlInput = document.getElementById('url-input');
     const url = urlInput.value.trim();
     if (!url) return;
+    fetchAndScore(url);
+  }
 
+  function fetchAndScore(url) {
     // Validate URL
     let parsed;
     try {
@@ -64,9 +74,10 @@ const App = (() => {
     }
 
     const btn = document.querySelector('.url-fetch-btn');
+    const scoreBtn = document.querySelector('.score-btn');
     const textarea = document.getElementById('html-input');
-    btn.disabled = true;
-    btn.textContent = '抓取中…';
+    if (btn) { btn.disabled = true; btn.textContent = '抓取中…'; }
+    if (scoreBtn) { scoreBtn.disabled = true; scoreBtn.textContent = '抓取中…'; }
 
     // Use nginx proxy to avoid CORS
     const proxyUrl = `/proxy?url=${encodeURIComponent(parsed.href)}`;
@@ -91,8 +102,8 @@ const App = (() => {
         alert(`抓取失败: ${err.message}\n\n可能原因: URL 不可达、超时、或服务器拒绝`);
       })
       .finally(() => {
-        btn.disabled = false;
-        btn.textContent = '抓取';
+        if (btn) { btn.disabled = false; btn.textContent = '抓取'; }
+        if (scoreBtn) { scoreBtn.disabled = false; scoreBtn.textContent = '评 分'; }
       });
   }
 
