@@ -21,3 +21,4 @@ test_maas.py
 
 # Env files
 .env
+.DS_Store
