@@ -5,7 +5,10 @@ Scores HTML against the 8-dim AI-taste rubric.
 Total score 0-16. Target: ≤4 for anti-AI-taste output.
 """
 
+import argparse
+import json
 import re
+import sys
 from pathlib import Path
 
 
@@ -125,3 +128,61 @@ def score_file(path: Path) -> dict:
     scores["file"] = str(path)
     scores["pass"] = scores["total"] <= 4
     return scores
+
+
+__all__ = [
+    "score_html",
+    "score_file",
+    "main",
+    "DIMENSIONS",
+    "CLICHE_FONTS",
+    "PURPLE_GRAD_COLORS",
+    "MARKETING_STEMS",
+    "EMOJI_RE",
+]
+
+
+def main(argv: list = None) -> int:
+    """CLI entry point. Score one or more HTML files (or `-` for stdin).
+
+    Examples:
+      anti-ai-score styles/bauhaus/reference.html
+      anti-ai-score a.html b.html --threshold 6
+      cat page.html | anti-ai-score -
+    """
+    parser = argparse.ArgumentParser(
+        prog="anti-ai-score",
+        description="Score HTML against the 8-dimension anti-AI rubric (0-16; lower is better).",
+    )
+    parser.add_argument("files", nargs="+", help="HTML file path(s), or '-' for stdin")
+    parser.add_argument(
+        "-t", "--threshold", type=int, default=4,
+        help="pass threshold for total score (default: 4)",
+    )
+    parser.add_argument("--pretty", action="store_true", help="pretty-print JSON")
+    args = parser.parse_args(argv)
+
+    results = []
+    for f in args.files:
+        if f == "-":
+            html = sys.stdin.read()
+            scores = score_html(html)
+            scores["file"] = "<stdin>"
+        else:
+            path = Path(f)
+            if not path.exists():
+                print(f"anti-ai-score: {f}: file not found", file=sys.stderr)
+                return 1
+            scores = score_file(path)
+        scores["pass"] = scores["total"] <= args.threshold
+        results.append(scores)
+
+    indent = 2 if args.pretty else None
+    print(json.dumps(results, indent=indent, ensure_ascii=False))
+
+    # Exit non-zero if any file failed the threshold (handy in CI / scripts)
+    return 1 if any(not r["pass"] for r in results) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

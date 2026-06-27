@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bauhaus Design System Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Futura:wght@700;800&family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* DESIGN.md Tokens */
+            --c-primary: #D92B2B;
+            --c-secondary: #003898;
+            --c-tertiary: #F4D03F;
+            --c-neutral: #1A1A1A;
+            --c-muted: #8C8C8C;
+            --c-background: #F2F2F2;
+            --c-surface: #FFFFFF;
+
+            --f-heading: "Futura", "Century Gothic", sans-serif;
+            --f-body: "Roboto", Helvetica, Arial, sans-serif;
+
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+
+            --radius: 0px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-background);
+            color: var(--c-neutral);
+            font-family: var(--f-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--f-heading);
+            font-weight: 800;
+            color: var(--c-neutral);
+            margin-bottom: var(--space-md);
+        }
+
+        h1 { font-size: 48px; line-height: 1.1; letter-spacing: -0.02em; }
+        h2 { font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; }
+        h3 { font-size: 24px; line-height: 1.3; letter-spacing: 0; }
+
+        p { margin-bottom: var(--space-md); }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* UTILITIES */
+        .text-uppercase { text-transform: uppercase; }
+        .text-caption {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--c-neutral);
+        }
+        .text-muted { color: var(--c-muted); }
+        .bg-surface { background-color: var(--c-surface); }
+        .border-neutral { border: 1px solid var(--c-neutral); }
+        .border-b-neutral { border-bottom: 1px solid var(--c-neutral); }
+        .border-t-neutral { border-top: 1px solid var(--c-neutral); }
+
+        /* COMPONENTS */
+        
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--c-neutral);
+            color: var(--c-surface);
+            border: 2px solid var(--c-neutral);
+            border-radius: var(--radius);
+            padding: 12px 24px;
+            font-family: var(--f-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--c-primary);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--c-primary);
+        }
+
+        .btn-primary:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--c-primary);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--c-surface);
+            border: 1px solid var(--c-neutral);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-header {
+            background-color: var(--c-surface);
+            border-bottom: 2px solid var(--c-neutral);
+            padding: var(--space-md);
+        }
+
+        .card-body {
+            padding: var(--space-md);
+            flex-grow: 1;
+        }
+
+        /* Inputs */
+        .input, .select {
+            width: 100%;
+            background-color: var(--c-surface);
+            border: 2px solid var(--c-neutral);
+            border-radius: var(--radius);
+            padding: 12px;
+            font-family: var(--f-body);
+            font-size: 16px;
+            margin-bottom: var(--space-md);
+        }
+
+        .input:focus, .select:focus {
+            outline: none;
+            border-color: var(--c-secondary);
+            box-shadow: none;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .table th, .table td {
+            border: 1px solid var(--c-neutral);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: var(--c-neutral);
+            color: var(--c-surface);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* SECTIONS */
+
+        /* 1. NAV */
+        .nav-bar {
+            background-color: var(--c-surface);
+            border-bottom: 4px solid var(--c-neutral);
+            padding: var(--space-md) 0;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: var(--f-heading);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--c-neutral);
+        }
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+        .nav-link {
+            font-family: var(--f-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--c-neutral);
+            font-size: 14px;
+            letter-spacing: 0.05em;
+        }
+        .nav-link:hover {
+            color: var(--c-primary);
+        }
+
+        /* 2. HERO */
+        .hero {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--c-neutral);
+            background-color: var(--c-background);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Geometric decoration */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: var(--c-primary);
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        .hero-subtitle {
+            font-family: var(--f-body);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--c-neutral);
+            margin-bottom: var(--space-lg);
+            max-width: 600px;
+        }
+
+        /* 3. DASHBOARD */
+        .dashboard-section {
+            padding: var(--space-xl) 0;
+            background-color: var(--c-surface);
+            border-bottom: 1px solid var(--c-neutral);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        .metric-card {
+            border: 1px solid var(--c-neutral);
+            padding: var(--space-md);
+            background: var(--c-surface);
+            position: relative;
+        }
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--c-secondary);
+        }
+        .metric-value {
+            font-family: var(--f-heading);
+            font-size: 40px;
+            font-weight: 800;
+            line-height: 1;
+            margin: var(--space-sm) 0;
+            color: var(--c-neutral);
+        }
+        .metric-label {
+            font-family: var(--f-body);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--c-muted);
+            font-weight: 600;
+        }
+
+        /* 4. PALETTE */
+        .palette-section {
+            padding: var(--space-xl) 0;
+            background-color: var(--c-background);
+        }
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+        }
+        .swatch {
+            border: 1px solid var(--c-neutral);
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+            position: relative;
+        }
+        .swatch-label {
+            background: var(--c-surface);
+            border: 1px solid var(--c-neutral);
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: var(--f-body);
+            text-transform: uppercase;
+        }
+        /* Specific Swatch Accents */
+        .swatch[data-color="primary"] { background-color: var(--c-primary); }
+        .swatch[data-color="secondary"] { background-color: var(--c-secondary); }
+        .swatch[data-color="tertiary"] { background-color: var(--c-tertiary); }
+        .swatch[data-color="neutral"] { background-color: var(--c-neutral); }
+        .swatch[data-color="neutral"] .swatch-label { color: var(--c-neutral); }
+        .swatch[data-color="muted"] { background-color: var(--c-muted); }
+        .swatch[data-color="bg"] { background-color: var(--c-background); }
+        .swatch[data-color="surface"] { background-color: var(--c-surface); }
+
+        /* 5. COMPONENTS */
+        .components-section {
+            padding: var(--space-xl) 0;
+            background-color: var(--c-surface);
+        }
+        .comp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+        .comp-example {
+            border: 1px solid var(--c-neutral);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            background: var(--c-surface);
+        }
+        .comp-example h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--c-neutral);
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        /* 6. FORM */
+        .form-section {
+            padding: var(--space-xl) 0;
+            background-color: var(--c-background);
+        }
+        .form-wrapper {
+            background-color: var(--c-surface);
+            border: 2px solid var(--c-neutral);
+            padding: var(--space-lg);
+            box-shadow: 6px 6px 0px var(--c-secondary);
+            max-width: 600px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+        .form-label {
+            display: block;
+            font-family: var(--f-body);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .metrics-grid, .comp-grid, .form-row {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .nav-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav class="nav-bar">
+        <div class="container nav-inner">
+            <div class="nav-logo">BAUHAUS // SYS</div>
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link">Data</a>
+                <a href="#palette" class="nav-link">Palette</a>
+                <a href="#components" class="nav-link">Components</a>
+                <a href="#form" class="nav-link">Input</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h4 class="text-uppercase text-caption" style="color: var(--c-primary); margin-bottom: var(--space-sm);">Design System v1.0</h4>
+            <h1>FORM FOLLOWS FUNCTION.</h1>
+            <p class="hero-subtitle">
+                A radical synthesis of art, craft, and technology. The interface is a machine for reading, constructed from a strict grid of primary colors and geometric forms.
+            </p>
+            <div style="margin-top: var(--space-lg);">
+                <button class="btn-primary">Initialize System</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD -->
+    <section id="dashboard" class="dashboard-section">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-lg);">
+                <h2>Production Metrics</h2>
+                <span class="text-caption">Last Updated: 14:00 CET</span>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Unit Output</div>
+                    <div class="metric-value">842</div>
+                    <div class="text-caption" style="color: var(--c-primary);">+12% vs target</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Material Waste</div>
+                    <div class="metric-value">4.2%</div>
+                    <div class="text-caption">Efficiency rating: High</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Active Workshops</div>
+                    <div class="metric-value">12</div>
+                    <div class="text-caption">All systems nominal</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Workshop Allocation</h3>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Workshop</th>
+                                    <th>Master</th>
+                                    <th>Status</th>
+                                    <th>Output</th>
+                                </tr>
+                            </thead>
+</body>
+</html>

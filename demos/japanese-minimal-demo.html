@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>間 — Japanese Minimal Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-ink: #2B2B2B;
+            --c-washi: #F7F5F0;
+            --c-moss: #5C6B5C;
+            --c-stone: #9E9E9E;
+            --c-dust: #D4CFC7;
+            --c-card-bg: #FFFFFF;
+
+            --f-heading: 'Noto Serif JP', 'Yu Gothic', serif;
+            --f-body: 'Zen Kaku Gothic New', 'Yu Gothic', sans-serif;
+
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--c-washi);
+            color: var(--c-ink);
+            font-family: var(--f-body);
+            font-size: 14px;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        h1 { font-family: var(--f-heading); font-size: 32px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--c-ink); margin-bottom: var(--space-md); }
+        h2 { font-family: var(--f-heading); font-size: 24px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--c-ink); margin-bottom: var(--space-md); }
+        h3 { font-family: var(--f-heading); font-size: 18px; font-weight: 500; line-height: 1.4; color: var(--c-ink); margin-bottom: var(--space-sm); }
+
+        p { font-size: 14px; line-height: 1.8; margin-bottom: var(--space-md); max-width: 60ch; color: var(--c-ink); }
+
+        .caption { font-size: 12px; font-weight: 400; line-height: 1.6; letter-spacing: 0.08em; color: var(--c-stone); text-transform: uppercase; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 var(--space-lg); }
+        section { padding: var(--space-xl) 0; border-bottom: 1px solid var(--c-dust); }
+
+        nav { padding: var(--space-lg) 0; border-bottom: 1px solid var(--c-dust); position: sticky; top: 0; background: var(--c-washi); z-index: 100; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: var(--f-heading); font-size: 16px; font-weight: 700; color: var(--c-ink); text-decoration: none; letter-spacing: 0.1em; }
+        .nav-links { display: flex; gap: var(--space-lg); }
+        .nav-links a { font-size: 13px; font-weight: 400; color: var(--c-stone); text-decoration: none; letter-spacing: 0.05em; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--c-ink); }
+
+        .hero { text-align: center; padding: 80px 0 64px 0; }
+        .hero-kanji { font-family: var(--f-heading); font-size: 80px; font-weight: 400; color: var(--c-moss); line-height: 1; margin-bottom: var(--space-lg); letter-spacing: 0.2em; opacity: 0.6; }
+        .hero-subtitle { font-size: 16px; font-weight: 300; color: var(--c-stone); margin-bottom: var(--space-xl); line-height: 1.8; }
+
+        .btn { font-family: var(--f-body); font-size: 14px; font-weight: 500; padding: 12px 24px; background: var(--c-ink); color: var(--c-washi); border: 1px solid var(--c-ink); border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; letter-spacing: 0.05em; transition: all 0.3s; }
+        .btn:hover { background: var(--c-washi); color: var(--c-ink); }
+        .btn-outline { background: transparent; color: var(--c-ink); border: 1px solid var(--c-dust); }
+        .btn-outline:hover { border-color: var(--c-ink); background: var(--c-washi); }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .metric-card { padding: var(--space-lg); border: 1px solid var(--c-dust); border-radius: 4px; background: var(--c-card-bg); text-align: center; }
+        .metric-value { font-family: var(--f-heading); font-size: 36px; font-weight: 700; color: var(--c-ink); display: block; }
+        .metric-label { font-size: 12px; letter-spacing: 0.08em; color: var(--c-stone); text-transform: uppercase; margin-top: var(--space-sm); display: block; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: var(--space-lg); }
+        thead { background: var(--c-washi); }
+        th { font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-stone); padding: 12px 16px; border-bottom: 1px solid var(--c-dust); text-align: left; }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--c-dust); color: var(--c-ink); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #FAFAF8; }
+
+        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); margin-bottom: var(--space-xl); }
+        .swatch { height: 100px; border: 1px solid var(--c-dust); border-radius: 4px; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-sm) var(--space-md); }
+        .swatch-name { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; }
+        .swatch-hex { font-size: 11px; color: var(--c-stone); font-family: 'Courier New', monospace; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .card { background: var(--c-card-bg); border: 1px solid var(--c-dust); border-radius: 4px; padding: var(--space-lg); }
+        .card h3 { color: var(--c-moss); margin-bottom: var(--space-sm); }
+
+        .form-section { max-width: 560px; }
+        .form-group { margin-bottom: var(--space-lg); }
+        label { display: block; font-family: var(--f-heading); font-size: 13px; font-weight: 500; color: var(--c-ink); margin-bottom: var(--space-sm); letter-spacing: 0.05em; }
+        input[type="text"], select { width: 100%; padding: 12px 16px; font-family: var(--f-body); font-size: 14px; color: var(--c-ink); background: var(--c-card-bg); border: 1px solid var(--c-dust); border-radius: 2px; outline: none; transition: border-color 0.3s; }
+        input[type="text"]:focus, select:focus { border-color: var(--c-moss); }
+
+        .divider { display: flex; align-items: center; justify-content: center; margin: var(--space-xl) 0; color: var(--c-dust); }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--c-dust); }
+        .divider span { padding: 0 var(--space-md); font-family: var(--f-heading); font-size: 20px; color: var(--c-moss); opacity: 0.5; }
+
+        @media (max-width: 768px) {
+            .metrics-grid, .card-grid { grid-template-columns: 1fr; }
+            .palette-grid { grid-template-columns: repeat(3, 1fr); }
+            .hero-kanji { font-size: 48px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">侘 寂</a>
+            <div class="nav-links">
+                <a href="#dashboard">記録</a>
+                <a href="#palette">色彩</a>
+                <a href="#components">要素</a>
+                <a href="#form">入力</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <section class="hero">
+            <div class="hero-kanji">間</div>
+            <h1>Beauty in Emptiness</h1>
+            <p class="hero-subtitle">
+                余白は虚無ではなく、意識ある空間です。<br>
+                Negative space is not emptiness — it is intentional silence.
+            </p>
+            <div>
+                <a href="#dashboard" class="btn">静観する</a>
+                <a href="#palette" class="btn btn-outline" style="margin-left: var(--space-sm);">色彩を見る</a>
+            </div>
+        </section>
+
+        <div class="divider"><span>●</span></div>
+
+        <section id="dashboard">
+            <span class="caption">Production Log — 生産記録</span>
+            <h2 style="margin-top: var(--space-sm);">記録</h2>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><span class="metric-value">84</span><span class="metric-label">陶器 / Vessels</span></div>
+                <div class="metric-card"><span class="metric-value">12</span><span class="metric-label">職人 / Artisans</span></div>
+                <div class="metric-card"><span class="metric-value">∞</span><span class="metric-label">余白 / Ma</span></div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>作品 ID</th><th>名前</th><th>素材</th><th>状態</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>WS-001</td><td>志野茶碗 — Shino Teacup</td><td>White Clay / Shino Glaze</td><td>Completed</td></tr>
+                    <tr><td>WS-002</td><td>備前花入 — Bizen Vase</td><td>Bizen Clay / Un-glazed</td><td>Firing</td></tr>
+                    <tr><td>WS-003</td><td>織部皿 — Oribe Plate</td><td>Mino Clay / Green Oribe</td><td>Glazing</td></tr>
+                    <tr><td>WS-004</td><td>萩茶碗 — Hagi Teacup</td><td>Hagi Clay / Cream Glaze</td><td>Drying</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="divider"><span>●</span></div>
+
+        <section id="palette">
+            <span class="caption">Material Palette — 素材色彩</span>
+            <h2 style="margin-top: var(--space-sm);">色彩</h2>
+            <p>Colors derived from natural materials: ink, washi, stone, moss.</p>
+
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: #2B2B2B; color: #F7F5F0;"><span class="swatch-name">Ink Black</span><span class="swatch-hex">#2B2B2B</span></div>
+                <div class="swatch" style="background-color: #F7F5F0;"><span class="swatch-name">Washi White</span><span class="swatch-hex">#F7F5F0</span></div>
+                <div class="swatch" style="background-color: #5C6B5C; color: #F7F5F0;"><span class="swatch-name">Moss Green</span><span class="swatch-hex">#5C6B5C</span></div>
+                <div class="swatch" style="background-color: #9E9E9E;"><span class="swatch-name">Stone Grey</span><span class="swatch-hex">#9E9E9E</span></div>
+                <div class="swatch" style="background-color: #D4CFC7;"><span class="swatch-name">Dust Beige</span><span class="swatch-hex">#D4CFC7</span></div>
+            </div>
+        </section>
+
+        <div class="divider"><span>●</span></div>
+
+        <section id="components">
+            <span class="caption">Elements — 要素</span>
+            <h2 style="margin-top: var(--space-sm);">要素</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>一期一会 — Ichi-go Ichi-e</h3>
+                    <p>Once in a lifetime encounter. Each piece is unique, shaped by the moment of creation. No two firings produce identical results.</p>
+                    <p style="color: var(--c-stone); font-size: 12px;">The beauty of impermanence.</p>
+                </div>
+                <div class="card">
+                    <h3>木漏れ日 — Komorebi</h3>
+                    <p>Sunlight filtering through leaves. This principle guides our spacing — light and shadow create rhythm through natural interruption.</p>
+                    <p style="color: var(--c-stone); font-size: 12px;">The art of organic rhythm.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"><span>●</span></div>
+
+        <section id="form">
+            <span class="caption">Input — 入力</span>
+            <h2 style="margin-top: var(--space-sm);">入力</h2>
+            <div class="form-section">
+                <form onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>名前 / Name</label>
+                        <input type="text" placeholder="作品名を入力してください...">
+                    </div>
+                    <div class="form-group">
+                        <label>素材 / Material</label>
+                        <select>
+                            <option>志野土 — Shino Clay</option>
+                            <option>備前土 — Bizen Clay</option>
+                            <option>萩土 — Hagi Clay</option>
+                            <option>織部土 — Oribe Clay</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>記録 / Note</label>
+                        <input type="text" placeholder="感想を記録してください...">
+                    </div>
+                    <button type="submit" class="btn">記録を保存する</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <footer style="padding: var(--space-xl) 0; text-align: center;">
+        <p class="caption" style="margin-bottom: var(--space-sm);">侘寂 — Wabi-Sabi Minimalism</p>
+        <p class="caption" style="opacity: 0.5;">不完全の美学 · The beauty of imperfection</p>
+    </footer>
+
+</body>
+</html>

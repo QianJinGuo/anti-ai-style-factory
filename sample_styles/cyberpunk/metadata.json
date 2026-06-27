@@ -1,0 +1,22 @@
+{
+  "id": "cyberpunk",
+  "name": "赛博朋克",
+  "status": "validated",
+  "scores": {
+    "font_cliche": 0,
+    "purple_gradient": 0,
+    "glassmorphism": 0,
+    "uniform_radius": 0,
+    "emoji_icons": 0,
+    "placeholder_copy": 0,
+    "heavy_shadow": 0,
+    "element_density": 0,
+    "total": 0
+  },
+  "iterations": 1,
+  "log": [
+    "DESIGN.md generated (7574 chars)",
+    "Attempt 1: 0/16 (all clean)",
+    "PASSED on attempt 1"
+  ]
+}

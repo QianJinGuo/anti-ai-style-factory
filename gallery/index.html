@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anti-AI Style Factory — Preview Gallery</title>
+  <meta name="description" content="Browse 15,000+ anti-AI-taste design styles from real design movements. Score any HTML for AI taste.">
+  <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="nav">
+    <a class="nav-brand" href="#">Anti-AI <span>Style Factory</span></a>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="scorer" onclick="App.switchTab('scorer')">⚡ 评分器</button>
+      <button class="nav-tab" data-tab="gallery" onclick="App.switchTab('gallery')">🎨 风格库</button>
+    </div>
+    <div class="nav-stats" id="nav-stats">Loading...</div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       Panel 1: Scorer (the "尺子")
+       ══════════════════════════════════════════ -->
+  <div id="panel-scorer" class="panel active">
+    <div class="scorer-layout">
+
+      <!-- Left: Input -->
+      <div class="scorer-input">
+        <h2>⚡ HTML 反 AI 味评分器</h2>
+        <p style="color: var(--c-muted); font-size: 13px; margin-bottom: 12px;">
+          粘贴 HTML 源码，或拖拽/上传文件。8 维评分，≤ 4 分通过。
+        </p>
+        <textarea id="html-input" class="html-input"
+          placeholder="粘贴你的 HTML 源码到这里…&#10;&#10;或者使用下方的文件上传区域。"></textarea>
+
+        <!-- File upload zone -->
+        <div id="upload-zone" class="upload-zone">
+          📁 拖拽 HTML 文件到这里，或 <strong>点击上传</strong>
+          <input type="file" id="file-input" accept=".html,.htm" style="display:none">
+        </div>
+
+        <button class="score-btn" onclick="App.scoreInput()">评 分</button>
+      </div>
+
+      <!-- Right: Output -->
+      <div class="scorer-output">
+        <h2>评分结果</h2>
+        <div id="score-result" class="score-result">
+          <!-- Total score -->
+          <div id="score-total" class="score-total">
+            <div class="big-num" id="score-number">0</div>
+            <div class="label">/ 16</div>
+            <div class="verdict" id="score-verdict"></div>
+          </div>
+          <!-- Dimension bars -->
+          <div id="dim-bars" class="dim-bars"></div>
+        </div>
+
+        <!-- Empty state -->
+        <div id="scorer-empty" class="empty-state">
+          <div class="emoji">📐</div>
+          <h3>等待输入</h3>
+          <p>粘贴或上传一段 HTML，点击"评分"查看结果。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       Panel 2: Gallery (the "风格库")
+       ══════════════════════════════════════════ -->
+  <div id="panel-gallery" class="panel">
+
+    <!-- Filter bar -->
+    <div class="gallery-header">
+      <div class="filter-bar">
+        <select id="filter-movement">
+          <option value="">全部运动</option>
+        </select>
+        <select id="filter-medium">
+          <option value="">全部媒介</option>
+        </select>
+        <div id="palette-chips" class="palette-chips"></div>
+        <div class="score-range">
+          <span>≤</span>
+          <input type="range" id="filter-score" min="0" max="16" value="16" step="1">
+          <span class="score-range-val" id="score-range-label">16</span>
+          <span>分</span>
+        </div>
+        <input type="text" id="search-input" class="search-input" placeholder="搜索中文名 / ID…">
+      </div>
+
+      <!-- Stats -->
+      <div class="gallery-stats">
+        <span>已筛选 <strong id="filtered-count">0</strong> / <strong id="total-count">0</strong> 风格</span>
+      </div>
+    </div>
+
+    <!-- Virtual scroll container -->
+    <div id="vscroll-container" class="vscroll-container">
+      <div id="vscroll-spacer-top" class="vscroll-spacer"></div>
+      <div id="vscroll-content" class="vscroll-content"></div>
+      <div id="vscroll-spacer-bottom" class="vscroll-spacer"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="gallery-loading" class="loading">加载风格数据</div>
+
+    <!-- Empty state -->
+    <div id="gallery-empty" class="empty-state" style="display:none">
+      <div class="emoji">🔍</div>
+      <h3>没有匹配的风格</h3>
+      <p>试试调整筛选条件或搜索词。</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       Detail Modal
+       ══════════════════════════════════════════ -->
+  <div id="modal-overlay" class="modal-overlay" onclick="App.closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="App.closeModal()" title="关闭">✕</button>
+      <div class="modal-preview">
+        <iframe id="modal-iframe" sandbox="allow-same-origin"></iframe>
+      </div>
+      <div class="modal-sidebar">
+        <h3 id="modal-title"></h3>
+        <div class="modal-id" id="modal-id"></div>
+
+        <dl class="modal-meta">
+          <dt>运动</dt>
+          <dd id="modal-movement"></dd>
+          <dt>媒介</dt>
+          <dd id="modal-medium"></dd>
+          <dt>色盘</dt>
+          <dd id="modal-palette"></dd>
+          <dt>状态</dt>
+          <dd id="modal-status"></dd>
+        </dl>
+
+        <div class="modal-scores">
+          <h4>8 维评分</h4>
+          <div id="modal-dim-bars" class="dim-bars"></div>
+        </div>
+
+        <div class="modal-download">
+          <a id="btn-download-html" class="btn-download-html" href="#" download>📥 HTML</a>
+          <a id="btn-download-design" class="btn-download-design" href="#" download>📄 Design.md</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Scripts ── -->
+  <script src="js/scorer.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/virtual-scroll.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

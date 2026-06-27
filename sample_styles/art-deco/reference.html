@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Deco Design System | The Gatsby Standard</title>
+    
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;600;700&family=Futura:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 
+         * DESIGN SYSTEM TOKENS 
+         * Strictly adhering to DESIGN.md v1.0.0
+         */
+        :root {
+            /* Colors */
+            --color-gold: #D4AF37;
+            --color-onyx: #0A0A0A;
+            --color-copper: #B87333;
+            --color-cream: #F5F5DC;
+            --color-slate: #36454F;
+
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+            
+            /* Typography */
+            --font-serif: 'Bodoni Moda', 'Didot', 'Playfair Display', serif;
+            --font-sans: 'Futura', 'Century Gothic', 'Avant Garde', sans-serif;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-cream);
+            color: var(--color-onyx);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: 0.04em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* TYPOGRAPHY UTILITIES */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            color: var(--color-onyx);
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-md);
+        }
+
+        h2 {
+            font-size: 36px;
+            letter-spacing: -0.01em;
+            margin-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--color-gold);
+            display: inline-block;
+            padding-bottom: var(--space-sm);
+        }
+
+        h3 {
+            font-size: 24px;
+            letter-spacing: 0.02em;
+            margin-bottom: var(--space-md);
+            color: var(--color-copper);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            color: var(--color-onyx);
+        }
+
+        .caption {
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-slate);
+        }
+
+        /* LAYOUT UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .section {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--color-gold);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        /* 
+         * 1. NAVIGATION 
+         * Symmetrical, stark, high contrast
+         */
+        nav {
+            background-color: var(--color-onyx);
+            border-bottom: 4px solid var(--color-gold);
+            padding: var(--space-md) 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            color: var(--color-gold);
+            font-size: 24px;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links a {
+            color: var(--color-cream);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-gold);
+        }
+
+        /* 
+         * 2. HERO SECTION 
+         * Center aligned, imposing, geometric
+         */
+        .hero {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            background: linear-gradient(to bottom, var(--color-cream), #e6e6c4);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: var(--space-md);
+            border-top: 1px solid var(--color-onyx);
+            border-bottom: 1px solid var(--color-onyx);
+            display: inline-block;
+            padding: var(--space-md) 0;
+            background-color: var(--color-cream);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--color-slate);
+            margin-bottom: var(--space-lg);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* 
+         * BUTTONS 
+         * Rectangular plaques, instant interaction
+         */
+        .btn {
+            display: inline-block;
+            background-color: var(--color-onyx);
+            color: var(--color-gold);
+            border: 1px solid var(--color-gold);
+            padding: 12px 32px;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 0px; /* Strictly 0 */
+        }
+
+        .btn:hover {
+            background-color: var(--color-gold);
+            color: var(--color-onyx);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-onyx);
+            border: 1px solid var(--color-onyx);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-onyx);
+            color: var(--color-cream);
+        }
+
+        /* 
+         * 3. DASHBOARD (Metrics & Table)
+         * Ledger style, hard edges
+         */
+        .metric-card {
+            background-color: var(--color-cream);
+            border: 1px solid var(--color-onyx);
+            padding: var(--space-lg);
+            position: relative;
+        }
+        
+        /* Decorative corner accent */
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid var(--color-gold);
+            border-right: 2px solid var(--color-gold);
+        }
+
+        .metric-value {
+            font-family: var(--font-serif);
+            font-size: 48px;
+            color: var(--color-onyx);
+            line-height: 1;
+            margin: var(--space-md) 0;
+        }
+
+        /* Table Styles */
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-md);
+            background-color: var(--color-cream);
+            border: 1px solid var(--color-onyx);
+        }
+
+        .ledger-table th {
+            background-color: var(--color-onyx);
+            color: var(--color-gold);
+            font-family: var(--font-sans);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 12px 16px;
+            text-align: left;
+            border-right: 1px solid var(--color-onyx);
+        }
+
+        .ledger-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-slate);
+            border-right: 1px solid var(--color-slate);
+            color: var(--color-onyx);
+            font-size: 14px;
+        }
+        
+        .ledger-table td:last-child {
+            border-right: none;
+        }
+
+        .ledger-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 
+         * 4. PALETTE 
+         * Swatches as structural blocks
+         */
+        .swatch {
+            height: 120px;
+            border: 1px solid var(--color-slate);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+        }
+
+        .swatch-info {
+            background: rgba(255,255,255,0.8);
+            padding: 4px;
+        }
+
+        /* 
+         * 5. COMPONENTS (Cards)
+         * Framed panels
+         */
+        .card {
+            background-color: var(--color-cream);
+            border: 2px solid var(--color-onyx);
+            padding: 0;
+        }
+
+        .card-header {
+            background-color: var(--color-onyx);
+            color: var(--color-gold);
+            padding: var(--space-md);
+            border-bottom: 4px solid var(--color-gold);
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            color: var(--color-gold);
+            font-size: 18px;
+            border: none;
+        }
+
+        .card-body {
+            padding: var(--space-lg);
+        }
+
+        /* 
+         * 6. FORM 
+         * Input fields as ruled lines
+         */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            color: var(--color-onyx);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-family: var(--font-sans);
+            font-size: 16px;
+            color: var(--color-onyx);
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid var(--color-slate);
+            border-radius: 0px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-bottom: 2px solid var(--color-gold);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230A0A0A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1em top 50%;
+            background-size: 0.65em auto;
+        }
+
+        /* DECORATIVE ELEMENTS */
+        .sunburst-divider {
+            height: 4px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--color-onyx),
+                var(--color-onyx) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            margin: var(--space-lg) 0;
+        }
+
+        footer {
+            background-color: var(--color-onyx);
+            color: var(--color-slate);
+            padding: var(--space-xl) 0;
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">Art Deco</div>
+            <div class="nav-links">
+                <a href="#">System</a>
+                <a href="#">Components</a>
+                <a href="#">Documentation</a>
+                <a href="#">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="container">
+            <span class="caption">Industrial Modernity & Ornamental Luxury</span>
+            <h1>The Gatsby Standard</h1>
+            <p class="hero-subtitle">
+                A synthesis of machine-age geometry and pre-war opulence.<br>
+                Strict verticality. Metallic precision. Zero compromise.
+            </p>
+            <div style="margin-top: var(--space-lg);">
+                <a href="#components" class="btn">View Components</a>
+                <a href="#palette" class="btn btn-outline">View Palette</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="sunburst-divider" style="max-width: 200px; margin: 0 auto;"></div>
+
+    <!-- 3. DASHBOARD -->
+    <section class="section">
+        <div class="container">
+            <h2>Production Metrics</h2>
+            
+            <div class="grid-3" style="margin-bottom: var(--space-xl);">
+                <div class="metric-card">
+                    <span class="caption">Daily Output</span>
+                    <div class="metric-value">4,209</div>
+                    <p style="font-size: 12px; margin:0;">Units manufactured per shift.</p>
+                </div>
+                <div class="metric-card">
+                    <span class="caption">Material Yield</span>
+                    <div class="metric-value">98.2%</div>
+                    <p style="font-size: 12px; margin:0;">Copper and gold plating efficiency.</p>
+                </div>
+                <div class="metric-card">
+                    <span class="caption">System Status</span>
+                    <div class="metric-value" style="color: var(--color-copper);">OPTIMAL</div>
+                    <p style="font-size:
+</body>
+</html>

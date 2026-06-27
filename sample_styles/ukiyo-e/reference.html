@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukiyo-e Design System Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Tokens */
+            --color-aka: #C9302C;
+            --color-ai: #2B4C7E;
+            --color-kin: #D4AF37;
+            --color-washi: #F4F1EA;
+            --color-sumi: #2C2C2C;
+
+            /* Spacing */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 48px;
+
+            /* Typography */
+            --font-serif: "'Noto Serif JP', 'Yu Mincho', serif";
+            --font-sans: "'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif";
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-washi);
+            color: var(--color-sumi);
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            /* Subtle texture simulation via solid color pattern */
+            background-image: radial-gradient(var(--color-sumi) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-blend-mode: multiply;
+            opacity: 0.99; /* Fix for text rendering on textured backgrounds */
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            color: var(--color-sumi);
+            margin-top: 0;
+            margin-bottom: var(--space-md);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.25px;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0px;
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            letter-spacing: 0.2px;
+            margin-bottom: var(--space-md);
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-md);
+            border-left: 1px solid var(--color-sumi);
+            border-right: 1px solid var(--color-sumi);
+            background-color: var(--color-washi);
+            min-height: 100vh;
+        }
+
+        section {
+            margin-bottom: var(--space-xl);
+            border-bottom: 2px solid var(--color-sumi);
+            padding-bottom: var(--space-xl);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--color-sumi);
+            margin-bottom: var(--space-xl);
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--color-aka);
+            border: 2px solid var(--color-aka);
+            padding: 4px 12px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-sumi);
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--color-aka);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-xl);
+            align-items: start;
+            padding: var(--space-xl) 0;
+        }
+
+        .hero-content {
+            border-left: 4px solid var(--color-aka);
+            padding-left: var(--space-md);
+        }
+
+        .hero-visual {
+            border: 1px solid var(--color-sumi);
+            background-color: var(--color-ai);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-washi);
+            font-family: var(--font-serif);
+            font-size: 48px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 24px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: 2px solid var(--color-sumi);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--color-kin);
+            color: var(--color-sumi);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-sumi);
+            color: var(--color-kin);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-sumi);
+            margin-left: var(--space-sm);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-washi);
+            border-color: var(--color-aka);
+            color: var(--color-aka);
+        }
+
+        /* Dashboard Section */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .metric-card {
+            border: 1px solid var(--color-sumi);
+            padding: var(--space-md);
+            background-color: var(--color-washi);
+            position: relative;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--color-ai);
+        }
+
+        .metric-value {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-sumi);
+            margin: var(--space-sm) 0;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-sumi);
+        }
+
+        .table-container {
+            border: 1px solid var(--color-sumi);
+            background-color: var(--color-washi);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: var(--color-ai);
+            color: var(--color-washi);
+        }
+
+        th {
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 2px solid var(--color-sumi);
+        }
+
+        td {
+            padding: var(--space-md);
+            font-size: 14px;
+            border-bottom: 1px solid var(--color-sumi);
+            color: var(--color-sumi);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Palette Section */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-md);
+        }
+
+        .swatch {
+            border: 1px solid var(--color-sumi);
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+            position: relative;
+        }
+
+        .swatch-info {
+            background-color: var(--color-washi);
+            padding: 4px;
+            border: 1px solid var(--color-sumi);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .swatch-name {
+            display: block;
+            font-family: var(--font-serif);
+            margin-bottom: 2px;
+        }
+
+        .swatch-hex {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        /* Components Section */
+        .component-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .card {
+            border: 1px solid var(--color-sumi);
+            padding: var(--space-lg);
+            background-color: var(--color-washi);
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--color-sumi);
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: var(--color-aka);
+            color: var(--color-washi);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 160px;
+            background-color: var(--color-ai);
+            border: 1px solid var(--color-sumi);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-washi);
+            font-family: var(--font-serif);
+        }
+
+        /* Form Section */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-serif);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--color-sumi);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--color-sumi);
+            background-color: var(--color-washi);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--color-sumi);
+            border-radius: 0;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--color-aka);
+            box-shadow: 4px 4px 0px var(--color-ai);
+        }
+
+        .form-actions {
+            grid-column: span 2;
+            display: flex;
+            justify-content: flex-end;
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-sumi);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 2px solid var(--color-sumi);
+            text-align: center;
+            font-size: 12px;
+            font-family: var(--font-sans);
+            color: var(--color-sumi);
+        }
+
+        @media (max-width: 768px) {
+            .hero, .dashboard-grid, .component-row, .form-grid, .palette-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. NAV -->
+        <nav>
+            <div class="nav-logo">浮世絵</div>
+            <div class="nav-links">
+                <a href="#dashboard">Metrics</a>
+                <a href="#palette">Palette</a>
+                <a href="#components">Components</a>
+                <a href="#form">Inquiry</a>
+            </div>
+        </nav>
+
+        <!-- 2. HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Woodblock Production<br>Workshop</h1>
+                <p>Tracking the daily output of master carvers and printers. We prioritize flat color fields and distinct outlines in our production workflow, rejecting the complexity of modern digital gradients in favor of traditional block printing efficiency.</p>
+                <div style="margin-top: var(--space-lg);">
+                    <a href="#form" class="btn btn-primary">Commission Print</a>
+                    <a href="#components" class="btn btn-secondary">View Samples</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                波
+            </div>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section id="dashboard">
+            <h2>Production Metrics</h2>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Blocks Carved</div>
+                    <div class="metric-value">1,240</div>
+                    <p style="font-size: 12px; margin: 0;">+12% from last month</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Ink Consumption</div>
+                    <div class="metric-value">45L</div>
+                    <p style="font-size: 12px; margin: 0;">Indigo and Soot</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Paper Stock</div>
+                    <div class="metric-value">89%</div>
+                    <p style="font-size: 12px; margin: 0;">Gampi Fiber</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Artisan ID</th>
+                            <th>Technique</th>
+                            <th>Status</th>
+                            <th>Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-family: var(--font-serif);">Hiro-01</td>
+                            <td>Bokashi (Gradient)</td>
+                            <td>Active</td>
+                            <td>45 prints/day</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: var(--font-serif);">Kuni-04</td>
+                            <td>Kin-zuri (Gold)</td>
+                            <td>Active</td>
+                            <td>12 prints/day</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: var(--font-serif);">Tosh-09</td>
+                            <td>Kuro (Solid Black)</td>
+                            <td>Carving</td>
+                            <td>0 prints/day</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: var(--font-serif);">Uki-
+</body>
+</html>

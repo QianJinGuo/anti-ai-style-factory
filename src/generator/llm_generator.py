@@ -20,9 +20,39 @@ from src.scorer.eight_dim import score_html, DIMENSIONS
 from openai import OpenAI
 
 
-def get_client(config: dict) -> OpenAI:
-    """Create OpenAI client from config."""
-    env_var = config["llm"]["api_key_env"]
+def _resolve_provider(config: dict) -> tuple[str, str]:
+    """Return (base_url, api_key_env) for the active provider in config.
+
+    Supports the `llm.providers` map (selected by `llm.provider`) and, for
+    backward compatibility, the legacy flat `llm.base_url` / `llm.api_key_env`.
+    """
+    llm = config.get("llm", {})
+    providers = llm.get("providers")
+    if providers:
+        name = llm.get("provider") or "openai"
+        if name not in providers:
+            raise ValueError(
+                f"Unknown llm.provider '{name}'. "
+                f"Available: {', '.join(providers)}"
+            )
+        prov = providers[name]
+        return prov["base_url"], prov["api_key_env"]
+    # Legacy flat config
+    if "base_url" in llm and "api_key_env" in llm:
+        return llm["base_url"], llm["api_key_env"]
+    raise ValueError(
+        "config.llm must define either `providers` (+`provider`) "
+        "or flat `base_url`+`api_key_env`"
+    )
+
+
+def resolve_api_key(config: dict) -> str:
+    """Resolve the active provider's API key.
+
+    Order: env var  ->  ~/.zshenv  ->  ~/.hermes/config.yaml (matched by base_url).
+    Shared by the realtime generator and the batch runner.
+    """
+    base_url, env_var = _resolve_provider(config)
     api_key = os.environ.get(env_var, "")
 
     # Fallback 1: read from ~/.zshenv
@@ -35,14 +65,13 @@ def get_client(config: dict) -> OpenAI:
                     if api_key:
                         break
 
-    # Fallback 2: read from hermes config.yaml providers
+    # Fallback 2: read from hermes config.yaml providers (match by base_url)
     if not api_key:
         hermes_cfg_path = Path.home() / ".hermes" / "config.yaml"
         if hermes_cfg_path.exists():
             try:
                 import yaml
                 hermes_cfg = yaml.safe_load(hermes_cfg_path.read_text())
-                base_url = config["llm"]["base_url"]
                 for _name, prov in hermes_cfg.get("providers", {}).items():
                     if prov.get("base_url") == base_url:
                         api_key = prov.get("api_key", "")
@@ -52,9 +81,19 @@ def get_client(config: dict) -> OpenAI:
                 pass
 
     if not api_key:
-        raise ValueError(f"Missing API key: set {env_var} env var, ~/.zshenv, or configure in ~/.hermes/config.yaml")
+        raise ValueError(
+            f"Missing API key: set {env_var} env var, add it to ~/.zshenv, "
+            f"or configure it in ~/.hermes/config.yaml"
+        )
+    return api_key
+
+
+def get_client(config: dict) -> OpenAI:
+    """Create an OpenAI-compatible client for the active provider."""
+    base_url, _env_var = _resolve_provider(config)
+    api_key = resolve_api_key(config)
     return OpenAI(
-        base_url=config["llm"]["base_url"],
+        base_url=base_url,
         api_key=api_key,
     )
 

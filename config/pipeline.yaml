@@ -1,13 +1,21 @@
 # Anti-AI Style Factory — Configuration
 # =======================================
 
-# LLM Provider (iFlytek MaaS)
+# LLM Provider — switch by changing `provider`. Each entry under `providers`
+# carries its own base_url + the env var that holds the API key.
+#   env var  ->  ~/.zshenv  ->  ~/.hermes/config.yaml   (resolution order)
 llm:
-  base_url: "https://maas-api.cn-huabei-1.xf-yun.com/v2"
+  provider: xfyun             # xfyun | openai
   model: "xopqwen36v35b"
-  api_key_env: "CHATXUNFEI"    # from ~/.zshenv
   max_tokens: 4096
   temperature: 0.7
+  providers:
+    xfyun:
+      base_url: "https://maas-api.cn-huabei-1.xf-yun.com/v2"
+      api_key_env: "CHATXUNFEI"      # from ~/.zshenv
+    openai:
+      base_url: "https://api.openai.com/v1"
+      api_key_env: "OPENAI_API_KEY"  # standard OpenAI key
 
 # Scoring thresholds
 scoring:

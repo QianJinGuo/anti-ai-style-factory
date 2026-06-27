@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrazzo — Polished Stone Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-base: #F5F2EB;        /* Marble Base */
+            --c-aggregate: #8C7B6C;   /* Aggregates */
+            --c-vein: #4A4036;        /* Veins */
+            --c-polished: #E8E4DB;    /* Polished Finish */
+            --c-dust: #D1C7B7;        /* Dust */
+            --c-chip-a: #6B8E7F;      /* Green marble chip */
+            --c-chip-b: #B5926A;      /* Ochre chip */
+            --c-chip-c: #9C5B5B;      /* Red marble chip */
+
+            --f-h1: 'Playfair Display', serif;
+            --f-h3: 'DM Serif Display', serif;
+            --f-body: 'Liberation Serif', 'Times New Roman', serif;
+            --f-mono: 'IBM Plex Mono', monospace;
+
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 40px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--c-base);
+            color: var(--c-vein);
+            font-family: var(--f-body);
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            /* Terrazzo speckle texture via radial gradients */
+            background-image:
+                radial-gradient(circle at 15% 25%, var(--c-chip-a) 0px, var(--c-chip-a) 2px, transparent 2px),
+                radial-gradient(circle at 75% 60%, var(--c-chip-b) 0px, var(--c-chip-b) 3px, transparent 3px),
+                radial-gradient(circle at 40% 80%, var(--c-chip-c) 0px, var(--c-chip-c) 2px, transparent 2px),
+                radial-gradient(circle at 90% 15%, var(--c-aggregate) 0px, var(--c-aggregate) 2px, transparent 2px),
+                radial-gradient(circle at 25% 55%, var(--c-chip-b) 0px, var(--c-chip-b) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 60% 30%, var(--c-chip-a) 0px, var(--c-chip-a) 2.5px, transparent 2.5px),
+                radial-gradient(circle at 10% 90%, var(--c-chip-c) 0px, var(--c-chip-c) 2px, transparent 2px),
+                radial-gradient(circle at 85% 85%, var(--c-aggregate) 0px, var(--c-aggregate) 1.5px, transparent 1.5px);
+            background-size: 200px 200px, 250px 250px, 180px 180px, 300px 300px, 220px 220px, 280px 280px, 190px 190px, 260px 260px;
+        }
+
+        h1 { font-family: var(--f-h1); font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--c-vein); }
+        h2 { font-family: var(--f-h1); font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; color: var(--c-vein); margin-bottom: var(--space-md); }
+        h3 { font-family: var(--f-h3); font-size: 24px; font-weight: 400; line-height: 1.3; color: var(--c-vein); margin-bottom: var(--space-sm); }
+
+        p { font-family: var(--f-body); font-size: 16px; line-height: 1.6; color: var(--c-aggregate); margin-bottom: var(--space-md); max-width: 62ch; }
+
+        .caption { font-family: var(--f-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.05em; line-height: 1.4; color: var(--c-aggregate); text-transform: uppercase; }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-xl); }
+        section { padding: var(--space-xl) 0; border-bottom: 1px solid var(--c-dust); }
+
+        /* NAV */
+        nav { padding: var(--space-lg) 0; border-bottom: 1px solid var(--c-dust); background: var(--c-base); position: sticky; top: 0; z-index: 100; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: var(--f-h1); font-size: 24px; font-weight: 700; color: var(--c-vein); text-decoration: none; letter-spacing: -0.01em; }
+        .nav-links { display: flex; gap: var(--space-xl); }
+        .nav-links a { font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--c-aggregate); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--c-vein); }
+
+        /* HERO */
+        .hero { padding: var(--space-xl) 0 var(--space-lg) 0; }
+        .hero-tag { font-family: var(--f-mono); font-size: 12px; color: var(--c-aggregate); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: var(--space-md); display: block; }
+        .hero-title { margin-bottom: var(--space-lg); }
+        .hero-sub { font-family: var(--f-h3); font-size: 22px; color: var(--c-aggregate); margin-bottom: var(--space-xl); font-style: italic; }
+
+        /* BUTTONS */
+        .btn { font-family: var(--f-mono); font-size: 13px; font-weight: 500; padding: 12px 24px; background: var(--c-vein); color: var(--c-base); border: 1px solid var(--c-vein); border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s; }
+        .btn:hover { background: var(--c-base); color: var(--c-vein); }
+        .btn-outline { background: transparent; color: var(--c-vein); border: 1px solid var(--c-dust); }
+        .btn-outline:hover { border-color: var(--c-vein); background: var(--c-polished); }
+
+        /* METRICS */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .metric-card { background: var(--c-base); border: 1px solid var(--c-polished); border-radius: 4px; padding: var(--space-lg); }
+        .metric-value { font-family: var(--f-h1); font-size: 40px; font-weight: 700; color: var(--c-vein); display: block; line-height: 1; }
+        .metric-label { font-family: var(--f-mono); font-size: 11px; color: var(--c-aggregate); text-transform: uppercase; letter-spacing: 0.08em; margin-top: var(--space-sm); display: block; }
+
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; font-family: var(--f-body); font-size: 15px; border: 1px solid var(--c-dust); margin-bottom: var(--space-lg); }
+        thead { background: var(--c-polished); }
+        th { font-family: var(--f-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-vein); padding: 14px 16px; border-bottom: 1px solid var(--c-dust); text-align: left; }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--c-dust); color: var(--c-vein); }
+        tbody tr:nth-child(even) { background: var(--c-polished); }
+        tbody tr:hover { background: #F0ECE3; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* PALETTE */
+        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); margin-bottom: var(--space-xl); }
+        .swatch { height: 110px; border: 1px solid var(--c-dust); border-radius: 4px; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-sm) var(--space-md); }
+        .swatch-name { font-family: var(--f-mono); font-size: 11px; font-weight: 500; }
+        .swatch-hex { font-family: var(--f-mono); font-size: 10px; opacity: 0.7; }
+
+        /* CARDS */
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .card { background: var(--c-base); border: 1px solid var(--c-polished); border-radius: 4px; padding: var(--space-lg); }
+        .card h3 { color: var(--c-vein); margin-bottom: var(--space-sm); }
+
+        /* FORM — underline only inputs */
+        .form-section { max-width: 560px; }
+        .form-group { margin-bottom: var(--space-lg); }
+        label { display: block; font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--c-aggregate); margin-bottom: var(--space-sm); text-transform: uppercase; letter-spacing: 0.08em; }
+        input[type="text"], select { width: 100%; padding: 8px 0; font-family: var(--f-body); font-size: 16px; color: var(--c-vein); background: transparent; border: none; border-bottom: 1px solid var(--c-dust); border-radius: 0; outline: none; transition: border-color 0.3s; }
+        input[type="text"]:focus, select:focus { border-bottom-color: var(--c-vein); }
+        select { appearance: none; cursor: pointer; }
+
+        /* Polished divider */
+        .divider { width: 60px; height: 2px; background: var(--c-aggregate); margin: var(--space-lg) 0; }
+
+        @media (max-width: 768px) {
+            .metrics-grid, .card-grid { grid-template-columns: 1fr; }
+            .palette-grid { grid-template-columns: repeat(3, 1fr); }
+            h1 { font-size: 36px; }
+            .nav-links { gap: var(--space-md); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">Terrazzo</a>
+            <div class="nav-links">
+                <a href="#dashboard">Inventory</a>
+                <a href="#palette">Material</a>
+                <a href="#components">Slabs</a>
+                <a href="#form">Commission</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+            <span class="hero-tag">Venetian Tradition · Est. 1580</span>
+            <div class="hero-title">
+                <h1>Polished to Permanence</h1>
+            </div>
+            <p class="hero-sub">Waste marble embedded in concrete, ground flat, polished to a monolithic sheen.</p>
+            <div>
+                <a href="#dashboard" class="btn">View Inventory</a>
+                <a href="#palette" class="btn btn-outline" style="margin-left: var(--space-sm);">Material Specs</a>
+            </div>
+            <div class="divider"></div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard">
+            <span class="caption">Inventory — Slab Log</span>
+            <h2 style="margin-top: var(--space-sm);">Production Record</h2>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><span class="metric-value">1,247</span><span class="metric-label">Slabs Cast</span></div>
+                <div class="metric-card"><span class="metric-value">6m²</span><span class="metric-label">Avg. Slab Size</span></div>
+                <div class="metric-card"><span class="metric-value">92%</span><span class="metric-label">Recycled Aggregate</span></div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>Slab ID</th><th>Aggregate Mix</th><th>Finish</th><th>Location</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>TZ-001</td><td>Carrara White · Verde Alpi</td><td>Honed</td><td>Piazza San Marco</td></tr>
+                    <tr><td>TZ-002</td><td>Botticino · Rosso Verona</td><td>Polished</td><td>Palazzo Ducale</td></tr>
+                    <tr><td>TZ-003</td><td>Bianco Asprio · Giallo Siena</td><td>Polished</td><td>Custom Commission</td></tr>
+                    <tr><td>TZ-004</td><td>Recycled Glass · Limestone</td><td>Honed</td><td>Modern Retail</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PALETTE -->
+        <section id="palette">
+            <span class="caption">Material Palette — Stone Specimens</span>
+            <h2 style="margin-top: var(--space-sm);">Color Specimens</h2>
+            <p>Earth-bound palette derived from marble, limestone, and natural oxides. No artificial hues.</p>
+
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: #F5F2EB;"><span class="swatch-name" style="color:#4A4036;">Marble Base</span><span class="swatch-hex" style="color:#8C7B6C;">#F5F2EB</span></div>
+                <div class="swatch" style="background-color: #8C7B6C;"><span class="swatch-name" style="color:#F5F2EB;">Aggregate</span><span class="swatch-hex" style="color:#F5F2EB;">#8C7B6C</span></div>
+                <div class="swatch" style="background-color: #4A4036;"><span class="swatch-name" style="color:#F5F2EB;">Vein</span><span class="swatch-hex" style="color:#F5F2EB;">#4A4036</span></div>
+                <div class="swatch" style="background-color: #E8E4DB;"><span class="swatch-name" style="color:#4A4036;">Polished</span><span class="swatch-hex" style="color:#8C7B6C;">#E8E4DB</span></div>
+                <div class="swatch" style="background-color: #D1C7B7;"><span class="swatch-name" style="color:#4A4036;">Dust</span><span class="swatch-hex" style="color:#8C7B6C;">#D1C7B7</span></div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS -->
+        <section id="components">
+            <span class="caption">Components — Slab Applications</span>
+            <h2 style="margin-top: var(--space-sm);">Applications</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Flooring Systems</h3>
+                    <p>Poured-in-place terrazzo for continuous monolithic surfaces. Embedding brass divider strips allows for expansion joints and multi-color fields.</p>
+                    <div class="divider"></div>
+                    <span class="caption">Thickness: 38mm minimum</span>
+                </div>
+                <div class="card">
+                    <h3>Countertops</h3>
+                    <p>Pre-cast slabs for kitchens and bars. Higher aggregate-to-matrix ratio reveals larger stone chips, celebrating the material's composite nature.</p>
+                    <div class="divider"></div>
+                    <span class="caption">Finish: Polished to 3000 grit</span>
+                </div>
+                <div class="card">
+                    <h3>Wall Cladding</h3>
+                    <p>Vertical applications using epoxy-based matrix. Lighter than cement terrazzo, allowing thinner sections for facade and interior walls.</p>
+                    <div class="divider"></div>
+                    <span class="caption">Panel size: up to 3m × 1.5m</span>
+                </div>
+                <div class="card">
+                    <h3>Furniture</h3>
+                    <p>Tables, benches, and pedestals cast from offcuts. The philosophy of repurposing waste extends from aggregate to finished form.</p>
+                    <div class="divider"></div>
+                    <span class="caption">Zero-waste production</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM -->
+        <section id="form">
+            <span class="caption">Commission — Custom Order</span>
+            <h2 style="margin-top: var(--space-sm);">Request a Slab</h2>
+            <div class="form-section">
+                <form onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <input type="text" placeholder="e.g., Palazzo Foyer Restoration">
+                    </div>
+                    <div class="form-group">
+                        <label>Aggregate Preference</label>
+                        <select>
+                            <option>Carrara White + Verde Alpi</option>
+                            <option>Botticino + Rosso Verona</option>
+                            <option>Recycled Glass + Limestone</option>
+                            <option>Custom Mix — Consult Required</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Surface Area (m²)</label>
+                        <input type="text" placeholder="e.g., 48">
+                    </div>
+                    <div class="form-group">
+                        <label>Finish</label>
+                        <select>
+                            <option>Polished (high gloss)</option>
+                            <option>Honed (matte)</option>
+                            <option>Bush-hammered (textured)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Submit Commission</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <footer style="padding: var(--space-xl) 0; text-align: center;">
+        <div class="divider" style="margin: 0 auto var(--space-md) auto;"></div>
+        <p class="caption" style="margin-bottom: var(--space-sm);">Terrazzo Design System · Venetian Tradition · 1580</p>
+        <p class="caption" style="opacity: 0.6;">Material honesty over digital gloss.</p>
+    </footer>
+
+</body>
+</html>

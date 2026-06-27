@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anti-ai-style-factory"
+version = "0.2.0"
+description = "Anti-AI-taste design style library: generate + score design systems from historical movement DNA."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "jinguo" }]
+keywords = ["design-systems", "anti-ai", "typography", "style-guide", "rubric"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "openai>=1.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+# Score HTML against the 8-dimension anti-AI rubric (0-16; lower is better)
+anti-ai-score = "src.scorer.eight_dim:main"
+# Run the generation pipeline (generate → score → iterate)
+anti-ai-factory = "src.pipeline.run:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+# Keep config/catalog discoverable if the package is installed elsewhere
+"src" = ["../../config/pipeline.yaml", "../../catalog/SEEDS.md"]

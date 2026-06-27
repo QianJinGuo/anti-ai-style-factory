@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRUTALIST WEB // RAW HTML</title>
+    <style>
+        /* NO GOOGLE FONTS. SYSTEM ONLY. THIS IS THE POINT. */
+        :root {
+            --c-black: #000000;
+            --c-white: #FFFFFF;
+            --c-red: #FF0000;
+            --c-code-bg: #1A1A1A;
+            --c-code-text: #00FF00;
+            --c-link: #0000EE;
+            --c-visited: #551A8B;
+            --c-border: 3px solid #000000;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--c-white);
+            color: var(--c-black);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        h1 { font-family: 'Courier New', Courier, monospace; font-size: 40px; font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+        h2 { font-family: 'Courier New', Courier, monospace; font-size: 24px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+        h3 { font-family: 'Courier New', Courier, monospace; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+
+        p { font-family: 'Courier New', Courier, monospace; font-size: 14px; font-weight: 400; line-height: 1.8; margin-bottom: 16px; max-width: 70ch; }
+
+        .caption { font-size: 12px; line-height: 1.4; color: #666; }
+
+        code { font-family: 'Courier New', Courier, monospace; font-size: 13px; background: var(--c-code-bg); color: var(--c-code-text); padding: 2px 6px; }
+
+        a { color: var(--c-link); text-decoration: underline; }
+        a:visited { color: var(--c-visited); }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 16px 32px; }
+        section { padding: 32px 0; border-bottom: var(--c-border); }
+
+        nav { padding: 16px 32px; border-bottom: var(--c-border); background: var(--c-white); }
+        .nav-inner { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--c-black); }
+        .nav-links { list-style: none; display: flex; gap: 24px; }
+        .nav-links a { font-weight: 700; text-transform: uppercase; font-size: 12px; }
+
+        .btn {
+            display: inline-block; font-family: 'Courier New', Courier, monospace; font-weight: 700; font-size: 14px;
+            padding: 8px 16px; border: 2px solid var(--c-black); background: var(--c-white); color: var(--c-black);
+            text-decoration: none; cursor: pointer; text-transform: uppercase;
+        }
+        .btn:hover { background: var(--c-black); color: var(--c-white); }
+        .btn:visited, .btn:active { color: inherit; }
+
+        .alert { background: var(--c-red); color: var(--c-white); padding: 16px; border: var(--c-border); font-weight: 700; margin-bottom: 16px; }
+
+        table { width: 100%; border-collapse: collapse; border: var(--c-border); font-size: 14px; margin-bottom: 24px; }
+        th { font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; padding: 12px; border: var(--c-border); text-align: left; background: var(--c-black); color: var(--c-white); }
+        td { padding: 12px; border: 2px solid var(--c-black); }
+
+        .code-block { background: var(--c-code-bg); color: var(--c-code-text); padding: 16px; font-size: 13px; line-height: 1.6; border: var(--c-border); overflow-x: auto; margin-bottom: 16px; white-space: pre; }
+
+        .card-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+        .card { flex: 1; min-width: 280px; border: var(--c-border); padding: 24px; background: var(--c-white); }
+        .card h3 { border-bottom: 2px solid var(--c-black); padding-bottom: 8px; margin-bottom: 12px; }
+
+        .metrics-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+        .metric-box { flex: 1; min-width: 200px; border: var(--c-border); padding: 24px; text-align: center; }
+        .metric-value { font-size: 48px; font-weight: 700; display: block; }
+        .metric-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; display: block; margin-top: 8px; }
+
+        .palette-row { display: flex; gap: 0; margin-bottom: 24px; border: var(--c-border); }
+        .swatch { flex: 1; height: 100px; display: flex; align-items: flex-end; padding: 8px; border-right: 2px solid var(--c-black); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .swatch:last-child { border-right: none; }
+
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: 700; text-transform: uppercase; font-size: 12px; margin-bottom: 4px; }
+        input[type="text"], select { width: 100%; padding: 8px 12px; font-family: 'Courier New', Courier, monospace; font-size: 14px; border: 2px solid var(--c-black); background: var(--c-white); color: var(--c-black); outline: none; }
+        input[type="text"]:focus, select:focus { border-color: var(--c-red); }
+
+        hr { border: none; border-top: var(--c-border); margin: 32px 0; }
+
+        @media (max-width: 768px) {
+            .card-grid, .metrics-row, .palette-row { flex-direction: column; }
+            h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">&gt; BRUTALIST_WEB</a>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#palette">Palette</a></li>
+                <li><a href="#components">Components</a></li>
+                <li><a href="#form">Input</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="alert" style="margin-top: 16px;">
+            &gt; WARNING: THIS PAGE CONTAINS RAW HTML. NO CSS FRAMEWORKS. NO POLISH. NO APOLOGIES.
+        </div>
+
+        <section>
+            <h1>BRUTALIST<br>WEB</h1>
+            <p>
+                Raw HTML. Exposed structure. Monospace everything. No decoration, no pretense.
+                What you see is what the machine sees. The browser default IS the style system.
+                An AI cannot be "casually raw" — it either generates raw HTML by instruction
+                or it defaults to polish.
+            </p>
+            <p>This is <code>&lt;html&gt;</code> the way <code>&lt;html&gt;</code> was meant to be.</p>
+            <div>
+                <a href="#dashboard" class="btn">View Data &gt;&gt;</a>
+                <a href="#form" class="btn" style="margin-left: 8px; border-color: var(--c-red); color: var(--c-red);">Submit &gt;&gt;</a>
+            </div>
+        </section>
+
+        <section id="dashboard">
+            <h2>&gt; DASHBOARD</h2>
+
+            <div class="metrics-row">
+                <div class="metric-box"><span class="metric-value">0</span><span class="metric-label">CSS classes used</span></div>
+                <div class="metric-box"><span class="metric-value">1</span><span class="metric-label">Font family</span></div>
+                <div class="metric-box"><span class="metric-value">0px</span><span class="metric-label">Border radius</span></div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Element</th><th>Borders</th><th>Shadows</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>EL-001</td><td>&lt;table&gt;</td><td>3px solid black</td><td>NONE</td></tr>
+                    <tr><td>EL-002</td><td>&lt;button&gt;</td><td>2px solid black</td><td>NONE</td></tr>
+                    <tr><td>EL-003</td><td>&lt;input&gt;</td><td>2px solid black</td><td>NONE</td></tr>
+                    <tr><td>EL-004</td><td>&lt;div&gt;</td><td>3px solid black</td><td>NONE</td></tr>
+                    <tr><td>EL-005</td><td>&lt;hr&gt;</td><td>3px solid black</td><td>NONE</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>&gt; SOURCE</h2>
+            <div class="code-block">&gt; system.init({
+&gt;   framework: null,
+&gt;   preprocessor: null,
+&gt;   border_radius: 0,
+&gt;   box_shadow: 0,
+&gt;   gradient: false,
+&gt;   animation: false,
+&gt;   font_count: 1,
+&gt;   honesty_level: "maximum"
+&gt; });
+&gt;
+&gt; // OUTPUT: BRUTALIST_WEB loaded.
+&gt; // WARNING: This page is intentionally ugly.
+&gt; // If it looks polished, something is wrong.</div>
+        </section>
+
+        <section id="palette">
+            <h2>&gt; PALETTE</h2>
+            <p>Black, white, red. Period.</p>
+            <div class="palette-row">
+                <div class="swatch" style="background: #000000; color: #FFFFFF;"><span>#000000 PRIMARY</span></div>
+                <div class="swatch" style="background: #FFFFFF; color: #000000;"><span>#FFFFFF NEUTRAL</span></div>
+                <div class="swatch" style="background: #FF0000; color: #FFFFFF;"><span>#FF0000 ALERT</span></div>
+                <div class="swatch" style="background: #0000EE; color: #FFFFFF;"><span>#0000EE LINK</span></div>
+                <div class="swatch" style="background: #1A1A1A; color: #00FF00;"><span>#1A1A1A CODE_BG</span></div>
+            </div>
+        </section>
+
+        <section id="components">
+            <h2>&gt; COMPONENTS</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>&gt; Card A</h3>
+                    <p>A bordered box. No shadow. No radius. No gradient. Just HTML structure made visible. This is the component. Nothing more, nothing less.</p>
+                </div>
+                <div class="card">
+                    <h3>&gt; Card B</h3>
+                    <p>Another bordered box. Identical structure. Different content. Brutalism treats all containers equally. Hierarchy through weight and borders, not decoration.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="form">
+            <h2>&gt; DATA INPUT</h2>
+            <form onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="enter text here">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option>Raw</option>
+                        <option>Unfiltered</option>
+                        <option>Exposed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <input type="text" id="message" placeholder="no formatting applied">
+                </div>
+                <button type="submit" class="btn">Submit &gt;&gt;</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <footer style="padding: 32px 0;">
+            <p class="caption">&gt; BRUTALIST_WEB // NO FRAMEWORK // NO CDN // NO APOLOGIES // 2024</p>
+            <p class="caption">&gt; Source: This entire page. View source. That's the documentation.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

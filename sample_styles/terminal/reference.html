@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL_OS // V.1.0.4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Design Tokens */
+            --color-primary: #00FF41;
+            --color-secondary: #008F11;
+            --color-tertiary: #003B00;
+            --color-neutral: #000000;
+            --color-muted: #004D00;
+            
+            /* Spacing */
+            --space-sm: 4px;
+            --space-md: 8px;
+            --space-lg: 16px;
+            --space-xl: 32px;
+
+            /* Typography */
+            --font-stack: 'VT323', 'Courier New', monospace;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-neutral);
+            color: var(--color-primary);
+            font-family: var(--font-stack);
+            font-size: 16px;
+            line-height: 1.5;
+            letter-spacing: 0;
+            -webkit-font-smoothing: none; /* Keep it pixelated */
+            overflow-x: hidden;
+        }
+
+        /* Typography Classes */
+        h1 { font-size: 48px; font-weight: 400; line-height: 1.1; margin-bottom: var(--space-md); }
+        h2 { font-size: 32px; font-weight: 400; line-height: 1.2; margin-bottom: var(--space-md); }
+        h3 { font-size: 24px; font-weight: 400; line-height: 1.3; margin-bottom: var(--space-sm); }
+        p { margin-bottom: var(--space-md); }
+        .caption { font-size: 12px; line-height: 1.4; color: var(--color-secondary); }
+        
+        /* Layout Utilities */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+            border-left: 1px solid var(--color-tertiary);
+            border-right: 1px solid var(--color-tertiary);
+            min-height: 100vh;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-primary);
+            padding-bottom: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .nav-links span {
+            margin-left: var(--space-lg);
+            cursor: pointer;
+        }
+        
+        .nav-links span:hover {
+            background-color: var(--color-primary);
+            color: var(--color-neutral);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--color-neutral);
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            padding: 2px 8px;
+            font-family: var(--font-stack);
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-right: var(--space-sm);
+            transition: all 0.1s step-start;
+        }
+
+        .btn:hover {
+            background: var(--color-primary);
+            color: var(--color-neutral);
+            border-color: var(--color-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--color-tertiary);
+            padding: var(--space-lg);
+        }
+
+        /* Dashboard / Tables */
+        .card {
+            border: 1px solid var(--color-primary);
+            background: var(--color-neutral);
+            padding: 0;
+            margin-bottom: var(--space-lg);
+        }
+
+        .card-header {
+            background: var(--color-tertiary);
+            padding: var(--space-sm) var(--space-md);
+            border-bottom: 1px solid var(--color-primary);
+            font-size: 18px;
+        }
+
+        .card-body {
+            padding: var(--space-md);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--color-primary);
+        }
+
+        th {
+            text-align: left;
+            border-bottom: 1px solid var(--color-primary);
+            padding: var(--space-sm);
+            color: var(--color-primary);
+            background: var(--color-tertiary);
+        }
+
+        td {
+            border-bottom: 1px dotted var(--color-muted);
+            padding: var(--space-sm);
+            color: var(--color-primary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Palette Section */
+        .palette-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+        }
+
+        .swatch {
+            border: 1px solid var(--color-secondary);
+            width: 150px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+        }
+
+        .swatch-label {
+            background: var(--color-neutral);
+            color: var(--color-primary);
+            padding: 2px;
+            font-size: 12px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            color: var(--color-primary);
+        }
+
+        input, select {
+            width: 100%;
+            background: var(--color-neutral);
+            border: 1px solid var(--color-secondary);
+            color: var(--color-primary);
+            font-family: var(--font-stack);
+            font-size: 16px;
+            padding: 4px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border: 1px solid var(--color-primary);
+        }
+
+        /* CRT Scanline Effect (Subtle) */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.3;
+        }
+
+        /* Blinking Cursor */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1em;
+            background-color: var(--color-primary);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Utilities */
+        .text-secondary { color: var(--color-secondary); }
+        .text-muted { color: var(--color-muted); }
+        .border-top { border-top: 1px solid var(--color-primary); margin-top: var(--space-xl); padding-top: var(--space-lg); }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="container">
+        
+        <!-- NAV -->
+        <nav>
+            <div>
+                <h1>ROOT@SYS:~#</h1>
+            </div>
+            <div class="nav-links">
+                <span>[DASHBOARD]</span>
+                <span>[CONFIG]</span>
+                <span>[LOGS]</span>
+                <span>[EXIT]</span>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero">
+            <h1>SYSTEM_STATUS: ONLINE</h1>
+            <p class="text-secondary">
+                > Initializing core modules...<br>
+                > Memory check: 64MB OK<br>
+                > Network interface: ACTIVE
+            </p>
+            <div style="margin-top: var(--space-lg);">
+                <button class="btn">INITIALIZE</button>
+                <button class="btn">ABORT</button>
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section>
+            <h2 class="border-top" style="padding-top: var(--space-lg);">01. METRICS</h2>
+            <div class="grid-3" style="margin-top: var(--space-lg);">
+                <!-- Metric 1 -->
+                <div class="card">
+                    <div class="card-header">CPU_LOAD</div>
+                    <div class="card-body">
+                        <h3>42%</h3>
+                        <p class="caption">CORE_0: STABLE</p>
+                        <p class="caption">CORE_1: STABLE</p>
+                    </div>
+                </div>
+                <!-- Metric 2 -->
+                <div class="card">
+                    <div class="card-header">MEM_ALLOC</div>
+                    <div class="card-body">
+                        <h3>12.4 MB</h3>
+                        <p class="caption">TOTAL: 64 MB</p>
+                        <p class="caption">SWAP: 0 MB</p>
+                    </div>
+                </div>
+                <!-- Metric 3 -->
+                <div class="card">
+                    <div class="card-header">NET_IO</div>
+                    <div class="card-body">
+                        <h3>1.2 GB/s</h3>
+                        <p class="caption">TX: 800 MB/s</p>
+                        <p class="caption">RX: 400 MB/s</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="border-top" style="padding-top: var(--space-lg);">02. ACTIVE_PROCESSES</h2>
+            <table style="margin-top: var(--space-lg);">
+                <thead>
+                    <tr>
+                        <th width="15%">PID</th>
+                        <th width="35%">PROCESS_NAME</th>
+                        <th width="15%">USER</th>
+                        <th width="15%">STATUS</th>
+                        <th width="20%">UPTIME</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>init</td>
+                        <td>root</td>
+                        <td class="text-secondary">RUNNING</td>
+                        <td>402d 12:04</td>
+                    </tr>
+                    <tr>
+                        <td>042</td>
+                        <td>systemd-journal</td>
+                        <td>root</td>
+                        <td class="text-secondary">RUNNING</td>
+                        <td>402d 12:04</td>
+                    </tr>
+                    <tr>
+                        <td>108</td>
+                        <td>sshd</td>
+                        <td>root</td>
+                        <td class="text-secondary">RUNNING</td>
+                        <td>10d 04:20</td>
+                    </tr>
+                    <tr>
+                        <td>999</td>
+                        <td>data_aggregator</td>
+                        <td>sysadmin</td>
+                        <td class="text-muted">IDLE</td>
+                        <td>02d 01:15</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PALETTE -->
+        <section>
+            <h2 class="border-top" style="padding-top: var(--space-lg);">03. COLOR_PALETTE</h2>
+            <div class="palette-grid" style="margin-top: var(--space-lg);">
+                <div class="swatch" style="background-color: #00FF41; color: #000;">
+                    <div class="swatch-label">PRIMARY #00FF41</div>
+                </div>
+                <div class="swatch" style="background-color: #008F11;">
+                    <div class="swatch-label">SECONDARY #008F11</div>
+                </div>
+                <div class="swatch" style="background-color: #003B00;">
+                    <div class="swatch-label">TERTIARY #003B00</div>
+                </div>
+                <div class="swatch" style="background-color: #004D00;">
+                    <div class="swatch-label">MUTED #004D00</div>
+                </div>
+                <div class="swatch" style="background-color: #000000; border: 1px dashed #00FF41;">
+                    <div class="swatch-label">NEUTRAL #000000</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS -->
+        <section>
+            <h2 class="border-top" style="padding-top: var(--space-lg);">04. COMPONENTS</h2>
+            <div class="grid-3" style="margin-top: var(--space-lg);">
+                <div class="card">
+                    <div class="card-header">[OK] SUCCESS</div>
+                    <div class="card-body">
+                        <p>Command executed successfully. Return code 0.</p>
+                        <p class="caption">Time: 14:02:33</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">[WARN] WARNING</div>
+                    <div class="card-body">
+                        <p>Memory usage exceeds 80% threshold.</p>
+                        <p class="caption">Time: 14:05:12</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">[ERR] ERROR</div>
+                    <div class="card-body">
+                        <p>Connection to database lost. Retrying...</p>
+                        <p class="caption">Time: 14:05:45</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM -->
+        <section>
+            <h2 class="border-top" style="padding-top: var(--space-lg);">05. INPUT_STREAM</h2>
+            <form style="margin-top: var(--space-lg); max-width: 600px;" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="hostname">HOSTNAME</label>
+                    <input type="text" id="hostname" placeholder="ENTER_NODE_NAME" value="NODE_01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">PRIORITY_LEVEL</label>
+                    <select id="priority">
+                        <option value="low">LOW (IDLE)</option>
+                        <option value="medium" selected>MEDIUM (NORMAL)</option>
+                        <option value="high">HIGH (CRITICAL)</option>
+                        <option value="emergency">EMERGENCY (OVERRIDE)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="payload">PAYLOAD_DATA</label>
+                    <input type="text" id="payload" placeholder="ENTER_HEX_DATA...">
+                </div>
+
+                <div style="margin-top: var(--space-lg);">
+                    <button type="submit" class="btn">TRANSMIT_DATA</button>
+                    <button type="reset" class="btn">CLEAR_BUFFER</button>
+                </div>
+            </form>
+        </section>
+
+        <footer class="border-top" style="margin-top: var(--space-xl); padding-top: var(--space-lg);">
+            <p class="caption">
+                SYSTEM TERMINAL
+</body>
+</html>

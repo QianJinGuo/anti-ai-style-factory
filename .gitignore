@@ -1,18 +1,23 @@
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+
+# Generated styles (too large for git — users generate their own)
+styles/
 logs/
-output/
 state/
+output/
 styles/_quarantine/
 
-# IDE
+# IDE / agent runtime
 .idea/
+.omx/
 
 # Dev / personal scripts
 test_maas.py
 
-# Packaging artifacts
-*.egg-info/
-build/
-dist/
+# Env files
+.env

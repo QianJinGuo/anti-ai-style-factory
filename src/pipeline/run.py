@@ -232,11 +232,16 @@ def load_config() -> dict:
         return yaml.safe_load(config_path.read_text())
     return {
         "llm": {
-            "base_url": "https://api.tinyfish.cn/v1",
+            "provider": "openai",
             "model": "gpt-4o",
-            "api_key_env": "TINYFISH_API_KEY",
             "max_tokens": 4096,
             "temperature": 0.7,
+            "providers": {
+                "openai": {
+                    "base_url": "https://api.openai.com/v1",
+                    "api_key_env": "OPENAI_API_KEY",
+                }
+            },
         },
         "scoring": {"eight_dim_max": 4, "max_iterations": 3},
         "pipeline": {"output_dir": "./styles", "log_dir": "./logs"},

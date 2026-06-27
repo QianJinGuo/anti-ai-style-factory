@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss International Style Reference</title>
+    <style>
+        /* 
+         * DESIGN SYSTEM: SWISS INTERNATIONAL STYLE (1957)
+         * PRINCIPLES: OBJECTIVITY, GRID SYSTEM, READABILITY, ASYMMETRY
+         */
+
+        :root {
+            /* COLOR TOKENS */
+            --c-primary: #FF3B30;   /* International Orange */
+            --c-secondary: #0055A4; /* International Blue */
+            --c-tertiary: #000000;  /* Swiss Black */
+            --c-neutral: #FFFFFF;   /* Paper White */
+            --c-muted: #8E8E93;     /* Concrete Gray */
+            --c-border: #E5E5E5;    /* Structural Gray */
+            --c-bg-subtle: #F5F5F5; /* Table Header / Subtle Bg */
+            --c-bg-hover: #FAFAFA;  /* Table Row Hover */
+
+            /* TYPOGRAPHY TOKENS */
+            --font-stack: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            
+            --type-h1-size: 48px;
+            --type-h1-weight: 700;
+            --type-h1-line: 1.1;
+            --type-h1-track: -0.02em;
+
+            --type-h2-size: 32px;
+            --type-h2-weight: 700;
+            --type-h2-line: 1.2;
+            --type-h2-track: -0.01em;
+
+            --type-h3-size: 24px;
+            --type-h3-weight: 600;
+            --type-h3-line: 1.3;
+
+            --type-body-size: 16px;
+            --type-body-weight: 400;
+            --type-body-line: 1.5;
+
+            --type-caption-size: 12px;
+            --type-caption-weight: 400;
+            --type-caption-line: 1.4;
+            --type-caption-track: 0.02em;
+
+            /* SPACING & GRID */
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            
+            --grid-col-gap: var(--space-lg);
+            --grid-row-gap: var(--space-lg);
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            font-size: var(--type-body-size);
+            font-weight: var(--type-body-weight);
+            line-height: var(--type-body-line);
+            color: var(--c-tertiary);
+            background-color: var(--c-neutral);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* TYPOGRAPHY UTILITIES */
+        h1 {
+            font-size: var(--type-h1-size);
+            font-weight: var(--type-h1-weight);
+            line-height: var(--type-h1-line);
+            letter-spacing: var(--type-h1-track);
+            margin-bottom: var(--space-md);
+        }
+
+        h2 {
+            font-size: var(--type-h2-size);
+            font-weight: var(--type-h2-weight);
+            line-height: var(--type-h2-line);
+            letter-spacing: var(--type-h2-track);
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-size: var(--type-h3-size);
+            font-weight: var(--type-h3-weight);
+            line-height: var(--type-h3-line);
+            margin-bottom: var(--space-sm);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            max-width: 65ch; /* Optimal reading length */
+        }
+
+        .caption {
+            font-size: var(--type-caption-size);
+            font-weight: var(--type-caption-weight);
+            line-height: var(--type-caption-line);
+            letter-spacing: var(--type-caption-track);
+            text-transform: uppercase;
+            color: var(--c-muted);
+        }
+
+        /* LAYOUT GRID SYSTEM */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--grid-col-gap);
+        }
+
+        /* COMPONENT: BUTTON */
+        .btn {
+            display: inline-block;
+            background: var(--c-tertiary);
+            color: var(--c-neutral);
+            border: 1px solid var(--c-tertiary);
+            border-radius: 0; /* Rectilinear */
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--c-neutral);
+            color: var(--c-tertiary);
+        }
+
+        .btn-secondary {
+            background: var(--c-neutral);
+            color: var(--c-tertiary);
+            border: 1px solid var(--c-tertiary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--c-bg-hover);
+        }
+
+        /* COMPONENT: CARD */
+        .card {
+            background: var(--c-neutral);
+            border: 1px solid var(--c-border);
+            border-radius: 0;
+            padding: var(--space-lg);
+            /* No box-shadow per specification */
+        }
+
+        /* COMPONENT: TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: var(--c-bg-subtle);
+            text-align: left;
+            font-weight: 700;
+            padding: 12px var(--space-md);
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .data-table td {
+            padding: 12px var(--space-md);
+            border-bottom: 1px solid var(--c-border);
+            color: var(--c-tertiary);
+        }
+
+        .data-table tr:hover td {
+            background: var(--c-bg-hover);
+        }
+
+        /* COMPONENT: FORM */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-size: var(--type-caption-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            font-family: var(--font-stack);
+            font-size: 16px;
+            border: 1px solid var(--c-tertiary); /* High contrast border */
+            border-radius: 0;
+            background: var(--c-neutral);
+            color: var(--c-tertiary);
+            appearance: none;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: 2px solid var(--c-primary);
+            outline-offset: 0;
+        }
+
+        /* SPECIFIC SECTIONS */
+        
+        /* 1. NAV */
+        header {
+            border-bottom: 1px solid var(--c-tertiary);
+            padding: var(--space-md) 0;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--c-tertiary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--c-tertiary);
+            font-size: var(--type-caption-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 2. HERO */
+        .hero-section {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--c-border);
+            margin-bottom: var(--space-xl);
+        }
+
+        .hero-content {
+            grid-column: span 8; /* Asymmetric layout */
+        }
+
+        .hero-meta {
+            grid-column: span 4;
+            align-self: end;
+            padding-bottom: 8px;
+        }
+
+        /* 3. DASHBOARD */
+        .metric-card {
+            border-left: 4px solid var(--c-tertiary);
+            padding: var(--space-md);
+        }
+        
+        .metric-card.highlight {
+            border-left-color: var(--c-primary);
+        }
+
+        .metric-value {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .table-wrapper {
+            grid-column: span 12;
+            margin-top: var(--space-lg);
+        }
+
+        /* 4. PALETTE */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .swatch {
+            height: 120px;
+            border: 1px solid var(--c-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+        }
+
+        .swatch-name {
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+
+        .swatch-hex {
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--c-muted);
+        }
+
+        /* 5. COMPONENTS */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+        }
+
+        /* 6. FORM */
+        .form-section {
+            border-top: 1px solid var(--c-tertiary);
+            padding-top: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+            max-width: 800px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-12 { display: block; }
+            .hero-content, .hero-meta, .table-wrapper, .form-layout {
+                width: 100%;
+            }
+            .component-grid { grid-template-columns: 1fr; }
+            
+            h1 { font-size: 32px; }
+            h2 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAV -->
+    <header>
+        <div class="container nav-inner">
+            <a href="#" class="logo">STUDIO ZÜRICH</a>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard">Metrics</a></li>
+                    <li><a href="#components">System</a></li>
+                    <li><a href="#palette">Palette</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- 2. HERO -->
+        <section class="hero-section">
+            <div class="grid-12">
+                <div class="hero-content">
+                    <h1>Production<br>Efficiency Report<br>Q3-2024</h1>
+                    <p>Objective analysis of manufacturing output variance. Data indicates a 14% increase in throughput velocity relative to the previous fiscal quarter.</p>
+                    <div style="margin-top: var(--space-lg);">
+                        <a href="#" class="btn">Download Report</a>
+                        <a href="#" class="btn btn-secondary">View Archive</a>
+                    </div>
+                </div>
+                <div class="hero-meta">
+                    <span class="caption">Date</span>
+                    <p style="margin-bottom: 8px;">Oct 14, 2024</p>
+                    
+                    <span class="caption">Status</span>
+                    <p style="margin-bottom: 8px; color: var(--c-primary); font-weight: 700;">VERIFIED</p>
+                    
+                    <span class="caption">Region</span>
+                    <p>DACH / Central Europe</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. DASHBOARD -->
+        <section id="dashboard">
+            <div class="grid-12">
+                <div class="metric-card" style="grid-column: span 4;">
+                    <span class="caption">Total Output</span>
+                    <div class="metric-value">14,205</div>
+                    <span class="caption">Units / Hour</span>
+                </div>
+                
+                <div class="metric-card highlight" style="grid-column: span 4;">
+                    <span class="caption">System Uptime</span>
+                    <div class="metric-value">99.98%</div>
+                    <span class="caption">Last 30 Days</span>
+                </div>
+
+                <div class="metric-card" style="grid-column: span 4;">
+                    <span class="caption">Defect Rate</span>
+                    <div class="metric-value">0.04%</div>
+                    <span class="caption">Below Threshold</span>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <h3>Line Performance Data</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Line ID</th>
+                            <th>Operator</th>
+                            <th>Throughput (u/h)</th>
+                            <th>Efficiency</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ALPHA-01</td>
+                            <td>M. Müller</td>
+                            <td>450</td>
+                            <td>98%</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>BETA-04</td>
+                            <td>S. Weber</td>
+                            <td>310</td>
+                            <td>84%</td>
+                            <td>Maintenance</td>
+                        </tr>
+                        <tr>
+                            <td>GAMMA-02</td>
+                            <td>J. Schneider</td>
+                            <td>412</td>
+                            <td>95%</td>
+                            <td>Active</td>
+                        </tr>
+                        <tr>
+                            <td>DELTA-09</td>
+                            <td>K. Fischer</td>
+                            <td>290</td>
+                            <td>78%</td>
+                            <td>Idle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. PALETTE -->
+        <section id="palette" style="margin-top: var(--space-xl);">
+            <h2>Color Specification</h2>
+            <div class="palette-grid">
+                <div class="swatch" style="background: #FF3B30;">
+                    <span class="swatch-name" style="color: white;">Int. Orange</span>
+                    <span class="swatch-hex" style="color: white;">#FF3B30</span>
+                </div>
+                <div class="swatch" style="background: #0055A4;">
+                    <span class="swatch-name" style="color: white;">Int. Blue</span>
+                    <span class="swatch-hex" style="color: white;">#0055A4</span>
+                </div>
+                <div class="swatch" style="background: #000000;">
+                    <span class="
+</body>
+</html>

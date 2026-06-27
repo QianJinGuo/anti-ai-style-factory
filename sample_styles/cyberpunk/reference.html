@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM_REF // CYBERPUNK_DESIGN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * CYBERPUNK DESIGN SYSTEM
+         * Version: 1.0.0
+         * Philosophy: High Tech, Low Life
+         */
+
+        :root {
+            /* Colors */
+            --color-primary: #FF00FF;   /* Neon Magenta */
+            --color-secondary: #00FFFF; /* Neon Cyan */
+            --color-tertiary: #FFFF00;  /* Acid Yellow */
+            --color-neutral: #1A1A1A;   /* Charcoal */
+            --color-muted: #404040;     /* Gunmetal */
+            --color-bg-deep: #0A0A0A;   /* Deep Black */
+            
+            /* Typography */
+            --font-mono: 'Share Tech Mono', monospace;
+            
+            /* Spacing */
+            --space-sm: 4px;
+            --space-md: 8px;
+            --space-lg: 16px;
+            --space-xl: 32px;
+
+            /* Borders */
+            --border-width: 1px;
+            --border-radius: 0px;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg-deep);
+            color: #E0E0E0;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            line-height: 1.5;
+            letter-spacing: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--color-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        h2 {
+            font-size: 2rem;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+            color: var(--color-secondary);
+            margin-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--color-muted);
+            padding-bottom: var(--space-sm);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            letter-spacing: 0.1em;
+            color: var(--color-tertiary);
+            margin-bottom: var(--space-md);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            max-width: 80ch;
+        }
+
+        /* UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            border-left: 1px solid var(--color-muted);
+            border-right: 1px solid var(--color-muted);
+            min-height: 100vh;
+        }
+
+        .grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-md);
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-md {
+            gap: var(--space-md);
+        }
+
+        .text-primary { color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .text-tertiary { color: var(--color-tertiary); }
+        .text-muted { color: var(--color-muted); }
+        .text-white { color: #E0E0E0; }
+
+        /* NAV */
+        .nav-bar {
+            background-color: var(--color-neutral);
+            border-bottom: 2px solid var(--color-primary);
+            padding: var(--space-lg) 0;
+            margin-bottom: var(--space-xl);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: #E0E0E0;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.875rem;
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid transparent;
+            transition: none;
+        }
+
+        .nav-link:hover {
+            color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            padding: var(--space-xl) 0;
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--color-muted);
+            background: var(--color-neutral);
+            position: relative;
+        }
+
+        .hero::before {
+            content: "SYSTEM_READY";
+            position: absolute;
+            top: -10px;
+            right: var(--space-lg);
+            background: var(--color-bg-deep);
+            color: var(--color-primary);
+            padding: 0 var(--space-sm);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #E0E0E0;
+            margin-bottom: var(--space-lg);
+            border-left: 4px solid var(--color-secondary);
+            padding-left: var(--space-md);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            background: #000000;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 8px 16px;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: none;
+        }
+
+        .btn:hover {
+            background: var(--color-primary);
+            color: #000000;
+        }
+
+        .btn-secondary {
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary);
+            color: #000000;
+        }
+
+        /* DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .metric-card {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-muted);
+            padding: var(--space-lg);
+            position: relative;
+        }
+
+        .metric-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-secondary);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            color: var(--color-secondary);
+            margin: var(--space-sm) 0;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-muted);
+        }
+
+        /* TABLE */
+        .table-container {
+            border: 1px solid var(--color-muted);
+            background: var(--color-neutral);
+            margin-bottom: var(--space-xl);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: #E0E0E0;
+        }
+
+        th {
+            background: #2A2A2A;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 1px solid var(--color-primary);
+            border-right: 1px solid var(--color-muted);
+        }
+
+        td {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--color-muted);
+            border-right: 1px solid var(--color-muted);
+        }
+
+        tr:nth-child(even) {
+            background: #151515;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* PALETTE */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .swatch {
+            border: 1px solid var(--color-muted);
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-sm);
+            position: relative;
+        }
+
+        .swatch-label {
+            background: #000;
+            padding: 2px 4px;
+            font-size: 0.75rem;
+            color: #fff;
+        }
+
+        .swatch-code {
+            font-size: 0.75rem;
+            color: var(--color-muted);
+        }
+
+        /* COMPONENTS */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .card {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-muted);
+            padding: var(--space-lg);
+            position: relative;
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--color-primary);
+            padding-bottom: var(--space-sm);
+            margin-bottom: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-status {
+            font-size: 0.75rem;
+            color: var(--color-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* FORM */
+        .form-section {
+            background: var(--color-neutral);
+            border: 1px solid var(--color-muted);
+            padding: var(--space-xl);
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-secondary);
+            margin-bottom: var(--space-sm);
+        }
+
+        input, select {
+            width: 100%;
+            background: #0A0A0A;
+            border: 1px solid var(--color-muted);
+            color: var(--color-secondary);
+            font-family: var(--font-mono);
+            padding: var(--space-md);
+            caret-color: var(--color-secondary);
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border: 1px solid var(--color-secondary);
+            box-shadow: 0 0 5px var(--color-secondary);
+        }
+
+        select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        /* GLITCH EFFECT CLASS */
+        .glitch-text {
+            position: relative;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg-deep);
+        }
+        
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--color-primary);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 var(--color-secondary);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 31px, 0); }
+            20% { clip: rect(65px, 9999px, 89px, 0); }
+            40% { clip: rect(22px, 9999px, 5px, 0); }
+            60% { clip: rect(90px, 9999px, 100px, 0); }
+            80% { clip: rect(15px, 9999px, 45px, 0); }
+            100% { clip: rect(55px, 9999px, 75px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(10px, 9999px, 35px, 0); }
+            40% { clip: rect(85px, 9999px, 120px, 0); }
+            60% { clip: rect(25px, 9999px, 60px, 0); }
+            80% { clip: rect(45px, 9999px, 80px, 0); }
+            100% { clip: rect(5px, 9999px, 25px, 0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-12, .dashboard-grid, .component-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav-bar">
+        <div class="container flex justify-between items-center">
+            <div class="nav-brand glitch-text" data-text="NET_RUNNER_V1">NET_RUNNER_V1</div>
+            <div class="flex gap-md">
+                <a href="#" class="nav-link">Dashboard</a>
+                <a href="#" class="nav-link">System</a>
+                <a href="#" class="nav-link">Log</a>
+                <a href="#" class="nav-link" style="color: var(--color-primary); border: 1px solid var(--color-primary);">EXIT</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- HERO -->
+        <header class="hero">
+            <h1 class="glitch-text" data-text="HIGH_TECH_LOW_LIFE">HIGH_TECH_LOW_LIFE</h1>
+            <p class="hero-subtitle">
+                // VISUAL_LANGUAGE_PROTOCOL_INITIATED<br>
+                // REJECTING_SMOOTHNESS_DETECTED<br>
+                // UTILITARIAN_GRIET_ACTIVE
+            </p>
+            <div class="flex gap-md">
+                <a href="#" class="btn">Initialize System</a>
+                <a href="#" class="btn btn-secondary">View Documentation</a>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard
+</body>
+</html>

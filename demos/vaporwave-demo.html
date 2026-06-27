@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ＶＡＰＯＲＷＡＶＥ // 蒸汽波展示系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-pink: #FF71CE;
+            --c-cyan: #01CDFE;
+            --c-purple: #B967FF;
+            --c-blue: #05FFA1;
+            --c-bg-deep: #0D0221;
+            --c-bg-mid: #1A1A2E;
+            --c-bg-chess-b: #252540;
+            --c-text: #E0D0FF;
+            --c-text-dim: #7B68AE;
+
+            --f-display: 'Press Start 2P', monospace;
+            --f-body: 'VT323', monospace;
+
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.12),
+                rgba(0, 0, 0, 0.12) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        body {
+            background-color: var(--c-bg-deep);
+            color: var(--c-text);
+            font-family: var(--f-body);
+            font-size: 20px;
+            line-height: 1.5;
+            background-image:
+                linear-gradient(45deg, var(--c-bg-chess-b) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--c-bg-chess-b) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--c-bg-chess-b) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--c-bg-chess-b) 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--f-display);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 36px; color: var(--c-pink); text-shadow: 0 0 10px var(--c-pink), 0 0 30px var(--c-pink); }
+        h2 { font-size: 24px; color: var(--c-cyan); text-shadow: 0 0 8px var(--c-cyan); margin-bottom: var(--space-md); }
+        h3 { font-size: 16px; color: var(--c-purple); }
+
+        p { margin-bottom: var(--space-md); max-width: 70ch; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+        nav {
+            background: rgba(13, 2, 33, 0.9);
+            border-bottom: 2px solid var(--c-cyan);
+            padding: var(--space-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: var(--f-display); font-size: 14px; color: var(--c-pink); text-shadow: 0 0 8px var(--c-pink); text-decoration: none; }
+        .nav-links { display: flex; gap: var(--space-lg); }
+        .nav-links a { font-family: var(--f-display); font-size: 10px; color: var(--c-cyan); text-decoration: none; text-shadow: 0 0 4px var(--c-cyan); }
+        .nav-links a:hover { text-shadow: 0 0 12px var(--c-cyan), 0 0 24px var(--c-cyan); }
+
+        .hero { padding: var(--space-xl) 0; text-align: center; }
+        .hero-subtitle { font-size: 28px; color: var(--c-purple); text-shadow: 0 0 6px var(--c-purple); margin-bottom: var(--space-lg); }
+        .hero-statue { font-size: 120px; line-height: 1; margin: var(--space-lg) 0; filter: hue-rotate(180deg) saturate(2); opacity: 0.7; }
+
+        .btn {
+            font-family: var(--f-display); font-size: 11px; text-transform: uppercase;
+            padding: 14px 28px; border: none; cursor: pointer; text-decoration: none; display: inline-block;
+            box-shadow: 4px 4px 0px var(--c-pink); transition: transform 0.1s;
+        }
+        .btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--c-pink); }
+        .btn-primary { background: var(--c-pink); color: var(--c-bg-deep); }
+        .btn-secondary { background: var(--c-cyan); color: var(--c-bg-deep); box-shadow: 4px 4px 0px var(--c-cyan); }
+        .btn-secondary:hover { box-shadow: 2px 2px 0px var(--c-cyan); }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .metric-card { background: rgba(26, 26, 46, 0.85); border: 2px solid var(--c-purple); padding: var(--space-lg); box-shadow: 4px 4px 0px var(--c-purple); }
+        .metric-value { font-family: var(--f-display); font-size: 32px; color: var(--c-cyan); text-shadow: 0 0 10px var(--c-cyan); }
+        .metric-label { font-family: var(--f-display); font-size: 9px; color: var(--c-text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: var(--space-sm); }
+
+        table { width: 100%; border-collapse: collapse; font-family: var(--f-body); font-size: 20px; border: 2px solid var(--c-cyan); }
+        thead { background: var(--c-bg-mid); }
+        th { font-family: var(--f-display); font-size: 10px; text-transform: uppercase; color: var(--c-cyan); text-shadow: 0 0 4px var(--c-cyan); padding: var(--space-md); border-bottom: 2px solid var(--c-pink); text-align: left; letter-spacing: 0.1em; }
+        td { padding: var(--space-sm) var(--space-md); border-bottom: 1px solid rgba(185, 103, 255, 0.3); color: var(--c-text); }
+        tr:hover { background: rgba(185, 103, 255, 0.15); }
+
+        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); margin-bottom: var(--space-xl); }
+        .swatch { height: 120px; border: 2px solid rgba(255, 113, 206, 0.4); display: flex; flex-direction: column; justify-content: flex-end; padding: var(--space-xs); }
+        .swatch-label { font-family: var(--f-display); font-size: 7px; color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.8); background: rgba(0,0,0,0.5); padding: 4px 6px; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-bottom: var(--space-xl); }
+        .card { background: rgba(26, 26, 46, 0.85); border: 2px solid var(--c-pink); padding: var(--space-lg); box-shadow: 4px 4px 0px var(--c-pink); }
+        .card h3 { margin-bottom: var(--space-sm); }
+
+        .form-section { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: var(--space-lg); }
+        label { display: block; font-family: var(--f-display); font-size: 10px; color: var(--c-pink); text-shadow: 0 0 4px var(--c-pink); margin-bottom: var(--space-sm); text-transform: uppercase; }
+        input[type="text"], select { width: 100%; padding: 12px; font-family: var(--f-body); font-size: 20px; background: var(--c-bg-deep); border: 2px solid var(--c-purple); color: var(--c-cyan); outline: none; }
+        input[type="text"]:focus, select:focus { border-color: var(--c-pink); box-shadow: inset 0 0 8px rgba(255, 113, 206, 0.2); }
+
+        section { padding: var(--space-xl) 0; border-bottom: 1px solid rgba(185, 103, 255, 0.2); }
+        .section-tag { font-family: var(--f-display); font-size: 8px; color: var(--c-blue); text-shadow: 0 0 4px var(--c-blue); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: var(--space-sm); display: block; }
+
+        .grid-floor {
+            height: 200px;
+            background: linear-gradient(transparent 95%, var(--c-pink) 95%), linear-gradient(90deg, transparent 95%, var(--c-pink) 95%);
+            background-size: 80px 40px;
+            transform: perspective(400px) rotateX(60deg);
+            transform-origin: center top;
+            margin-top: var(--space-xl);
+            opacity: 0.4;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+            .palette-grid { grid-template-columns: repeat(3, 1fr); }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">ＡＥＳＴＨＥＴＩＣ.ＥＸＥ</a>
+            <div class="nav-links">
+                <a href="#dashboard">METRICS</a>
+                <a href="#palette">PALETTE</a>
+                <a href="#components">MODULES</a>
+                <a href="#form">INPUT</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <span class="section-tag">// real virtual // a e s t h e t i c //</span>
+            <h1>ＶＡＰＯＲＷＡＶＥ</h1>
+            <p class="hero-subtitle">あなたはすでに亡霊です — You are already a ghost in the shell of cyberspace.</p>
+            <div style="margin-top: var(--space-lg);">
+                <a href="#dashboard" class="btn btn-primary">ＥＮＴＥＲ ＳＹＳＴＥＭ</a>
+                <a href="#palette" class="btn btn-secondary" style="margin-left: var(--space-md);">ＶＩＥＷ ＳＰＥＣＴＲＵＭ</a>
+            </div>
+            <div class="hero-statue">🏛️</div>
+        </div>
+    </section>
+
+    <section id="dashboard">
+        <div class="container">
+            <span class="section-tag">// production log // 生産記録 //</span>
+            <h2>System Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">∞</div>
+                    <div class="metric-label">Nostalgia Index</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">97.3%</div>
+                    <div class="metric-label">Retro Compatibility</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1,984</div>
+                    <div class="metric-label">Memory Blocks</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>Module</th><th>Function</th><th>Layer</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Ｍ-001</td><td>Marble Texture Engine</td><td>Visual</td><td style="color: var(--c-blue);">● ONLINE</td></tr>
+                    <tr><td>Ｍ-002</td><td>Glitch Post-Processor</td><td>Effect</td><td style="color: var(--c-blue);">● ONLINE</td></tr>
+                    <tr><td>Ｍ-003</td><td>Scanline Renderer</td><td>CRT</td><td style="color: var(--c-pink);">● ACTIVE</td></tr>
+                    <tr><td>Ｍ-004</td><td>Palm Tree Generator</td><td>Decor</td><td style="color: var(--c-text-dim);">● LOADING</td></tr>
+                </tbody>
+            </table>
+
+            <div class="grid-floor"></div>
+        </div>
+    </section>
+
+    <section id="palette">
+        <div class="container">
+            <span class="section-tag">// color spectrum // 色彩光譜 //</span>
+            <h2>Neon Spectrum</h2>
+            <div class="palette-grid">
+                <div class="swatch" style="background-color: var(--c-pink);"><span class="swatch-label">HOT PINK #FF71CE</span></div>
+                <div class="swatch" style="background-color: var(--c-cyan);"><span class="swatch-label">CYAN #01CDFE</span></div>
+                <div class="swatch" style="background-color: var(--c-purple);"><span class="swatch-label">GRAPE #B967FF</span></div>
+                <div class="swatch" style="background-color: var(--c-blue);"><span class="swatch-label">MINT #05FFA1</span></div>
+                <div class="swatch" style="background-color: var(--c-bg-deep);"><span class="swatch-label">DEEP VOID #0D0221</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="components">
+        <div class="container">
+            <span class="section-tag">// component modules // 構成要素 //</span>
+            <h2>System Modules</h2>
+            <div class="card-grid">
+                <div class="card"><h3>🪩 Plazma Core</h3><p>Renders translucent pink-to-blue gradients with scanline interference patterns. Compatible with all 16-bit color depths.</p></div>
+                <div class="card"><h3>📀 Floppy Archive</h3><p>Retroactive memory storage system. Each unit preserves 1.44MB of collective nostalgia in warm magnetic warmth.</p></div>
+                <div class="card"><h3>🌴 Wave Garden</h3><p>Generative palm tree landscape with infinite sunset horizon. Procedurally rendered with dithered color transitions.</p></div>
+                <div class="card"><h3>🗿 Roman Bust</h3><p>Classical sculpture renderer with marble texture mapping. Supports broken fragments and column overlays.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="form">
+        <div class="container">
+            <span class="section-tag">// data input // データ入力 //</span>
+            <h2>System Input</h2>
+            <div class="form-section">
+                <form onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Username / ユーザー名</label>
+                        <input type="text" placeholder="enter your ghost name...">
+                    </div>
+                    <div class="form-group">
+                        <label>Reality Layer</label>
+                        <select>
+                            <option>Layer 01 — Physical</option>
+                            <option>Layer 02 — Digital</option>
+                            <option selected>Layer 03 — Virtual</option>
+                            <option>Layer ∞ — Vapor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Memory Fragment</label>
+                        <input type="text" placeholder="describe a lost memory...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">ＳＵＢＭＩＴ ＴＯ ＴＨＥ ＶＯＩＤ</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: var(--space-xl) 0; text-align: center;">
+        <p style="font-family: var(--f-display); font-size: 8px; color: var(--c-text-dim);">
+            ＶＡＰＯＲＷＡＶＥ ＳＹＳＴＥＭ // Ｖ.１.９.８.４ // ＡＬＬ ＲＩＧＨＴＳ ＲＥＳＥＲＶＥＤ ＩＮ ＴＨＥ ＶＯＩＤ
+        </p>
+    </footer>
+
+</body>
+</html>
