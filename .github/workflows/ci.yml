@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run tests
+        run: python -m pytest tests/ -v
+
+      - name: Validate sample styles
+        run: |
+          for style in sample_styles/*/; do
+            if [ -f "$style/reference.html" ]; then
+              anti-ai-score "$style/reference.html" || exit 1
+            fi
+          done
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Check formatting
+        run: ruff format --check .
+
+      - name: Lint
+        run: ruff check .
+
+  scorer-self-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: pip install -e .
+
+      - name: Score clean HTML (should pass)
+        run: |
+          echo '<html><head><style>body { font-family: Georgia, serif; }</style></head><body><p>Test</p></body></html>' > /tmp/clean.html
+          anti-ai-score /tmp/clean.html
+
+      - name: Score AI HTML (should fail)
+        run: |
+          echo '<html><head><style>body { font-family: Inter, sans-serif; color: #667eea; }</style></head><body><p>Revolutionary seamless next-gen empower innovative future cutting-edge</p><span>🚀</span><span>📊</span><span>💡</span><span>🎯</span><span>✨</span></body></html>' > /tmp/ai.html
+          ! anti-ai-score /tmp/ai.html

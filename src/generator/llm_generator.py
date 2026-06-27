@@ -49,41 +49,27 @@ def _resolve_provider(config: dict) -> tuple[str, str]:
 def resolve_api_key(config: dict) -> str:
     """Resolve the active provider's API key.
 
-    Order: env var  ->  ~/.zshenv  ->  ~/.hermes/config.yaml (matched by base_url).
+    Order: env var  ->  .env file in project root.
     Shared by the realtime generator and the batch runner.
     """
-    base_url, env_var = _resolve_provider(config)
+    _base_url, env_var = _resolve_provider(config)
+
+    # Load .env file from project root if present
+    env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith(f"export {env_var}=") or line.startswith(f"{env_var}="):
+                val = line.split("=", 1)[1].strip().strip('"').strip("'")
+                if val:
+                    os.environ.setdefault(env_var, val)
+
     api_key = os.environ.get(env_var, "")
-
-    # Fallback 1: read from ~/.zshenv
-    if not api_key:
-        zshenv_path = Path.home() / ".zshenv"
-        if zshenv_path.exists():
-            for line in zshenv_path.read_text().splitlines():
-                if line.startswith(f"export {env_var}=") or line.startswith(f"{env_var}="):
-                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
-                    if api_key:
-                        break
-
-    # Fallback 2: read from hermes config.yaml providers (match by base_url)
-    if not api_key:
-        hermes_cfg_path = Path.home() / ".hermes" / "config.yaml"
-        if hermes_cfg_path.exists():
-            try:
-                import yaml
-                hermes_cfg = yaml.safe_load(hermes_cfg_path.read_text())
-                for _name, prov in hermes_cfg.get("providers", {}).items():
-                    if prov.get("base_url") == base_url:
-                        api_key = prov.get("api_key", "")
-                        if api_key:
-                            break
-            except Exception:
-                pass
-
     if not api_key:
         raise ValueError(
-            f"Missing API key: set {env_var} env var, add it to ~/.zshenv, "
-            f"or configure it in ~/.hermes/config.yaml"
+            f"Missing API key: set {env_var} env var or add it to .env file"
         )
     return api_key
 

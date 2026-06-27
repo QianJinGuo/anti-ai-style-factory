@@ -1,0 +1,20 @@
+# Example: Use the Anti-AI Style Factory GitHub Action in your project
+# Add this file to .github/workflows/anti-ai-check.yml
+
+name: Anti-AI Check
+
+on:
+  pull_request:
+    paths: ["**/*.html"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Score HTML for AI taste
+        uses: anthropics/anti-ai-style-factory@v1
+        with:
+          files: "dist/**/*.html"
+          threshold: 4

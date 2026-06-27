@@ -56,9 +56,9 @@ def score_html(html: str) -> dict:
 
     # 1. font_cliche — only flag if AI font is the PRIMARY (first) declared font
     font_decl_match = re.search(r"font-family\s*[:=]\s*['\"]?([^;\"'>]+)", html, re.I)
-    declared = [x.strip() for x in (font_decl_match.group(1).split(",") if font_decl_match else [])]
-    declared_names = [d.split()[0].strip("'\"") for d in declared if d]
-    primary_font = declared_names[0] if declared_names else ""
+    declared = [x.strip().strip("'\"") for x in (font_decl_match.group(1).split(",") if font_decl_match else []) if x.strip()]
+    primary_font = declared[0] if declared else ""
+    # Match full font name (handles multi-word fonts like "Open Sans", "Helvetica Neue")
     font_hits = [f for f in CLICHE_FONTS if f.lower() == primary_font.lower()]
     font_score = 2 if font_hits else 0
 

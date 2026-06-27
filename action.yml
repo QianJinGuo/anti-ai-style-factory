@@ -1,0 +1,75 @@
+name: 'Anti-AI HTML Score'
+description: 'Score HTML files against the 8-dimension anti-AI taste rubric. Fails if any file exceeds the threshold.'
+
+inputs:
+  files:
+    description: 'Glob pattern for HTML files to score (e.g., "dist/**/*.html")'
+    required: true
+  threshold:
+    description: 'Maximum total score to pass (0-16, default: 4)'
+    required: false
+    default: '4'
+
+outputs:
+  score:
+    description: 'Lowest passing score (or highest failing score)'
+    value: ${{ steps.score.outputs.score }}
+  passed:
+    description: 'Whether all files passed'
+    value: ${{ steps.score.outputs.passed }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install scorer
+      shell: bash
+      run: pip install anti-ai-style-factory || pip install -e "${{ github.action_path }}/.."
+
+    - name: Score HTML files
+      id: score
+      shell: bash
+      run: |
+        THRESHOLD=${{ inputs.threshold }}
+        FILES="${{ inputs.files }}"
+        FAILED=0
+        BEST=0
+
+        for f in $FILES; do
+          if [ -f "$f" ]; then
+            echo "Scoring: $f"
+            RESULT=$(anti-ai-score "$f" -t "$THRESHOLD" 2>/dev/null || true)
+            echo "$RESULT" | python3 -c "
+        import json, sys
+        data = json.load(sys.stdin)
+        for item in data:
+          total = item['total']
+          status = 'PASS' if item['pass'] else 'FAIL'
+          print(f\"  {status}: {total}/16\")
+          for k, v in item.items():
+            if k not in ('total', 'file', 'pass') and v > 0:
+              print(f\"    ⚠ {k}: {v}/2\")
+        "
+            SCORE=$(echo "$RESULT" | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['total'])")
+            IS_PASS=$(echo "$RESULT" | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['pass'])")
+
+            if [ "$IS_PASS" = "False" ]; then
+              FAILED=1
+            fi
+            if [ "$SCORE" -gt "$BEST" ]; then
+              BEST=$SCORE
+            fi
+          fi
+        done
+
+        echo "score=$BEST" >> "$GITHUB_OUTPUT"
+        echo "passed=$([ $FAILED -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+        if [ $FAILED -ne 0 ]; then
+          echo "::error::Anti-AI score exceeded threshold (${{ inputs.threshold }}/16). Found AI-taste patterns!"
+          exit 1
+        fi

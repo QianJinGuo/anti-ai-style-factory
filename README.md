@@ -1,86 +1,170 @@
 # Anti-AI Style Factory
 
-原创反 AI 味设计风格库的 harness pipeline。从种子目录读取设计运动 DNA，通过 LLM 生成 DESIGN.md + reference HTML，8-dim 评分器验证（必须 ≤4/16），不合格自动迭代重生成。
+> Score any HTML for "AI taste." Generate anti-AI design systems from 55+ historical design movements.
 
-## 架构
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/anthropics/anti-ai-style-factory/actions/workflows/ci.yml/badge.svg)](https://github.com/anthropics/anti-ai-style-factory/actions)
 
-```
-catalog/SEEDS.md         ← 风格种子定义（55+ 设计运动）
-config/pipeline.yaml     ← LLM 配置、评分阈值
-src/
-  generator/             ← LLM 调用层（生成 DESIGN.md + HTML）
-  scorer/                ← 8-dim 评分器
-  pipeline/              ← 主 harness 循环（generate → score → accept/reject → iterate）
-styles/{seed-id}/        ← 输出：每个风格的完整产出物
-state/                   ← 批量运行状态
-demos/                   ← 演示 HTML
-logs/                    ← 运行日志
-```
+**Anti-AI Style Factory** is a harness pipeline that generates design style specifications inspired by real historical design movements — Bauhaus, Swiss International, Ukiyo-e, Memphis, Cyberpunk, and 50+ more. Every generated style passes an 8-dimension "anti-AI taste" rubric: no Inter font, no purple gradients, no glassmorphism, no emoji icons.
 
-## 快速开始
+The **scorer** is pure Python with zero dependencies — use it standalone in CI to catch AI-taste HTML before it ships.
 
-### 安装
+---
+
+## Quick Start
+
+### Install
 
 ```bash
-pip install -e .          # 安装为可编辑包，暴露 anti-ai-score / anti-ai-factory CLI
-# 或仅装依赖：pip install -r requirements.txt
+pip install -e .
+
+# Or just the dependencies:
+pip install -r requirements.txt
 ```
 
-### 配置 LLM Provider
+### Score HTML (zero dependencies)
 
-`config/pipeline.yaml` 支持多 provider，切换只需改 `llm.provider` 一行：
-
-```yaml
-llm:
-  provider: xfyun         # xfyun | openai
-  model: "xopqwen36v35b"
-  providers:
-    xfyun:
-      base_url: "https://maas-api.cn-huabei-1.xf-yun.com/v2"
-      api_key_env: "CHATXUNFEI"
-    openai:
-      base_url: "https://api.openai.com/v1"
-      api_key_env: "OPENAI_API_KEY"
-```
-
-API key 解析顺序：环境变量 → `~/.zshenv` → `~/.hermes/config.yaml`。
-
-### 生成风格
+The scorer works standalone — no LLM needed:
 
 ```bash
-anti-ai-factory --seed bauhaus       # 生成单个种子
-anti-ai-factory --tier 1             # 生成整个 Tier
-anti-ai-factory --batch 5            # 处理下 5 个 pending 种子
-anti-ai-factory --workers 5          # 5 路并发
-anti-ai-factory --status             # 查看生成状态
-anti-ai-factory --dry-run            # 只看不生成
-# 等价于：python -m src.pipeline.run ...
+# Score a file
+anti-ai-score styles/bauhaus/reference.html
+
+# Score from stdin
+cat page.html | anti-ai-score -
+
+# Score multiple files with custom threshold
+anti-ai-score a.html b.html --threshold 6
+
+# Pretty-print JSON
+anti-ai-score page.html --pretty
 ```
 
-### 独立使用评分器
-
-评分器是纯 Python、零依赖，可脱离 pipeline 单独使用：
-
-```bash
-anti-ai-score styles/bauhaus/reference.html       # 输出 JSON 评分
-anti-ai-score a.html b.html --threshold 6         # 自定义通过阈值
-cat page.html | anti-ai-score -                   # 从 stdin 读
-# 等价于：python -m src.scorer.eight_dim styles/bauhaus/reference.html
-```
-
-也可作为库导入：
+Use it as a Python library:
 
 ```python
 from src.scorer import score_html
+
 scores = score_html(html_string)
-print(scores["total"])  # 0-16，越低越「反 AI 味」
+print(scores["total"])        # 0-16, lower = more anti-AI
+print(scores["font_cliche"])  # 0 or 2
+print(scores["pass"])         # True if total <= 4
 ```
 
-## 评分门控
+### Generate Styles
 
-所有生成的 reference.html 必须：
-- 8-dim rubric ≤ 4/16
-- 不含 Inter/Roboto/Lato/Open Sans/Poppins 字体
-- 不含紫蓝渐变 (#667eea, #764ba2)
-- 不含 glassmorphism (backdrop-filter: blur)
-- 不含 emoji 作为图标
+Configure your LLM provider in `config/pipeline.yaml`, then:
+
+```bash
+anti-ai-factory --seed bauhaus       # Generate one seed
+anti-ai-factory --tier 1             # Generate an entire tier
+anti-ai-factory --batch 5            # Process next 5 pending seeds
+anti-ai-factory --workers 5          # 5 concurrent workers
+anti-ai-factory --status             # Show generation status
+anti-ai-factory --dry-run            # Preview without generating
+```
+
+---
+
+## The 8-Dimension Rubric
+
+Every generated HTML is scored on 8 dimensions (0-2 each, 0-16 total). Target: **≤ 4** to pass.
+
+| Dimension | What it detects | Score |
+|-----------|----------------|-------|
+| `font_cliche` | AI-default fonts as primary (Inter, Roboto, Lato, Open Sans, Poppins) | 0/2 |
+| `purple_gradient` | AI-signature purple-blue gradients (#667eea, #764ba2) | 0/2 |
+| `glassmorphism` | backdrop-filter: blur + rgba white overlay | 0/2 |
+| `uniform_radius` | All elements have identical border-radius (12px or 16px) | 0/2 |
+| `emoji_icons` | Emoji characters used as UI icons | 0/1/2 |
+| `placeholder_copy` | Marketing language ("seamless", "revolutionary", "empower") | 0/1/2 |
+| `heavy_shadow` | Fluffy colored box-shadows (blur ≥ 20px + rgba) | 0/1/2 |
+| `element_density` | Extremely widget-heavy pages (≥ 40 HTML tags) | 0/2 |
+
+### Gate Rules
+
+All generated `reference.html` must also:
+- ❌ Not use Inter/Roboto/Lato/Open Sans/Poppins as primary font
+- ❌ Not contain purple-blue gradients (#667eea, #764ba2)
+- ❌ Not use glassmorphism (backdrop-filter: blur)
+- ❌ Not use emoji as icons
+
+---
+
+## Architecture
+
+```
+catalog/SEEDS.md         ← 15,000+ style seed definitions (55 movements × regions × media × palettes)
+config/pipeline.yaml     ← LLM provider config + scoring thresholds
+src/
+  generator/             ← LLM call layer (generates DESIGN.md + HTML)
+  scorer/                ← 8-dimension scorer (pure Python, zero deps)
+  pipeline/              ← Main harness loop (generate → score → accept/reject → iterate)
+sample_styles/           ← 10 curated example outputs
+scripts/                 ← Gallery builder, seed generator, repair tools
+gallery/                 ← Web-based preview gallery + scorer UI
+demos/                   ← Standalone demo HTML files
+```
+
+---
+
+## LLM Provider Configuration
+
+`config/pipeline.yaml` supports multiple providers. Switch by changing `llm.provider`:
+
+```yaml
+llm:
+  provider: openai        # openai | xfyun | any OpenAI-compatible API
+  model: "gpt-4o"
+  max_tokens: 4096
+  temperature: 0.7
+  providers:
+    openai:
+      base_url: "https://api.openai.com/v1"
+      api_key_env: "OPENAI_API_KEY"
+    xfyun:
+      base_url: "https://maas-api.cn-huabei-1.xf-yun.com/v2"
+      api_key_env: "XFYUN_API_KEY"
+```
+
+API key resolution: environment variable → `.env` file in project root.
+
+---
+
+## Design Movement Seeds
+
+The `catalog/SEEDS.md` contains 15,000+ seed definitions organized in tiers:
+
+| Tier | Description | Examples |
+|------|-------------|----------|
+| 1 | Core movements | Bauhaus, Swiss International, Brutalist Web, Art Deco, Memphis |
+| 2 | Regional variants | Bauhaus·Berlin, Art Deco·Shanghai, Ukiyo-e·Edo |
+| 3 | Medium adaptations | Poster, Book Cover, Dashboard, Landing Page |
+| 4 | Palette variations | Warm, Cool, Earth, Neon, Monochrome, Pastel |
+| 5 | Material textures | Grain, Paper, Canvas, Stone, Metal, Wood |
+| 6+ | Full combinations | All dimensions composed |
+
+Each seed captures: movement name, era, region, core principles, and anti-AI signals.
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Adding new design movement seeds
+- Improving the scorer rubric
+- Submitting generated styles
+
+---
+
+## License
+
+[MIT](LICENSE) — use the scorer in your CI, fork the generator, build on top.
+
+---
+
+## Related
+
+- [DESIGN.md spec](https://github.com/nicedoc/designmd) — Google's design token format
+- [Anti-AI Style Gallery](https://anthropics.github.io/anti-ai-style-factory/) — Browse generated styles online
