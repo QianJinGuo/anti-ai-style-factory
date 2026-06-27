@@ -45,12 +45,11 @@ def find_audit_problems() -> dict:
       empty:            0-byte files
     """
     sys.path.insert(0, str(PROJECT_ROOT))
-    from src.scorer.eight_dim import score_html
 
     problems = {
         "needs_html_close": [],
         "needs_h1": [],
-        "needs_regen": [],   # CSS-only fragments — require LLM regeneration, not text fix
+        "needs_regen": [],  # CSS-only fragments — require LLM regeneration, not text fix
         "empty": [],
     }
 
@@ -116,7 +115,7 @@ def promote_first_heading(html: str) -> tuple[str, bool]:
     if not m:
         return html, False
     new_tag = "h1"
-    new_html = html[: m.start()] + f"<{new_tag}{m.group(2)}>{m.group(3)}</{new_tag}>" + html[m.end():]
+    new_html = html[: m.start()] + f"<{new_tag}{m.group(2)}>{m.group(3)}</{new_tag}>" + html[m.end() :]
     return new_html, True
 
 
@@ -135,7 +134,7 @@ def insert_h1_from_title(html: str) -> tuple[str, bool]:
         return html, False
 
     insert_pos = body_m.end()
-    h1_html = f'\n<h1>{title}</h1>\n'
+    h1_html = f"\n<h1>{title}</h1>\n"
     return html[:insert_pos] + h1_html + html[insert_pos:], True
 
 
@@ -176,7 +175,11 @@ def restore_quarantine():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="Preview fixes without modifying anything")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview fixes without modifying anything",
+    )
     parser.add_argument("--restore", action="store_true", help="Undo quarantine (move dirs back)")
     args = parser.parse_args()
 
@@ -196,15 +199,15 @@ def main():
     total_regen = len(problems["needs_regen"])
     total_empty = len(problems["empty"])
 
-    print(f"\n=== Findings ===")
+    print("\n=== Findings ===")
     print(f"  [A] needs </body></html> close:  {total_html}  (cheap text fix)")
     print(f"  [B] needs <h1> promotion:        {total_h1}  (cheap text fix)")
     print(f"  [C] CSS-only fragments (no body): {total_regen}  (REQUIRES LLM REGENERATION)")
     print(f"  [D] empty (0-byte) files:         {total_empty}  (REQUIRES LLM REGENERATION)")
     if total_regen + total_empty:
         print(f"\n  ⚠ {total_regen + total_empty} files need LLM regen — these are CSS-only")
-        print(f"    fragments where the LLM hit max_tokens mid-style-block. Browser would")
-        print(f"    render them blank. Text fixes CANNOT recover these.")
+        print("    fragments where the LLM hit max_tokens mid-style-block. Browser would")
+        print("    render them blank. Text fixes CANNOT recover these.")
         for name, sz, reason in problems["needs_regen"][:3]:
             print(f"      - {name} ({sz}B, {reason})")
         if total_regen > 3:
@@ -215,12 +218,12 @@ def main():
     print(f"  Needs LLM regen: {total_regen + total_empty} files")
 
     if args.dry_run:
-        print(f"\n[dry-run] No changes made. Re-run without --dry-run to apply.")
+        print("\n[dry-run] No changes made. Re-run without --dry-run to apply.")
         print(f"          The {total_regen + total_empty} regen-needed files will be quarantined to")
-        print(f"          styles/_quarantine/ so the audit stops flagging them.")
+        print("          styles/_quarantine/ so the audit stops flagging them.")
         return 0
 
-    print(f"\n=== Applying fixes ===")
+    print("\n=== Applying fixes ===")
     t0 = time.time()
 
     # 1. Append closing tags (cheapest fix)
@@ -281,14 +284,14 @@ def main():
         quarantined += 1
     QUARANTINE_LOG.write_text(json.dumps(log, indent=2, ensure_ascii=False))
     print(f"  [3] quarantined {quarantined} regen-needed dirs → styles/_quarantine/")
-    print(f"      (these need a batch resubmit — DESIGN.md still exists in each dir)")
+    print("      (these need a batch resubmit — DESIGN.md still exists in each dir)")
 
     elapsed = time.time() - t0
     print(f"\nDone in {elapsed:.1f}s.")
-    print(f"Next steps:")
-    print(f"  1. python -m src.pipeline.batch_runner --audit        # verify cleanup")
+    print("Next steps:")
+    print("  1. python -m src.pipeline.batch_runner --audit        # verify cleanup")
     print(f"  2. cat styles/_quarantine/_quarantine_log.json        # see {quarantined} dirs to regen")
-    print(f"  3. To re-submit the quarantined styles, see scripts/repair_reference_html.py --regen-batch (TODO)")
+    print("  3. To re-submit the quarantined styles, see scripts/repair_reference_html.py --regen-batch (TODO)")
 
 
 if __name__ == "__main__":

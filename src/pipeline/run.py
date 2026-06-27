@@ -32,7 +32,6 @@ import yaml
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.scorer.eight_dim import score_html, DIMENSIONS
 from src.generator.llm_generator import generate_style, save_result, get_client
 
 
@@ -59,15 +58,17 @@ def parse_seeds(catalog_path: Path) -> list:
             seed_id = m.group(1).strip()
             if seed_id.startswith("--") or seed_id.upper().startswith("ID"):
                 continue
-            seeds.append({
-                "id": seed_id,
-                "name": m.group(2).strip(),
-                "era": m.group(3).strip(),
-                "region": m.group(4).strip(),
-                "principle": m.group(5).strip(),
-                "anti_ai_signal": m.group(6).strip(),
-                "tier": current_tier,
-            })
+            seeds.append(
+                {
+                    "id": seed_id,
+                    "name": m.group(2).strip(),
+                    "era": m.group(3).strip(),
+                    "region": m.group(4).strip(),
+                    "principle": m.group(5).strip(),
+                    "anti_ai_signal": m.group(6).strip(),
+                    "tier": current_tier,
+                }
+            )
     return seeds
 
 
@@ -87,7 +88,12 @@ def cmd_status(config: dict, seeds: list):
     for s in seeds:
         status = get_style_status(styles_dir, s["id"])
         tier = s.get("tier", "?")
-        icon = {"validated": "✅", "scaffold": "🔧", "failed": "❌", "pending": "⬜"}.get(status, "❓")
+        icon = {
+            "validated": "✅",
+            "scaffold": "🔧",
+            "failed": "❌",
+            "pending": "⬜",
+        }.get(status, "❓")
         print(f"  {icon} T{tier} {s['id']:25s} {s['name']:20s} [{status}]")
         if status == "validated":
             validated += 1
@@ -100,9 +106,9 @@ def cmd_status(config: dict, seeds: list):
 
 def _generate_one(client, config, seed, styles_dir, index, total):
     """Generate a single style, for use in thread pool."""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"[{index}/{total}] {seed['id']} — {seed['name']} (worker starting)")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     start = time.time()
     result = generate_style(client, config, seed)
@@ -149,7 +155,7 @@ def cmd_run(config: dict, seeds: list, args):
 
     # Batch limit
     if args.batch and args.batch > 0:
-        pending = pending[:args.batch]
+        pending = pending[: args.batch]
 
     workers = args.workers or 1
     total = len(pending)
@@ -193,10 +199,7 @@ def cmd_run(config: dict, seeds: list, args):
             return result
 
         with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(_thread_job, (i, s)): s
-                for i, s in enumerate(pending, 1)
-            }
+            futures = {executor.submit(_thread_job, (i, s)): s for i, s in enumerate(pending, 1)}
             for future in as_completed(futures):
                 seed = futures[future]
                 try:
@@ -208,20 +211,27 @@ def cmd_run(config: dict, seeds: list, args):
                         failed += 1
                 except Exception as e:
                     print(f"  💥 [{seed['id']}] Worker crashed: {e}")
-                    run_log["results"].append({
-                        "seed_id": seed["id"],
-                        "status": "crashed",
-                        "error": str(e),
-                    })
+                    run_log["results"].append(
+                        {
+                            "seed_id": seed["id"],
+                            "status": "crashed",
+                            "error": str(e),
+                        }
+                    )
                     failed += 1
 
     # Save run log
     run_log["completed"] = datetime.now().isoformat()
-    run_log["summary"] = {"passed": passed, "failed": failed, "total": total, "workers": workers}
+    run_log["summary"] = {
+        "passed": passed,
+        "failed": failed,
+        "total": total,
+        "workers": workers,
+    }
     log_path = log_dir / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     log_path.write_text(json.dumps(run_log, indent=2, ensure_ascii=False))
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Pipeline complete: ✅ {passed} passed | ❌ {failed} failed | Workers: {workers} | Log: {log_path}")
 
 
@@ -253,7 +263,12 @@ def main():
     parser.add_argument("--seed", help="Generate a specific seed")
     parser.add_argument("--tier", type=int, help="Generate all seeds in a tier (1-6)")
     parser.add_argument("--batch", type=int, default=0, help="Generate next N pending seeds")
-    parser.add_argument("--workers", type=int, default=1, help="Concurrent workers (XFYUN: up to 10 recommended)")
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Concurrent workers (XFYUN: up to 10 recommended)",
+    )
     parser.add_argument("--force", action="store_true", help="Regenerate even if already validated")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be generated")
     parser.add_argument("--status", action="store_true", help="Show generation status")

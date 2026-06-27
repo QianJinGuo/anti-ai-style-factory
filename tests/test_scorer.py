@@ -19,6 +19,7 @@ from src.scorer.eight_dim import score_html, score_file, main, DIMENSIONS
 
 # ── Helpers ──────────────────────────────────────────────────
 
+
 def clean_html(**overrides):
     """Return a minimal anti-AI-clean HTML page. Override any dimension."""
     base = """<!DOCTYPE html>
@@ -52,17 +53,21 @@ def clean_html(**overrides):
 
 # ── Dimension 1: font_cliche ─────────────────────────────────
 
+
 class TestFontCliche:
     """Detects AI-default fonts as PRIMARY font."""
 
-    @pytest.mark.parametrize("font", [
-        "Inter, sans-serif",
-        "Roboto, sans-serif",
-        "Lato, sans-serif",
-        "Open Sans, sans-serif",
-        "Helvetica Neue, sans-serif",
-        "Poppins, sans-serif",
-    ])
+    @pytest.mark.parametrize(
+        "font",
+        [
+            "Inter, sans-serif",
+            "Roboto, sans-serif",
+            "Lato, sans-serif",
+            "Open Sans, sans-serif",
+            "Helvetica Neue, sans-serif",
+            "Poppins, sans-serif",
+        ],
+    )
     def test_ai_font_as_primary_scores_2(self, font):
         html = clean_html(font=font)
         scores = score_html(html)
@@ -92,15 +97,19 @@ class TestFontCliche:
 
 # ── Dimension 2: purple_gradient ─────────────────────────────
 
+
 class TestPurpleGradient:
     """Detects AI-signature purple-blue gradient colors."""
 
-    @pytest.mark.parametrize("color", [
-        "#667eea",
-        "#764ba2",
-        "#8b5cf6",
-        "#a78bfa",
-    ])
+    @pytest.mark.parametrize(
+        "color",
+        [
+            "#667eea",
+            "#764ba2",
+            "#8b5cf6",
+            "#a78bfa",
+        ],
+    )
     def test_purple_hex_color_scores_2(self, color):
         html = clean_html(add_style=f"a {{ color: {color}; }}")
         scores = score_html(html)
@@ -123,6 +132,7 @@ class TestPurpleGradient:
 
 
 # ── Dimension 3: glassmorphism ───────────────────────────────
+
 
 class TestGlassmorphism:
     """Detects backdrop-filter: blur + rgba white overlay."""
@@ -151,40 +161,49 @@ class TestGlassmorphism:
 
 # ── Dimension 4: uniform_radius ──────────────────────────────
 
+
 class TestUniformRadius:
     """Detects uniform AI-typical border-radius (all identical 12px or 16px)."""
 
     def test_all_12px_scores_2(self):
-        html = clean_html(add_style="""
+        html = clean_html(
+            add_style="""
             .a { border-radius: 12px; }
             .b { border-radius: 12px; }
             .c { border-radius: 12px; }
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["uniform_radius"] == 2
 
     def test_all_16px_scores_2(self):
-        html = clean_html(add_style="""
+        html = clean_html(
+            add_style="""
             .a { border-radius: 16px; }
             .b { border-radius: 16px; }
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["uniform_radius"] == 2
 
     def test_mixed_radii_no_score(self):
-        html = clean_html(add_style="""
+        html = clean_html(
+            add_style="""
             .a { border-radius: 12px; }
             .b { border-radius: 8px; }
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["uniform_radius"] == 0
 
     def test_uniform_but_not_ai_typical(self):
         """All 4px is uniform but not the AI-typical 12/16."""
-        html = clean_html(add_style="""
+        html = clean_html(
+            add_style="""
             .a { border-radius: 4px; }
             .b { border-radius: 4px; }
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["uniform_radius"] == 0
 
@@ -195,13 +214,16 @@ class TestUniformRadius:
 
 # ── Dimension 5: emoji_icons ─────────────────────────────────
 
+
 class TestEmojiIcons:
     """Detects emoji characters used as icons."""
 
     def test_5_or_more_emoji_scores_2(self):
-        html = clean_html(add_body="""
+        html = clean_html(
+            add_body="""
             <span>🚀</span><span>📊</span><span>💡</span><span>🎯</span><span>✨</span>
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["emoji_icons"] == 2
 
@@ -217,13 +239,16 @@ class TestEmojiIcons:
 
 # ── Dimension 6: placeholder_copy ────────────────────────────
 
+
 class TestPlaceholderCopy:
     """Detects marketing language in visible text (not CSS)."""
 
     def test_3_plus_stems_scores_2(self):
-        html = clean_html(add_body="""
+        html = clean_html(
+            add_body="""
             <p>Our revolutionary platform empowers seamless innovation.</p>
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["placeholder_copy"] == 2
 
@@ -251,15 +276,18 @@ class TestPlaceholderCopy:
 
 # ── Dimension 7: heavy_shadow ────────────────────────────────
 
+
 class TestHeavyShadow:
     """Detects fluffy colored box-shadows (blur >= 20px + rgba)."""
 
     def test_3_plus_fluffy_shadows_scores_2(self):
-        html = clean_html(add_style="""
+        html = clean_html(
+            add_style="""
             .a { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
             .b { box-shadow: 0 4px 25px rgba(100,100,255,0.2); }
             .c { box-shadow: 0 4px 30px rgba(255,0,0,0.15); }
-        """)
+        """
+        )
         scores = score_html(html)
         assert scores["heavy_shadow"] == 2
 
@@ -282,6 +310,7 @@ class TestHeavyShadow:
 
 # ── Dimension 8: element_density ─────────────────────────────
 
+
 class TestElementDensity:
     """Detects extremely widget-heavy pages (>= 40 HTML tags)."""
 
@@ -298,6 +327,7 @@ class TestElementDensity:
 
 # ── Total score & pass/fail ──────────────────────────────────
 
+
 class TestTotalScore:
     """Integration tests for total score and pass/fail logic."""
 
@@ -309,7 +339,8 @@ class TestTotalScore:
 
     def test_max_ai_page_scores_high(self):
         """A page with every AI marker should score near 16."""
-        html = """<!DOCTYPE html>
+        html = (
+            """<!DOCTYPE html>
 <html>
 <head>
 <style>
@@ -337,9 +368,12 @@ class TestTotalScore:
   <div class="card">💡</div>
   <div class="card">🎯</div>
   <div class="card">✨</div>
-  """ + "".join(f"<div class='w{i}'>W{i}</div>" for i in range(45)) + """
+  """
+            + "".join(f"<div class='w{i}'>W{i}</div>" for i in range(45))
+            + """
 </body>
 </html>"""
+        )
         scores = score_html(html)
         assert scores["font_cliche"] == 2
         assert scores["purple_gradient"] == 2
@@ -363,6 +397,7 @@ class TestTotalScore:
 
 
 # ── score_file ───────────────────────────────────────────────
+
 
 class TestScoreFile:
     """Test file-based scoring."""
@@ -390,6 +425,7 @@ class TestScoreFile:
 
 # ── CLI entry point ──────────────────────────────────────────
 
+
 class TestCLI:
     """Test the anti-ai-score CLI."""
 
@@ -405,6 +441,7 @@ class TestCLI:
 
     def test_score_stdin(self, tmp_path, capsys, monkeypatch):
         import io
+
         monkeypatch.setattr(sys, "stdin", io.StringIO(clean_html()))
         ret = main(["-"])
         assert ret == 0
@@ -413,10 +450,12 @@ class TestCLI:
 
     def test_fail_returns_nonzero(self, tmp_path, capsys):
         f = tmp_path / "ai.html"
-        f.write_text(clean_html(
-            font="Inter, sans-serif",
-            add_style="a { color: #667eea; } .a { border-radius: 12px; } .b { border-radius: 12px; } .c { border-radius: 12px; }",
-        ))
+        f.write_text(
+            clean_html(
+                font="Inter, sans-serif",
+                add_style="a { color: #667eea; } .a { border-radius: 12px; } .b { border-radius: 12px; } .c { border-radius: 12px; }",
+            )
+        )
         ret = main([str(f)])
         assert ret == 1
 
@@ -441,6 +480,7 @@ class TestCLI:
 
 # ── Sample styles validation ─────────────────────────────────
 
+
 class TestSampleStyles:
     """Verify that the bundled sample styles all pass the rubric."""
 
@@ -448,12 +488,23 @@ class TestSampleStyles:
 
     @pytest.mark.skipif(
         not (Path(__file__).resolve().parent.parent / "sample_styles").exists(),
-        reason="sample_styles/ not found"
+        reason="sample_styles/ not found",
     )
-    @pytest.mark.parametrize("style", [
-        "bauhaus", "swiss-intl", "brutalist-web", "art-deco",
-        "cyberpunk", "ukiyo-e", "memphis", "terminal", "wabi-sabi", "pop-art",
-    ])
+    @pytest.mark.parametrize(
+        "style",
+        [
+            "bauhaus",
+            "swiss-intl",
+            "brutalist-web",
+            "art-deco",
+            "cyberpunk",
+            "ukiyo-e",
+            "memphis",
+            "terminal",
+            "wabi-sabi",
+            "pop-art",
+        ],
+    )
     def test_sample_style_passes(self, style):
         html_path = self.SAMPLE_DIR / style / "reference.html"
         if not html_path.exists():

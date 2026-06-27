@@ -24,38 +24,128 @@ from pathlib import Path
 
 # Must match seed_generator.py
 PALETTES = {"warm", "cool", "earth", "neon", "monochrome", "pastel", "jewel", "muted"}
-TEXTURES = {"grain", "paper", "canvas", "stone", "metal", "wood", "fabric", "concrete", "wax", "glass"}
+TEXTURES = {
+    "grain",
+    "paper",
+    "canvas",
+    "stone",
+    "metal",
+    "wood",
+    "fabric",
+    "concrete",
+    "wax",
+    "glass",
+}
 MEDIUMS = {
-    "poster", "book-cover", "dashboard", "landing", "editorial-spread", "packaging",
-    "signage", "exhibition", "infographic", "card-ui", "typography-specimen",
-    "wayfinding", "album-art", "stamp", "banknote", "map", "recipe",
-    "ticket", "catalog", "annual-report"
+    "poster",
+    "book-cover",
+    "dashboard",
+    "landing",
+    "editorial-spread",
+    "packaging",
+    "signage",
+    "exhibition",
+    "infographic",
+    "card-ui",
+    "typography-specimen",
+    "wayfinding",
+    "album-art",
+    "stamp",
+    "banknote",
+    "map",
+    "recipe",
+    "ticket",
+    "catalog",
+    "annual-report",
 }
 
 # Movement roots — the first segment of any valid style id.
 # Computed from catalog at build time; fallback to known list.
 KNOWN_MOVEMENTS = {
-    "african-wax", "arabic-geo", "art-brut", "art-deco", "art-nouveau",
-    "bauhaus", "biomorphic", "blackletter", "baroque", "brutalist-arch",
-    "brutalist-web", "chinese-stone", "comic-book", "constructivist", "cyberpunk",
-    "dada", "data-ink", "de-stijl", "dutch-golden", "editorial", "film-noir",
-    "gothic-cath", "graffiti", "grunge", "ink-wash", "japanese-minimal",
-    "letterpress", "memphis", "mexican-mural", "mid-century", "neon-sign",
-    "newspaper", "op-art", "persian-mini", "pixel-art", "polaroid",
-    "pop-art", "retrowave", "russian-avant", "scandinavian", "skeuomorphic",
-    "space-age", "streamline", "swiss-intl", "technicolor", "terminal",
-    "terrazzo", "ukiyo-e", "ukiyoe", "vaporwave", "vernacular", "wabi-sabi",
-    "wiener-wk", "y2k", "zine-punk",
+    "african-wax",
+    "arabic-geo",
+    "art-brut",
+    "art-deco",
+    "art-nouveau",
+    "bauhaus",
+    "biomorphic",
+    "blackletter",
+    "baroque",
+    "brutalist-arch",
+    "brutalist-web",
+    "chinese-stone",
+    "comic-book",
+    "constructivist",
+    "cyberpunk",
+    "dada",
+    "data-ink",
+    "de-stijl",
+    "dutch-golden",
+    "editorial",
+    "film-noir",
+    "gothic-cath",
+    "graffiti",
+    "grunge",
+    "ink-wash",
+    "japanese-minimal",
+    "letterpress",
+    "memphis",
+    "mexican-mural",
+    "mid-century",
+    "neon-sign",
+    "newspaper",
+    "op-art",
+    "persian-mini",
+    "pixel-art",
+    "polaroid",
+    "pop-art",
+    "retrowave",
+    "russian-avant",
+    "scandinavian",
+    "skeuomorphic",
+    "space-age",
+    "streamline",
+    "swiss-intl",
+    "technicolor",
+    "terminal",
+    "terrazzo",
+    "ukiyo-e",
+    "ukiyoe",
+    "vaporwave",
+    "vernacular",
+    "wabi-sabi",
+    "wiener-wk",
+    "y2k",
+    "zine-punk",
 }
 
 # Multi-segment movements (hyphenated but still a single movement)
-MULTI_SEG_MOVEMENTS = {"brutalist-web", "brutalist-arch", "swiss-intl",
-                       "african-wax", "art-deco", "art-nouveau", "art-brut",
-                       "chinese-stone", "comic-book", "ink-wash", "mid-century",
-                       "op-art", "neon-sign", "pop-art", "pixel-art",
-                       "space-age", "de-stijl", "dutch-golden", "russian-avant",
-                       "wiener-wk", "wabi-sabi", "data-ink", "film-noir",
-                       "cyberpunk"}
+MULTI_SEG_MOVEMENTS = {
+    "brutalist-web",
+    "brutalist-arch",
+    "swiss-intl",
+    "african-wax",
+    "art-deco",
+    "art-nouveau",
+    "art-brut",
+    "chinese-stone",
+    "comic-book",
+    "ink-wash",
+    "mid-century",
+    "op-art",
+    "neon-sign",
+    "pop-art",
+    "pixel-art",
+    "space-age",
+    "de-stijl",
+    "dutch-golden",
+    "russian-avant",
+    "wiener-wk",
+    "wabi-sabi",
+    "data-ink",
+    "film-noir",
+    "cyberpunk",
+}
 
 
 def parse_style_id(sid: str) -> dict:
@@ -128,7 +218,7 @@ def extract_colors_from_design(design_md: str) -> dict:
             if match:
                 key, val = match.group(1), match.group(2).strip()
                 # Clean up inline comments
-                val = re.sub(r'\s+#.*$', '', val).strip()
+                val = re.sub(r"\s+#.*$", "", val).strip()
                 if val.startswith("#") or val.startswith("rgb"):
                     colors[key] = val
 
@@ -221,11 +311,10 @@ def build_index(styles_dir: Path) -> dict:
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(
-        description="Build gallery index from styles directory."
-    )
+    parser = argparse.ArgumentParser(description="Build gallery index from styles directory.")
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         default=str(Path(__file__).parent.parent / "gallery" / "data" / "styles.json"),
         help="Output JSON path (default: gallery/data/styles.json)",
     )
@@ -235,7 +324,9 @@ def main(argv=None):
         help="Root styles directory (default: styles/)",
     )
     parser.add_argument(
-        "--force", "-f", action="store_true",
+        "--force",
+        "-f",
+        action="store_true",
         help="Rebuild even if output exists",
     )
     args = parser.parse_args(argv)
@@ -245,7 +336,7 @@ def main(argv=None):
 
     if output_path.exists() and not args.force:
         print(f"Output exists: {output_path}")
-        print(f"Use --force to rebuild.")
+        print("Use --force to rebuild.")
         return 0
 
     if not styles_dir.is_dir():
@@ -254,16 +345,16 @@ def main(argv=None):
 
     print(f"Scanning {styles_dir} ...", file=sys.stderr)
     data = build_index(styles_dir)
-    print(f"Found {data['stats']['total']} styles "
-          f"({data['stats']['movements']} movements, "
-          f"{data['stats']['mediums']} mediums, "
-          f"{data['stats']['palettes']} palettes)", file=sys.stderr)
+    print(
+        f"Found {data['stats']['total']} styles "
+        f"({data['stats']['movements']} movements, "
+        f"{data['stats']['mediums']} mediums, "
+        f"{data['stats']['palettes']} palettes)",
+        file=sys.stderr,
+    )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        json.dumps(data, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8"
-    )
+    output_path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # Print size
     size_kb = output_path.stat().st_size / 1024

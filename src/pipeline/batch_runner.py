@@ -19,10 +19,7 @@ State file: state/batches.json — tracks all submitted batches.
 
 import argparse
 import json
-import re
-import subprocess
 import sys
-import time
 import uuid
 import urllib.request
 import urllib.error
@@ -92,31 +89,42 @@ def upload_jsonl(key: str, jsonl_path: Path) -> str:
     boundary = uuid.uuid4().hex
     file_bytes = jsonl_path.read_bytes()
     body = (
-        f"--{boundary}\r\n"
-        f'Content-Disposition: form-data; name="purpose"\r\n\r\nbatch\r\n'
-        f"--{boundary}\r\n"
-        f'Content-Disposition: form-data; name="file"; filename="{jsonl_path.name}"\r\n'
-        f"Content-Type: application/octet-stream\r\n\r\n"
-    ).encode() + file_bytes + f"\r\n--{boundary}--\r\n".encode()
+        (
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="purpose"\r\n\r\nbatch\r\n'
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="file"; filename="{jsonl_path.name}"\r\n'
+            f"Content-Type: application/octet-stream\r\n\r\n"
+        ).encode()
+        + file_bytes
+        + f"\r\n--{boundary}--\r\n".encode()
+    )
 
     resp = http_request(
-        "POST", f"{BATCH_HOST}/v1/files",
-        key=key, body=body,
-        content_type=f"multipart/form-data; boundary={boundary}"
+        "POST",
+        f"{BATCH_HOST}/v1/files",
+        key=key,
+        body=body,
+        content_type=f"multipart/form-data; boundary={boundary}",
     )
     return resp["id"]
 
 
 def create_batch(key: str, file_id: str, description: str) -> dict:
-    payload = json.dumps({
-        "input_file_id": file_id,
-        "endpoint": "/v1/chat/completions",
-        "completion_window": "24h",
-        "metadata": {"description": description}
-    }).encode()
+    payload = json.dumps(
+        {
+            "input_file_id": file_id,
+            "endpoint": "/v1/chat/completions",
+            "completion_window": "24h",
+            "metadata": {"description": description},
+        }
+    ).encode()
     return http_request(
-        "POST", f"{BATCH_HOST}/v1/batches",
-        key=key, body=payload, content_type="application/json"
+        "POST",
+        f"{BATCH_HOST}/v1/batches",
+        key=key,
+        body=payload,
+        content_type="application/json",
     )
 
 
@@ -135,20 +143,22 @@ def build_design_jsonl(seeds: list, model: str, max_tokens: int, temperature: fl
     lines = []
     for seed in seeds:
         prompt = build_design_md_prompt(seed)
-        lines.append({
-            "custom_id": f"design::{seed['id']}",
-            "method": "POST",
-            "url": "/v1/chat/completions",
-            "body": {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": prompt},
-                ],
-                "max_tokens": max_tokens,
-                "temperature": temperature,
+        lines.append(
+            {
+                "custom_id": f"design::{seed['id']}",
+                "method": "POST",
+                "url": "/v1/chat/completions",
+                "body": {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": prompt},
+                    ],
+                    "max_tokens": max_tokens,
+                    "temperature": temperature,
+                },
             }
-        })
+        )
     return lines
 
 
@@ -157,20 +167,22 @@ def build_html_jsonl(seed_design_pairs: list, model: str, max_tokens: int, tempe
     lines = []
     for seed, design_md in seed_design_pairs:
         prompt = build_reference_html_prompt(seed, design_md)
-        lines.append({
-            "custom_id": f"html::{seed['id']}",
-            "method": "POST",
-            "url": "/v1/chat/completions",
-            "body": {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": prompt},
-                ],
-                "max_tokens": max_tokens,
-                "temperature": temperature,
+        lines.append(
+            {
+                "custom_id": f"html::{seed['id']}",
+                "method": "POST",
+                "url": "/v1/chat/completions",
+                "body": {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": prompt},
+                    ],
+                    "max_tokens": max_tokens,
+                    "temperature": temperature,
+                },
             }
-        })
+        )
     return lines
 
 
@@ -215,12 +227,17 @@ def cmd_submit_design(args, config, state):
     # Skip seeds already in an open batch
     in_flight = set()
     for b in state["batches"]:
-        if b.get("phase") == "design" and b.get("status") not in ("completed", "failed", "expired", "consumed"):
+        if b.get("phase") == "design" and b.get("status") not in (
+            "completed",
+            "failed",
+            "expired",
+            "consumed",
+        ):
             in_flight.update(b.get("seed_ids", []))
     pending = [s for s in pending if s["id"] not in in_flight]
 
     if args.limit and args.limit > 0:
-        pending = pending[:args.limit]
+        pending = pending[: args.limit]
 
     if not pending:
         print("No pending seeds to submit.")
@@ -245,24 +262,27 @@ def cmd_submit_design(args, config, state):
     batch = create_batch(key, file_id, f"design-{ts}")
     print(f"  created batch={batch['id']} status={batch['status']}")
 
-    state["batches"].append({
-        "phase": "design",
-        "batch_id": batch["id"],
-        "input_file_id": file_id,
-        "jsonl_path": str(jsonl_path),
-        "seed_ids": [s["id"] for s in pending],
-        "status": batch["status"],
-        "created_at": batch.get("created_at"),
-        "submitted_at": datetime.now().isoformat(),
-    })
+    state["batches"].append(
+        {
+            "phase": "design",
+            "batch_id": batch["id"],
+            "input_file_id": file_id,
+            "jsonl_path": str(jsonl_path),
+            "seed_ids": [s["id"] for s in pending],
+            "status": batch["status"],
+            "created_at": batch.get("created_at"),
+            "submitted_at": datetime.now().isoformat(),
+        }
+    )
     save_state(state)
 
 
 def cmd_poll(args, config, state):
     """Poll all open batches."""
     key = get_api_key(config)
-    open_batches = [b for b in state["batches"]
-                    if b.get("status") not in ("completed", "failed", "expired", "consumed")]
+    open_batches = [
+        b for b in state["batches"] if b.get("status") not in ("completed", "failed", "expired", "consumed")
+    ]
     if not open_batches:
         print("No open batches.")
         return
@@ -307,7 +327,7 @@ def cmd_consume(args, config, state):
         for cid, text in results.items():
             if not text or not cid.startswith("design::"):
                 continue
-            seed_id = cid[len("design::"):]
+            seed_id = cid[len("design::") :]
             seed = seeds.get(seed_id)
             if not seed:
                 continue
@@ -339,16 +359,18 @@ def cmd_consume(args, config, state):
         print(f"  uploaded → file_id={file_id}")
         new_batch = create_batch(key, file_id, f"html-{ts}")
         print(f"  created phase-B batch={new_batch['id']}")
-        state["batches"].append({
-            "phase": "html",
-            "batch_id": new_batch["id"],
-            "input_file_id": file_id,
-            "jsonl_path": str(jsonl_path),
-            "seed_ids": [s["id"] for s, _ in seed_design_pairs],
-            "status": new_batch["status"],
-            "parent_batch": b["batch_id"],
-            "submitted_at": datetime.now().isoformat(),
-        })
+        state["batches"].append(
+            {
+                "phase": "html",
+                "batch_id": new_batch["id"],
+                "input_file_id": file_id,
+                "jsonl_path": str(jsonl_path),
+                "seed_ids": [s["id"] for s, _ in seed_design_pairs],
+                "status": new_batch["status"],
+                "parent_batch": b["batch_id"],
+                "submitted_at": datetime.now().isoformat(),
+            }
+        )
         b["status"] = "consumed"
         consumed += 1
 
@@ -378,7 +400,7 @@ def cmd_finalize(args, config, state):
         for cid, text in results.items():
             if not text or not cid.startswith("html::"):
                 continue
-            seed_id = cid[len("html::"):]
+            seed_id = cid[len("html::") :]
             seed = seeds.get(seed_id)
             if not seed:
                 continue
@@ -423,7 +445,9 @@ def cmd_status(args, config, state):
     for b in state["batches"]:
         cnts = b.get("request_counts", {})
         cnts_str = f"t={cnts.get('total', '?')} ok={cnts.get('completed', '?')} fail={cnts.get('failed', '?')}"
-        print(f"{b.get('phase', '?'):<8} {b['batch_id']:<35} {b.get('status', '?'):<12} {cnts_str:<25} {b.get('submitted_at', '')[:19]}")
+        print(
+            f"{b.get('phase', '?'):<8} {b['batch_id']:<35} {b.get('status', '?'):<12} {cnts_str:<25} {b.get('submitted_at', '')[:19]}"
+        )
 
 
 def cmd_audit(args, config, state):
@@ -450,9 +474,9 @@ def cmd_audit(args, config, state):
         return
 
     t0 = _time.time()
-    structural = []   # (style_id, [issue_codes])
-    drift = []        # (style_id, stored_total, cur_total, cur_pass)
-    ai_trace = []     # (style_id, dim_name, dim_score)
+    structural = []  # (style_id, [issue_codes])
+    drift = []  # (style_id, stored_total, cur_total, cur_pass)
+    ai_trace = []  # (style_id, dim_name, dim_score)
     size_problems = []
 
     audited = 0
@@ -516,9 +540,23 @@ def cmd_audit(args, config, state):
                 # Only meaningful drift when both sides are present
                 if stored_total >= 0:
                     if stored_status == "validated" and not cur_pass:
-                        drift.append((sd.name, stored_total, scores["total"], "STORED_OK_NOW_FAIL"))
+                        drift.append(
+                            (
+                                sd.name,
+                                stored_total,
+                                scores["total"],
+                                "STORED_OK_NOW_FAIL",
+                            )
+                        )
                     elif stored_status == "failed" and cur_pass:
-                        drift.append((sd.name, stored_total, scores["total"], "STORED_FAIL_NOW_OK"))
+                        drift.append(
+                            (
+                                sd.name,
+                                stored_total,
+                                scores["total"],
+                                "STORED_FAIL_NOW_OK",
+                            )
+                        )
             except Exception:
                 pass
 
@@ -546,6 +584,7 @@ def cmd_audit(args, config, state):
     print(f"[3] AI TRACE: {ai_trace_total} dim flags across {len(set(x[0] for x in ai_trace))} files")
     # top 10 most-flagged dims
     from collections import Counter
+
     dim_counts = Counter(d for _, d, _ in ai_trace)
     for dim, cnt in dim_counts.most_common():
         print(f"  - {dim}: {cnt} hits")
@@ -559,9 +598,11 @@ def cmd_audit(args, config, state):
 
     # Final summary line — easy to grep from cron logs
     total_problems = len(structural) + len(drift) + len(size_problems)
-    print(f"AUDIT_SUMMARY audited={audited} structural={len(structural)} drift={len(drift)} "
-          f"ai_trace_files={len(set(x[0] for x in ai_trace))} size_anomalies={len(size_problems)} "
-          f"total_problems={total_problems}")
+    print(
+        f"AUDIT_SUMMARY audited={audited} structural={len(structural)} drift={len(drift)} "
+        f"ai_trace_files={len(set(x[0] for x in ai_trace))} size_anomalies={len(size_problems)} "
+        f"total_problems={total_problems}"
+    )
     print(f"audit_elapsed_s={elapsed:.2f}")
 
 
@@ -569,10 +610,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--submit-design", action="store_true", help="Submit phase A batch (DESIGN.md)")
     parser.add_argument("--poll", action="store_true", help="Poll all open batches")
-    parser.add_argument("--consume", action="store_true", help="Consume completed design batches → submit html")
-    parser.add_argument("--finalize", action="store_true", help="Finalize completed html batches → score+save")
+    parser.add_argument(
+        "--consume",
+        action="store_true",
+        help="Consume completed design batches → submit html",
+    )
+    parser.add_argument(
+        "--finalize",
+        action="store_true",
+        help="Finalize completed html batches → score+save",
+    )
     parser.add_argument("--status", action="store_true", help="Show batch state")
-    parser.add_argument("--audit", action="store_true", help="Audit all output/*/reference.html (read-only)")
+    parser.add_argument(
+        "--audit",
+        action="store_true",
+        help="Audit all output/*/reference.html (read-only)",
+    )
     parser.add_argument("--limit", type=int, default=0, help="Limit seeds when submitting")
     args = parser.parse_args()
 

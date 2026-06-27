@@ -8,7 +8,6 @@ import json
 import os
 import re
 import sys
-import time
 from pathlib import Path
 from typing import Optional
 
@@ -31,19 +30,13 @@ def _resolve_provider(config: dict) -> tuple[str, str]:
     if providers:
         name = llm.get("provider") or "openai"
         if name not in providers:
-            raise ValueError(
-                f"Unknown llm.provider '{name}'. "
-                f"Available: {', '.join(providers)}"
-            )
+            raise ValueError(f"Unknown llm.provider '{name}'. Available: {', '.join(providers)}")
         prov = providers[name]
         return prov["base_url"], prov["api_key_env"]
     # Legacy flat config
     if "base_url" in llm and "api_key_env" in llm:
         return llm["base_url"], llm["api_key_env"]
-    raise ValueError(
-        "config.llm must define either `providers` (+`provider`) "
-        "or flat `base_url`+`api_key_env`"
-    )
+    raise ValueError("config.llm must define either `providers` (+`provider`) or flat `base_url`+`api_key_env`")
 
 
 def resolve_api_key(config: dict) -> str:
@@ -68,9 +61,7 @@ def resolve_api_key(config: dict) -> str:
 
     api_key = os.environ.get(env_var, "")
     if not api_key:
-        raise ValueError(
-            f"Missing API key: set {env_var} env var or add it to .env file"
-        )
+        raise ValueError(f"Missing API key: set {env_var} env var or add it to .env file")
     return api_key
 
 
@@ -102,13 +93,13 @@ Every visual choice must be justified by the movement's philosophy."""
 
 def build_design_md_prompt(seed: dict) -> str:
     """Build prompt for generating DESIGN.md."""
-    return f"""Generate a complete DESIGN.md specification for the "{seed['name']}" design style.
+    return f"""Generate a complete DESIGN.md specification for the "{seed["name"]}" design style.
 
-Movement: {seed['name']}
-Era: {seed['era']}
-Region: {seed['region']}
-Core principles: {seed['principle']}
-Anti-AI signals: {seed['anti_ai_signal']}
+Movement: {seed["name"]}
+Era: {seed["era"]}
+Region: {seed["region"]}
+Core principles: {seed["principle"]}
+Anti-AI signals: {seed["anti_ai_signal"]}
 
 Output a Google DESIGN.md format file with:
 1. YAML front matter with: version, name, description, colors (primary/secondary/tertiary/neutral/muted), typography (h1/h2/h3/body-md/caption with fontFamily/fontSize/fontWeight/lineHeight/letterSpacing), rounded (sm/md/lg), spacing (sm/md/lg/xl), components (button-primary, card, table, etc.)
@@ -125,7 +116,7 @@ Output ONLY the DESIGN.md content, no extra commentary."""
 
 def build_reference_html_prompt(seed: dict, design_md: str) -> str:
     """Build prompt for generating reference HTML."""
-    return f"""Generate a single-file reference HTML implementation for the "{seed['name']}" style.
+    return f"""Generate a single-file reference HTML implementation for the "{seed["name"]}" style.
 
 Here is the DESIGN.md specification to follow:
 
@@ -149,7 +140,7 @@ Rules:
 - ZERO emoji
 - ZERO marketing language
 - Concrete, specific content (workshop data, production metrics) — NOT "Lorem ipsum"
-- The page must look like it belongs to the {seed['name']} movement, not like a generic SaaS template
+- The page must look like it belongs to the {seed["name"]} movement, not like a generic SaaS template
 
 Output ONLY the complete HTML file, no extra commentary."""
 
@@ -185,7 +176,7 @@ def extract_code_block(text: str) -> str:
     if stripped.startswith("```"):
         # Remove opening fence line
         first_newline = stripped.index("\n") if "\n" in stripped else len(stripped)
-        content = stripped[first_newline + 1:]
+        content = stripped[first_newline + 1 :]
         # Remove trailing ```
         if content.rstrip().endswith("```"):
             content = content.rstrip()[:-3].rstrip()
@@ -238,10 +229,10 @@ def generate_style(client: OpenAI, config: dict, seed: dict) -> dict:
             failing = [k for k, v in result["scores"].items() if k != "total" and v > 0]
             html_prompt += f"""
 
-PREVIOUS ATTEMPT scored {result['scores']['total']}/16 on the 8-dim anti-AI rubric.
-Failing dimensions: {', '.join(failing)}.
+PREVIOUS ATTEMPT scored {result["scores"]["total"]}/16 on the 8-dim anti-AI rubric.
+Failing dimensions: {", ".join(failing)}.
 You MUST fix these. Here is what each failing dimension means:
-{chr(10).join(f'- {k}: {DIMENSIONS.get(k, "unknown")}' for k in failing)}
+{chr(10).join(f"- {k}: {DIMENSIONS.get(k, 'unknown')}" for k in failing)}
 
 This is attempt {attempt} of {max_iter}. You MUST pass this time."""
 

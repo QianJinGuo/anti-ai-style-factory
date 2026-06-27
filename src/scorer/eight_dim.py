@@ -15,26 +15,35 @@ from pathlib import Path
 CLICHE_FONTS = {"Inter", "Roboto", "Lato", "Open Sans", "Helvetica Neue", "Poppins"}
 
 PURPLE_GRAD_COLORS = [
-    r"#667eea", r"#764ba2", r"#8b5cf6", r"#a78bfa",
+    r"#667eea",
+    r"#764ba2",
+    r"#8b5cf6",
+    r"#a78bfa",
     r"rgba?\(\s*102\s*,\s*126\s*,\s*234",
     r"rgba?\(\s*118\s*,\s*75\s*,\s*162",
 ]
 
 EMOJI_RE = re.compile(
     "["
-    "\U0001F300-\U0001F9FF"
-    "\U0001F600-\U0001F64F"
-    "\U0001F680-\U0001F6FF"
-    "\U0001FA00-\U0001FAFF"
-    "\U00002600-\U000027BF"
-    "\U0001F300-\U0001F5FF"
+    "\U0001f300-\U0001f9ff"
+    "\U0001f600-\U0001f64f"
+    "\U0001f680-\U0001f6ff"
+    "\U0001fa00-\U0001faff"
+    "\U00002600-\U000027bf"
+    "\U0001f300-\U0001f5ff"
     "\u2700-\u27bf"
     "]"
 )
 
 MARKETING_STEMS = [
-    "futur", "next-gen", "next generation", "empower", "seamless",
-    "cutting-edge", "revolutionar", "innovati",
+    "futur",
+    "next-gen",
+    "next generation",
+    "empower",
+    "seamless",
+    "cutting-edge",
+    "revolutionar",
+    "innovati",
 ]
 
 # Dimension descriptions for feedback in LLM retry prompts
@@ -56,7 +65,9 @@ def score_html(html: str) -> dict:
 
     # 1. font_cliche — only flag if AI font is the PRIMARY (first) declared font
     font_decl_match = re.search(r"font-family\s*[:=]\s*['\"]?([^;\"'>]+)", html, re.I)
-    declared = [x.strip().strip("'\"") for x in (font_decl_match.group(1).split(",") if font_decl_match else []) if x.strip()]
+    declared = [
+        x.strip().strip("'\"") for x in (font_decl_match.group(1).split(",") if font_decl_match else []) if x.strip()
+    ]
     primary_font = declared[0] if declared else ""
     # Match full font name (handles multi-word fonts like "Open Sans", "Helvetica Neue")
     font_hits = [f for f in CLICHE_FONTS if f.lower() == primary_font.lower()]
@@ -156,7 +167,10 @@ def main(argv: list = None) -> int:
     )
     parser.add_argument("files", nargs="+", help="HTML file path(s), or '-' for stdin")
     parser.add_argument(
-        "-t", "--threshold", type=int, default=4,
+        "-t",
+        "--threshold",
+        type=int,
+        default=4,
         help="pass threshold for total score (default: 4)",
     )
     parser.add_argument("--pretty", action="store_true", help="pretty-print JSON")
