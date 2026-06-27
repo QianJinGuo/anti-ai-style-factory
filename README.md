@@ -4,7 +4,7 @@
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/anthropics/anti-ai-style-factory/actions/workflows/ci.yml/badge.svg)](https://github.com/anthropics/anti-ai-style-factory/actions)
+[![CI](https://github.com/QianJinGuo/anti-ai-style-factory/actions/workflows/ci.yml/badge.svg)](https://github.com/QianJinGuo/anti-ai-style-factory/actions)
 
 **Anti-AI Style Factory** is a harness pipeline that generates design style specifications inspired by real historical design movements — Bauhaus, Swiss International, Ukiyo-e, Memphis, Cyberpunk, and 50+ more. Every generated style passes an 8-dimension "anti-AI taste" rubric: no Inter font, no purple gradients, no glassmorphism, no emoji icons.
 
@@ -167,4 +167,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
 ## Related
 
 - [DESIGN.md spec](https://github.com/nicedoc/designmd) — Google's design token format
-- [Anti-AI Style Gallery](https://anthropics.github.io/anti-ai-style-factory/) — Browse generated styles online
+- [Anti-AI Style Gallery](https://qianjinguo.github.io/anti-ai-style-factory/) — Browse generated styles online
