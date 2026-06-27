@@ -21,14 +21,13 @@ const PURPLE_GRAD_COLORS = [
 
 const EMOJI_RE = new RegExp(
   '[' +
-  '\\uD83C\\uDF00-\\uD83C\\uDFFF' +   // U+1F300-1F9FF
-  '\\uD83D\\uDE00-\\uD83D\\uDE4F' +   // U+1F600-1F64F
-  '\\uD83D\\uDE80-\\uD83D\\uDEFF' +   // U+1F680-1F6FF
-  '\\uD83C\\uE000-\\uD83C\\uE0FF' +   // U+1FA00-1FAFF (approximation)
-  '\\u2600-\\u27BF' +                   // U+2600-27BF
-  '\\uD83C\\uDC00-\\uD83C\\uDFFF' +   // U+1F300-1F5FF (emoji presentation)
-  '\\u2700-\\u27BF' +                   // dingbats
-  ']'
+  '\\u{1F300}-\\u{1F9FF}' +   // Misc Symbols, Emoticons, etc.
+  '\\u{1F600}-\\u{1F64F}' +   // Emoticons
+  '\\u{1F680}-\\u{1F6FF}' +   // Transport & Map
+  '\\u{1FA00}-\\u{1FAFF}' +   // Symbols and Pictographs Extended-A
+  '\\u{2600}-\\u{27BF}' +     // Misc Symbols, Dingbats
+  '\\u{2700}-\\u{27BF}' +     // Dingbats
+  ']', 'u'
 );
 
 const MARKETING_STEMS = [
