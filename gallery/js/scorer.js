@@ -62,7 +62,7 @@ function scoreHtml(html, threshold = 4) {
   const fontMatch = html.match(/font-family\s*[:=]\s*['"]?([^;"'>]+)/i);
   let declared = [];
   if (fontMatch) {
-    declared = fontMatch[1].split(',').map(s => s.trim().split(/\s+/)[0].replace(/['"]/g, ''));
+    declared = fontMatch[1].split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(s => s.length > 0);
   }
   const primaryFont = declared[0] || '';
   const fontClicheScore = CLICHE_FONTS.has(primaryFont) ? 2 : 0;
