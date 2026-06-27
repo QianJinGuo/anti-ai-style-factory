@@ -133,6 +133,53 @@ body {
 .html-input:focus { outline: 2px solid var(--c-accent); outline-offset: -1px; }
 .html-input::placeholder { color: #aaa; }
 
+/* URL input row */
+.url-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.url-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--c-surface);
+  color: var(--c-text);
+  outline: none;
+  transition: border-color .15s;
+}
+
+.url-input:focus {
+  border-color: var(--c-accent);
+}
+
+.url-fetch-btn {
+  padding: 10px 18px;
+  background: var(--c-surface);
+  color: var(--c-accent);
+  border: 1px solid var(--c-accent);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+
+.url-fetch-btn:hover {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+.url-fetch-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 /* Upload zone */
 .upload-zone {
   border: 2px dashed var(--c-border);

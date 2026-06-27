@@ -49,6 +49,53 @@ const App = (() => {
     renderScoreResult(scores);
   }
 
+  function fetchUrl() {
+    const urlInput = document.getElementById('url-input');
+    const url = urlInput.value.trim();
+    if (!url) return;
+
+    // Validate URL
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch {
+      alert('请输入有效的 URL，如 https://example.com');
+      return;
+    }
+
+    const btn = document.querySelector('.url-fetch-btn');
+    const textarea = document.getElementById('html-input');
+    btn.disabled = true;
+    btn.textContent = '抓取中…';
+
+    // Use nginx proxy to avoid CORS
+    const proxyUrl = `/proxy?url=${encodeURIComponent(parsed.href)}`;
+
+    fetch(proxyUrl)
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      })
+      .then(html => {
+        if (!html.trim()) {
+          alert('页面内容为空');
+          return;
+        }
+        // Put fetched HTML in textarea
+        textarea.value = html;
+        // Auto-score
+        const scores = AntiAIScorer.scoreHtml(html);
+        renderScoreResult(scores);
+      })
+      .catch(err => {
+        alert(`抓取失败: ${err.message}\n\n可能原因: URL 不可达、超时、或服务器拒绝`);
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = '抓取';
+      });
+  }
+
   function renderScoreResult(scores) {
     document.getElementById('scorer-empty').style.display = 'none';
     const result = document.getElementById('score-result');
@@ -237,5 +284,5 @@ const App = (() => {
     init();
   }
 
-  return { switchTab, scoreInput, openModal, closeModal };
+  return { switchTab, scoreInput, fetchUrl, openModal, closeModal };
 })();
